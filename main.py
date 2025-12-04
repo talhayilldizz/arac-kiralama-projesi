@@ -1,19 +1,15 @@
 import customtkinter as ctk
-# admin_panel.py dosyasından AdminSayfasi sınıfını içeri aktarıyoruz
 from ui.adminPage import AdminSayfasi
 
 if __name__ == "__main__":
-    # Tema ayarları
     ctk.set_appearance_mode("Light")
     ctk.set_default_color_theme("blue")
     
-    # Ana pencereyi oluştur
     root = ctk.CTk()
     root.title("Araç Kiralama Sistemi")
     root.geometry("1100x750")
 
     # Admin Sayfasını ana pencereye yerleştir
-    # controller ileride sayfalar arası geçiş gerekirse kullanılır
     app = AdminSayfasi(parent=root, controller=None)
     app.grid(row=0, column=0, sticky="nsew")
 
