@@ -9,7 +9,7 @@ if __name__ == "__main__":
     root.title("Araç Kiralama Sistemi")
     root.geometry("1100x750")
 
-    # Admin Sayfasını ana pencereye yerleştir
+    #Proje Çalışınca Açılacak Sayfa
     app = AdminSayfasi(parent=root, controller=None)
     app.grid(row=0, column=0, sticky="nsew")
 
