@@ -113,8 +113,8 @@ class RegisterPage(ctk.CTkFrame):
         )
         self.btn_login_link.grid(row=7, column=0, columnspan=2, padx=20, pady=(0, 30))
 
-        def register_event(self):
-            print("register event")
+    def register_event(self):
+        print("register event")
 
-        def go_to_login(self):
-            print("go to login")
+    def go_to_login(self):
+        print("go to login")

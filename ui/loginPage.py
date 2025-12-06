@@ -14,7 +14,7 @@ class LoginPage(ctk.CTkFrame):
             self,
             width=350,
             corner_radius=15,
-            fg_color="2C3E50"
+            fg_color="#2C3E50"
         )
         self.login_frame.grid(row=0, column=0, padx=20, pady=20)
 
@@ -64,7 +64,7 @@ class LoginPage(ctk.CTkFrame):
             self.login_frame,
             text="Giriş Yap",
             font=("Roboto", 14,"bold"),
-            fg_color="1ABC9C",
+            fg_color="#1ABC9C",
             hover_color="#16A085", #üstüne gelince koyulaştırıyor
             width=250,
             height=40,
@@ -88,8 +88,10 @@ class LoginPage(ctk.CTkFrame):
         )
         self.btn_register_text.grid(row=5, column=0, padx=20, pady=(0, 30))
 
-        def login_event(self):
-            print("login event")
+    def login_event(self):
+        print("login event")
 
-        def go_to_register(self):
-            print("Registera giden fonksiyon")
+    def go_to_register(self):
+        from ui.registerPage import RegisterPage
+        self.destroy()
+        RegisterPage(self.master, self.controller).pack(expand=True, fill="both")

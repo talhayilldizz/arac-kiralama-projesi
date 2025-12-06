@@ -1,5 +1,6 @@
 import customtkinter as ctk
 from ui.adminPage import AdminSayfasi
+from ui.loginPage import LoginPage
 
 if __name__ == "__main__":
     ctk.set_appearance_mode("Light")
@@ -10,7 +11,7 @@ if __name__ == "__main__":
     root.geometry("1100x750")
 
     #Proje Çalışınca Açılacak Sayfa
-    app = AdminSayfasi(parent=root, controller=None)
+    app = LoginPage(parent=root, controller=None)
     app.grid(row=0, column=0, sticky="nsew")
 
     # Grid ayarları 
