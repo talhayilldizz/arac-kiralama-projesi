@@ -307,8 +307,6 @@ class AdminSayfasi(ctk.CTkFrame):
 
         print("Araç Ekleme Fonksiyonu")
 
-   
-
 
 
     def btn_car_edit(self):
