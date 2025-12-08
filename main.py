@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from ui.adminPage import AdminSayfasi
 from ui.loginPage import LoginPage
+from ui.customerPage import MusteriSayfasi
 
 if __name__ == "__main__":
     ctk.set_appearance_mode("Light")
