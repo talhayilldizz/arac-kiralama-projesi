@@ -1,5 +1,5 @@
 class User:
-    def __init__(self,id,name,surname,password,age,mail,phone):
+    def __init__(self,id,name,surname,password,age,mail,phone,role="musteri"):
         self.id=id
         self.name=name
         self.surname=surname
@@ -7,6 +7,7 @@ class User:
         self.age=age
         self.mail=mail
         self.phone=phone
+        self.role=role
 
     def to_dict(self):
         return{
@@ -16,6 +17,7 @@ class User:
             "password":self.passwrod,
             "age":self.age,
             "mail":self.mail,
-            "phone":self.phone
+            "phone":self.phone,
+            "role":self.role
         }
         

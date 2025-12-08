@@ -3,18 +3,20 @@
         "id": 0,
         "name": "TestAd",
         "surname": "TestSoyad",
-        "password": "1234",
-        "age": "20",
-        "mail": "test@gmail.com",
-        "phone": "0512345678"
-    },
-    {
-        "id": 1,
-        "name": "DenemeAd",
-        "surname": "DenemeSoyad",
         "password": "1234567",
         "age": "20",
-        "mail": "deneme@gmail.com",
-        "phone": "05123456768"
+        "mail": "test@gmail.com",
+        "phone": "05123456789",
+        "role": "musteri"
+    },
+    {
+        "id":1,
+        "name":"Admin",
+        "surname":"Admin",
+        "password":"1234",
+        "age":"20",
+        "mail":"admin@admin.com",
+        "phone":"05555555555",
+        "role":"admin"
     }
 ]
