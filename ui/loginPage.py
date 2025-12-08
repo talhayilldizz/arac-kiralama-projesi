@@ -2,9 +2,10 @@ import customtkinter as ctk
 from tkinter import messagebox
 
 class LoginPage(ctk.CTkFrame):
-    def __init__(self, parent, controller):
+    def __init__(self, parent, controller,db_manager):
         super().__init__(parent, fg_color="#ECF0F1")
         self.controller = controller
+        self.db=db_manager
 
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
@@ -94,4 +95,4 @@ class LoginPage(ctk.CTkFrame):
     def go_to_register(self):
         from ui.registerPage import RegisterPage
         self.destroy()
-        RegisterPage(self.master, self.controller).pack(expand=True, fill="both")
+        RegisterPage(self.master, self.controller,self.db).pack(expand=True, fill="both")

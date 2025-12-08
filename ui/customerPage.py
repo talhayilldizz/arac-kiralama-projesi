@@ -205,14 +205,3 @@ class MusteriSayfasi(ctk.CTkFrame):
             state=btn_state,
             font=("Arial", 10, "bold")
         ).pack(pady=(2, 8))
-
-
-# --- TEST BLOĞU ---
-if __name__ == "__main__":
-    ctk.set_appearance_mode("Light")
-    app = ctk.CTk()
-    app.geometry("1200x800")
-    app.title("Araç Kiralama Müşteri Ekranı")
-    sayfa = MusteriSayfasi(parent=app, controller=None)
-    sayfa.pack(fill="both", expand=True)
-    app.mainloop()
