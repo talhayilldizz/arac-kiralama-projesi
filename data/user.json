@@ -10,11 +10,11 @@
     },
     {
         "id": 1,
-        "name": "Talha",
-        "surname": "Yıldız",
+        "name": "DenemeAd",
+        "surname": "DenemeSoyad",
         "password": "1234567",
         "age": "20",
-        "mail": "talha@gmail.com",
-        "phone": "0512345673"
+        "mail": "deneme@gmail.com",
+        "phone": "05123456768"
     }
 ]
