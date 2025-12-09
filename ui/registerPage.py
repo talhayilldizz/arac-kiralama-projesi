@@ -1,10 +1,12 @@
 import customtkinter as ctk
 from tkinter import messagebox
 
+
 class RegisterPage(ctk.CTkFrame):
-    def __init__(self, parent, controller):
+    def __init__(self, parent, controller, db_manager):
         super().__init__(parent, fg_color="#ECF0F1")
         self.controller = controller
+        self.db=db_manager
 
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
@@ -76,7 +78,7 @@ class RegisterPage(ctk.CTkFrame):
             font=("Roboto", 14)
         )
         self.entry_email.grid(row=4, column=0, columnspan=2, padx=20, pady=10, sticky="ew")
-
+   
         # 4. Satır: Şifre (Tam Genişlik)
         self.entry_password = ctk.CTkEntry(
             self.register_frame,
@@ -114,7 +116,82 @@ class RegisterPage(ctk.CTkFrame):
         self.btn_login_link.grid(row=7, column=0, columnspan=2, padx=20, pady=(0, 30))
 
     def register_event(self):
-        print("register event")
+        #Benzersiz değerleri ayırt etmemiz için data_manager'den tüm kullanıcıları çektik
+        users=self.db.get_all_users()
 
+        #Kullanıcıların id'lerini array olarak aldık
+        existing_id=[user['id'] for user in users]
+        id=self.get_unique_id(existing_id)
+        if id is None:
+            print("Benzersiz id bulunamadı.")
+        
+        #Inputlardan gelen değerler
+        name=self.entry_ad.get()
+        surname=self.entry_soyad.get()
+        age=self.entry_yas.get()
+        phone=self.entry_tel.get()
+        mail=self.entry_email.get()
+        password=self.entry_password.get()
+
+        #Kontroller
+        degerler=[name,surname,age,phone,mail,password]
+        for deger in degerler:
+            if not deger:
+                messagebox.showerror("Hata","Eksik Kısımları Doldurun")
+                break
+
+        #Yaş Kontrolü
+        if int(age) < 18:
+            messagebox.showerror("Hata","Araç kiralamak için 18 yaşından büyük olmalısınız!")
+            return
+
+        #Şifre Kontrolü
+        if len(password) < 6:
+            messagebox.showerror("Hata","Şifreniz 6 Karakterden Fazla Olmalı")
+            return
+
+        #Mail format Kontrolü
+        if '@' not in mail:
+            messagebox.showerror("Hata","Mail adresi doğru formatta değil")
+            return
+        
+        #Telefon numarası uzunluk kontrolü
+        if len(phone) != 11:
+            messagebox.showerror("Hata","Telefon numarası 11 karakterden oluşmalı!")
+            return
+        
+
+        #Aynı mail ve telefon kontrolü
+        for user in users:
+            if user['phone'] == phone:
+                messagebox.showerror("Hata","Bu telefon numarası sistemde kayıtlı!")
+                return
+
+        for user in users:
+            if user['mail'] == mail:
+                messagebox.showerror("Hata","Bu mail adresi sistemde kayıtlı")
+                return
+            
+        #Verilerimiz kontrollerden geçerse data_manager dosyasındaki user_register fonksiyonu ile dosyaya yazıyoruz
+        success=self.db.user_register(id,name,surname,password,age,mail,phone)
+
+        if success:
+            messagebox.showinfo("Başarılı","Kayıt Başarılı")
+            from ui.loginPage import LoginPage
+            self.destroy()
+            LoginPage(self.master,self.controller,self.db).pack(expand=True,fill="both")
+        else:
+            messagebox.showerror("Hata","Kayıt esnasında bir hata oluştu!")
+
+        
     def go_to_login(self):
-        print("go to login")
+        from ui.loginPage import LoginPage
+        self.destroy()
+        LoginPage(self.master,self.controller,self.db).pack(expand=True, fill="both")
+
+    #ID Ataması İçin Kullanacağımız fonksiyon
+    def get_unique_id(self, existing_ids):
+        for i in range(101):
+            if i not in existing_ids:
+                return i
+        return None
