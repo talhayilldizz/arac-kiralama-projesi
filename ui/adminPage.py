@@ -1,14 +1,9 @@
 import customtkinter as ctk
-
 from tkinter import messagebox
-
-
-
 class AdminSayfasi(ctk.CTkFrame):
-
     def __init__(self,parent,controller):
         super().__init__(parent,fg_color="#ECF0F1")
-        self.controoler=controller
+        self.controller=controller
 
         #Sayfayı 2 ye böldüm
         self.grid_columnconfigure(1,weight=1)
@@ -46,25 +41,25 @@ class AdminSayfasi(ctk.CTkFrame):
         self.entry_plaka.grid(row=2,column=0,padx=20,pady=8,sticky="ew")
 
         #Marka
-        self.entry_plaka=ctk.CTkEntry(
+        self.entry_marka=ctk.CTkEntry(
             self.form_frame,
             placeholder_text="Marka"
         )
-        self.entry_plaka.grid(row=3,column=0,padx=20,pady=8,sticky="ew")
+        self.entry_marka.grid(row=3,column=0,padx=20,pady=8,sticky="ew")
 
         #Model
-        self.entry_plaka=ctk.CTkEntry(
+        self.entry_model=ctk.CTkEntry(
             self.form_frame,
             placeholder_text="Model"
         )
-        self.entry_plaka.grid(row=4,column=0,padx=20,pady=8,sticky="ew")
+        self.entry_model.grid(row=4,column=0,padx=20,pady=8,sticky="ew")
 
         #Ücret
-        self.entry_plaka=ctk.CTkEntry(
+        self.entry_ucret=ctk.CTkEntry(
             self.form_frame,
             placeholder_text="Günlük Ücret"
         )
-        self.entry_plaka.grid(row=5,column=0,padx=20,pady=8,sticky="ew")
+        self.entry_ucret.grid(row=5,column=0,padx=20,pady=8,sticky="ew")
 
         self.btn_add=ctk.CTkButton(
             self.form_frame,
@@ -89,9 +84,7 @@ class AdminSayfasi(ctk.CTkFrame):
             self.top_frame,
             text="ARAÇLAR",
             font=("Roboto",20,"bold"),
-            text_color="#05113E"
-
-            text_color="#2C3E50"
+            text_color="#05113E",
         )
         lbl_car_list.pack(anchor="w",pady=(0,5))
 

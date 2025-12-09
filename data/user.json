@@ -10,13 +10,13 @@
         "role": "musteri"
     },
     {
-        "id":1,
-        "name":"Admin",
-        "surname":"Admin",
-        "password":"1234",
-        "age":"20",
-        "mail":"admin@admin.com",
-        "phone":"05555555555",
-        "role":"admin"
+        "id": 1,
+        "name": "Admin",
+        "surname": "Admin",
+        "password": "1234",
+        "age": "20",
+        "mail": "admin@admin.com",
+        "phone": "05555555555",
+        "role": "admin"
     }
 ]
