@@ -8,7 +8,7 @@ class MusteriSayfasi(ctk.CTkFrame):
         self.controller = controller
 
         self.grid_columnconfigure(1, weight=1) 
-        self.grid_columnconfigure(1, weight=1) 
+        self.grid_columnconfigure(0, minsize=300)
         self.grid_rowconfigure(0, weight=1)
 
         self.sidebar = ctk.CTkFrame(self, width=320, corner_radius=0, fg_color="#2C3E50")
@@ -21,7 +21,7 @@ class MusteriSayfasi(ctk.CTkFrame):
             font=("Roboto", 24, "bold"), 
             text_color="#FFFFFF"
         )
-        self.lbl_baslik.grid(row=0, column=0, padx=20, pady=(35, 5), sticky="w")
+        self.lbl_baslik.grid(row=0, column=0, padx=20, pady=(35, 5))
 
         ctk.CTkLabel(
             self.sidebar, 
@@ -29,7 +29,7 @@ class MusteriSayfasi(ctk.CTkFrame):
             font=("Roboto", 12, "bold"), 
             text_color="#BDC3C7", 
             anchor="w"
-        ).grid(row=1, column=0, padx=20, pady=(0, 20), sticky="w")
+        ).grid(row=1, column=0, padx=20, pady=(20, 20), sticky="w")
 
 
         KUTU_RENGI = "#34495E"     
@@ -108,7 +108,7 @@ class MusteriSayfasi(ctk.CTkFrame):
             self.top_bar, 
             text="ARAÇ LİSTESİ", 
             font=("Roboto", 20, "bold"), 
-            text_color="#2C3E50"
+            text_color="#05113E"
         ).pack(side="left", pady=5)
         
         self.profil_menu = ctk.CTkOptionMenu(
@@ -191,9 +191,10 @@ class MusteriSayfasi(ctk.CTkFrame):
         ctk.CTkLabel(kutu, text=arac_bilgisi["ad"], font=("Roboto", 12, "bold"), text_color="#2C3E50").pack(pady=(3,0))
         ctk.CTkLabel(kutu, text=arac_bilgisi["fiyat"], font=("Roboto", 12, "bold"), text_color=renk_tema).pack(pady=0)
 
-        musait_mi = "27AE60" in renk_tema
+        musait_mi = renk_tema.lower() == "#27ae60"
         btn_text = "KİRALA" if musait_mi else "DETAY"
-        btn_state = "normal" if musait_mi else "disabled"
+        btn_state = "normal"  
+
         btn_color = "#2C3E50"
 
         ctk.CTkButton(
@@ -203,5 +204,5 @@ class MusteriSayfasi(ctk.CTkFrame):
             height=22, 
             width=80, 
             state=btn_state,
-            font=("Arial", 10, "bold")
+            font=("Roboto", 10, "bold")
         ).pack(pady=(2, 8))

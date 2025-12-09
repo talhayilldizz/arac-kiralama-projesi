@@ -12,6 +12,7 @@ class AdminSayfasi(ctk.CTkFrame):
 
         #Sayfayı 2 ye böldüm
         self.grid_columnconfigure(1,weight=1)
+        self.grid_columnconfigure(0, minsize=300)
         self.grid_rowconfigure(0,weight=1)
         
         #Form Alanı
@@ -88,9 +89,12 @@ class AdminSayfasi(ctk.CTkFrame):
             self.top_frame,
             text="ARAÇLAR",
             font=("Roboto",20,"bold"),
+            text_color="#05113E"
+
             text_color="#2C3E50"
         )
         lbl_car_list.pack(anchor="w",pady=(0,5))
+
 
         #Araç Özelliklerinin Başlıklarının Olacağı Frame
         self.header_frame=ctk.CTkFrame(
@@ -100,6 +104,7 @@ class AdminSayfasi(ctk.CTkFrame):
             corner_radius=5
         )
         self.header_frame.pack(fill="x", padx=0, pady=(0, 5))
+
 
         headers=["PLAKA", "MARKA", "MODEL", "ÜCRET", "DURUM", "İŞLEMLER"]
         for i in range(6):
@@ -120,6 +125,7 @@ class AdminSayfasi(ctk.CTkFrame):
         )
         self.bottom_frame.pack(side="bottom", fill="both", expand=True, pady=(10, 0))
 
+
         lbl_user_list=ctk.CTkLabel(
             self.bottom_frame,
             text="KULLANICILAR",
@@ -137,6 +143,7 @@ class AdminSayfasi(ctk.CTkFrame):
         )
 
         self.header_frame2.pack(fill="x", padx=0, pady=(0, 5))
+
 
         headers=["ID", "AD", "MAIL","KIRALANAN ARACLAR"]
         for i in range(4):
