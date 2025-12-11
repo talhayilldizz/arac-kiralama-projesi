@@ -46,5 +46,18 @@ class Data_Manager:
 
         return True
 
+    def user_login(self, mail, password):
+        users=self.get_all_users()
+
+        # 2. Listeyi döngüye alıp eşleşen kullanıcı var mı diye bakıyoruz
+        for user in users:
+            # Sözlük içindeki mail ve şifre alanlarını kontrol ediyoruz
+            if user.get('mail') == mail and user.get('password') == password:
+                # Eşleşme bulunduysa, giriş yapan kullanıcının tüm bilgilerini döndürürüz.
+                 return user
+
+        # 3. Döngü biter ve eşleşme bulunamazsa (veya şifre yanlışsa) başarısız demektir
+        return False
+
 
         

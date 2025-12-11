@@ -90,7 +90,40 @@ class LoginPage(ctk.CTkFrame):
         self.btn_register_text.grid(row=5, column=0, padx=20, pady=(0, 30))
 
     def login_event(self):
-        print("login event")
+        #Inputlardan (Entry) gelen değerleri alıyoruz
+        mail = self.entry_email.get()
+        password = self.entry_password.get()
+
+        #Boş alan kontrolü
+        degerler = [mail, password]
+        for deger in degerler:
+            if not deger:
+                messagebox.showerror("Hata", "Lütfen mail ve şifre alanlarını doldurun.")
+                return
+
+        #Veritabanı Kontrolü
+        # user_login fonksiyonu eşleşme varsa kullanıcıyı(dict), yoksa False döndürür.
+        user = self.db.user_login(mail, password)
+
+        if user:
+            #giriş yapıldığında çıkacak popup
+            messagebox.showinfo("Başarılı", f"Hoşgeldin {user['name']}")
+
+            # Mevcut sayfayı yok et
+            self.destroy()
+
+            # Admin mi müşteri mi kontrolü yapıyoruz
+            if user.get('role') == 'admin':
+                # Admin Sayfasına Git
+                from ui.adminPage import AdminSayfasi
+                AdminSayfasi(self.master, self.controller, self.db).pack(expand=True, fill="both")
+            else:
+                # Müşteri Sayfasına Git
+                from ui.customerPage import MusteriSayfasi
+                MusteriSayfasi(self.master, self.controller, self.db).pack(expand=True, fill="both")
+        else:
+            # giriş yapılamadağında
+            messagebox.showerror("Hata", "Hatalı E-posta veya Şifre!")
 
     def go_to_register(self):
         from ui.registerPage import RegisterPage

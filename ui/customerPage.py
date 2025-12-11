@@ -3,9 +3,10 @@ from PIL import Image
 import os
 
 class MusteriSayfasi(ctk.CTkFrame):
-    def __init__(self, parent, controller):
+    def __init__(self, parent, controller,db_manager):
         super().__init__(parent, fg_color="#ECF0F1")
         self.controller = controller
+        self.db = db_manager
 
         self.grid_columnconfigure(1, weight=1) 
         self.grid_columnconfigure(0, minsize=300)
