@@ -3,9 +3,11 @@ from PIL import Image
 import os
 
 class ProfilSayfasi(ctk.CTkFrame):
-    def __init__(self, parent, controller):
+    def __init__(self, parent, controller,db_manager, current_user):
         super().__init__(parent, fg_color="#ECF0F1")
         self.controller = controller
+        self.db_manager = db_manager
+        self.current_user = current_user
 
         self.grid_columnconfigure(0, weight=0) 
         self.grid_columnconfigure(1, weight=1) 
@@ -51,12 +53,12 @@ class ProfilSayfasi(ctk.CTkFrame):
         YAZI_RENGI = "#BDC3C7"     
         
         kullanici_bilgileri = {
-            "Ad": "Fatma",
-            "Soyad": "Tanrıverdi",
-            "Yaş": "20",
-            "Tel No": "0536 330 9561",
-            "Gmail": "fatmatanriverdi.1542@gmail.com",
-            "Şifre": "********"
+            "Ad": self.current_user.get("name", ""),
+            "Soyad": self.current_user.get("surname", ""),
+            "Yaş": self.current_user.get("age", ""),
+            "Tel No": self.current_user.get("phone", ""),
+            "Gmail": self.current_user.get("mail", ""),
+            "Şifre": self.current_user.get("password", "")
         }
 
         row_count = 2

@@ -120,7 +120,7 @@ class LoginPage(ctk.CTkFrame):
             else:
                 # Müşteri Sayfasına Git
                 from ui.customerPage import MusteriSayfasi
-                MusteriSayfasi(self.master, self.controller, self.db).pack(expand=True, fill="both")
+                MusteriSayfasi(self.master, self.controller, self.db, current_user=user).pack(expand=True, fill="both")
         else:
             # giriş yapılamadağında
             messagebox.showerror("Hata", "Hatalı E-posta veya Şifre!")

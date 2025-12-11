@@ -3,10 +3,11 @@ from PIL import Image
 import os
 
 class MusteriSayfasi(ctk.CTkFrame):
-    def __init__(self, parent, controller,db_manager):
+    def __init__(self, parent, controller,db_manager,current_user=None):
         super().__init__(parent, fg_color="#ECF0F1")
         self.controller = controller
         self.db = db_manager
+        self.current_user = current_user
 
         self.grid_columnconfigure(1, weight=1) 
         self.grid_columnconfigure(0, minsize=300)
@@ -117,7 +118,8 @@ class MusteriSayfasi(ctk.CTkFrame):
             values=["Profilim", "Çıkış Yap"], 
             width=140, 
             fg_color="#2C3E50", 
-            corner_radius=15
+            corner_radius=15,
+            command=self.profile_git
         )
         self.profil_menu.set("👤 Hesabım")
         self.profil_menu.pack(side="right")
@@ -207,3 +209,24 @@ class MusteriSayfasi(ctk.CTkFrame):
             state=btn_state,
             font=("Roboto", 10, "bold")
         ).pack(pady=(2, 8))
+
+    def profile_git(self,secim):
+        if secim == "Profilim":
+            from ui.profiPage import ProfilSayfasi
+            self.destroy()  # Mevcut sayfayı kapat
+
+            # --- DÜZELTME BURADA ---
+            # .pack() yerine .grid() kullanıyoruz
+            app = ProfilSayfasi(self.master, self.controller, self.db, self.current_user)
+            app.grid(row=0, column=0, sticky="nsew")
+
+        elif secim == "Çıkış Yap":
+            from ui.loginPage import LoginPage
+            self.destroy()  # Mevcut sayfayı kapat
+
+            # Burada da .grid() kullanalım ki tutarlı olsun
+            app = LoginPage(self.master, self.controller, self.db)
+            app.grid(row=0, column=0, sticky="nsew")
+
+            # Menü yazısını resetle
+        self.profil_menu.set("👤 Hesabım")
