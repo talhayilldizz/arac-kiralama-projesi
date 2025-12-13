@@ -1,1 +1,13 @@
-[]
+[
+    {
+        "brand": "Audi",
+        "model": "A4",
+        "year": "2024",
+        "plate": "34 ABC 123",
+        "price": "3000",
+        "status": "Müsait",
+        "rented_id": null,
+        "start_date": null,
+        "finsh_date": null
+    }
+]

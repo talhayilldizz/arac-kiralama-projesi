@@ -60,4 +60,24 @@ class Data_Manager:
         return False
 
 
+
+    #Araç İşlemleri
+    def get_all_cars(self):
+        with open(self.carfile, "r",encoding="utf-8") as f:
+            return json.load(f)
+    
+    def add_car(self,brand ,model, year,plate, price):
+        car=Car(brand,model,year,plate,price).to_dict()
+        
+        cars=self.get_all_cars()
+
+        cars.append(car)
+
+        with open(self.carfile, "w",encoding="utf-8") as f:
+            json.dump(cars,f,indent=4,ensure_ascii=False)
+
+        return True
+
+
+
         

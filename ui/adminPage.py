@@ -1,5 +1,6 @@
 import customtkinter as ctk
 from tkinter import messagebox
+import re
 class AdminSayfasi(ctk.CTkFrame):
     def __init__(self,parent,controller, db_manager):
         super().__init__(parent,fg_color="#ECF0F1")
@@ -40,6 +41,7 @@ class AdminSayfasi(ctk.CTkFrame):
             placeholder_text="Plaka"
         )
         self.entry_plaka.grid(row=2,column=0,padx=20,pady=8,sticky="ew")
+        self.entry_plaka.bind("<KeyRelease>", self.plaka_format)
 
         #Marka
         self.entry_marka=ctk.CTkEntry(
@@ -54,13 +56,22 @@ class AdminSayfasi(ctk.CTkFrame):
             placeholder_text="Model"
         )
         self.entry_model.grid(row=4,column=0,padx=20,pady=8,sticky="ew")
+        
+        #Yıl
+        self.entry_yıl=ctk.CTkEntry(
+            self.form_frame,
+            placeholder_text="Yıl"
+        )
+        self.entry_yıl.grid(row=5,column=0,padx=20,pady=8,sticky="ew")
+        self.entry_yıl.bind("<KeyPress>", self.only_number_key)
 
         #Ücret
         self.entry_ucret=ctk.CTkEntry(
             self.form_frame,
             placeholder_text="Günlük Ücret"
         )
-        self.entry_ucret.grid(row=5,column=0,padx=20,pady=8,sticky="ew")
+        self.entry_ucret.grid(row=6,column=0,padx=20,pady=8,sticky="ew")
+        self.entry_ucret.bind("<KeyPress>", self.only_number_key)
 
         self.btn_add=ctk.CTkButton(
             self.form_frame,
@@ -71,7 +82,7 @@ class AdminSayfasi(ctk.CTkFrame):
             corner_radius=8,
             command=self.btn_car_add
         )
-        self.btn_add.grid(row=6, column=0, padx=20, pady=(30, 8), sticky="ew")
+        self.btn_add.grid(row=7, column=0, padx=20, pady=(30, 8), sticky="ew")
 
         self.btn_price=ctk.CTkButton(
             self.form_frame,
@@ -84,7 +95,7 @@ class AdminSayfasi(ctk.CTkFrame):
             command=self.btn_pricepage
         )
            
-        self.btn_price.grid(row=7, column=0, padx=20, pady=(30, 8), sticky="ew")
+        self.btn_price.grid(row=8, column=0, padx=20, pady=(30, 8), sticky="ew")
 
         #Tablolar
         self.table_container=ctk.CTkFrame(self,fg_color="transparent")
@@ -104,7 +115,7 @@ class AdminSayfasi(ctk.CTkFrame):
 
 
         #Araç Özelliklerinin Başlıklarının Olacağı Frame
-        self.header_frame=ctk.CTkFrame(
+        self.header_frame = ctk.CTkFrame(
             self.top_frame,
             fg_color="#34495E",
             height=40,
@@ -113,10 +124,19 @@ class AdminSayfasi(ctk.CTkFrame):
         self.header_frame.pack(fill="x", padx=0, pady=(0, 5))
 
 
-        headers=["PLAKA", "MARKA", "MODEL", "ÜCRET", "DURUM", "İŞLEMLER"]
-        for i in range(6):
-            self.header_frame.grid_columnconfigure(i, weight=1)
-            ctk.CTkLabel(self.header_frame, text=headers[i], text_color="white", font=("Segoe UI", 12, "bold")).grid(row=0, column=i, pady=10)
+        self.car_col_widths = [90, 100, 100, 60, 90, 80, 150] 
+        headers = ["PLAKA", "MARKA", "MODEL", "YIL", "ÜCRET", "DURUM", "İŞLEM"]
+        
+        for i, header in enumerate(headers):
+            # minsize kullanarak genişliği zorluyoruz
+            self.header_frame.grid_columnconfigure(i, weight=1, minsize=self.car_col_widths[i])
+            
+            ctk.CTkLabel(
+                self.header_frame, 
+                text=header, 
+                text_color="white", 
+                font=("Segoe UI", 12, "bold")
+            ).grid(row=0, column=i, pady=10, sticky="ew")
 
         self.car_list_frame=ctk.CTkScrollableFrame(
             self.top_frame,fg_color="transparent",
@@ -125,7 +145,6 @@ class AdminSayfasi(ctk.CTkFrame):
         self.car_list_frame.pack(fill="both",expand=True)
 
         #Kullanıcılar Tablosu
-
         self.bottom_frame=ctk.CTkFrame(
             self.table_container,
             fg_color="transparent"
@@ -172,15 +191,50 @@ class AdminSayfasi(ctk.CTkFrame):
         )
         self.user_list_frame.pack(fill="both", expand=True)
 
+        self.get_all_cars()
         self.get_all_users()
+
 
 
     def get_all_cars(self):
         print("Tüm Araçları Getirme Fonksiyonu")
 
     def btn_car_add(self):
+        plate=self.entry_plaka.get()
+        brand=self.entry_marka.get().capitalize()
+        model=self.entry_model.get().capitalize()
+        year=self.entry_yıl.get()
+        price=self.entry_ucret.get()
 
-        print("Araç Ekleme Fonksiyonu")
+        degerler=[plate,brand,model,year,price]
+        for deger in degerler:
+            if not deger:
+                messagebox.showerror("Hata","Eksik Kutuları Doldurun!")
+                break
+
+        cars=self.db.get_all_cars()
+        for car in cars:
+            if car['plate'] == plate:
+                messagebox.showerror("Hata","Bu plaka sistemde kayıtlı!")
+        
+        success=self.db.add_car(brand,model,year,plate,price)
+
+        if success:
+            messagebox.showinfo("Başarılı","Araç Eklendi")
+            self.get_all_cars()
+        else:
+            messagebox.showwarning("Hata","Araç Eklenemedi")
+        
+
+        
+    def only_number_key(self,event):
+            # Kontrol tuşlarına izin ver
+        if event.keysym in ("BackSpace", "Tab", "Left", "Right", "Delete"):
+            return
+
+        # Rakam değilse engelle
+        if not event.char.isdigit():
+            return "break"
 
    
     def btn_car_edit(self):
@@ -196,6 +250,76 @@ class AdminSayfasi(ctk.CTkFrame):
         self.destroy()
         TahminSayfasi(self.master, self.controller,self.db).pack(expand=True, fill="both")
 
+    #Her araç için bir satır
+    def add_car_row(self, row, car):
+        row_color = "#ECF0F1" if row % 2 == 0 else "transparent"
+        
+        row_frame = ctk.CTkFrame(
+            self.car_list_frame, 
+            fg_color=row_color, 
+            corner_radius=6,
+            height=45
+        )
+        row_frame.pack(fill="x", pady=2)
+
+        values = [
+            car["plate"],
+            car["brand"],
+            car["model"],
+            car["year"],
+            f"{car['price']} TL",
+            car["status"]
+        ]
+        
+        # Sütun yapılandırmasını başlıklarla (car_col_widths) aynı yapıyoruz
+        for i, width in enumerate(self.car_col_widths):
+            row_frame.grid_columnconfigure(i, weight=1, minsize=width)
+
+        # Verileri yerleştir (İlk 6 sütun)
+        for i, value in enumerate(values):
+            lbl = ctk.CTkLabel(
+                row_frame,
+                text=value,
+                font=("Segoe UI", 12),
+                text_color="#2C3E50",
+                fg_color="transparent"
+            )
+            lbl.grid(row=0, column=i, sticky="ew", padx=5, pady=8)
+
+        actions_frame = ctk.CTkFrame(row_frame, fg_color="transparent")
+        actions_frame.grid(row=0, column=6, sticky="ew", padx=5, pady=5)
+        
+        # Butonları ortalamak için grid ayarı
+        actions_frame.grid_columnconfigure(0, weight=1)
+        actions_frame.grid_columnconfigure(1, weight=1)
+
+        btn_delete = ctk.CTkButton(
+            actions_frame,
+            text="Sil",
+            font=("Segoe UI", 11, "bold"),
+            height=28,
+            width=60,
+            fg_color="#C0392B",
+            hover_color="#E74C3C",
+            text_color="white",
+            command=lambda c=car: print(f"Silinecek Araç: {c['plate']}")
+        )
+        btn_delete.grid(row=0, column=0, padx=2)
+
+        btn_update = ctk.CTkButton(
+            actions_frame,
+            text="Guncelle",
+            font=("Segoe UI", 11, "bold"),
+            height=28,
+            width=60,
+            fg_color="#FF8E04",
+            hover_color="#FF9100",
+            text_color="white",
+            command=lambda c=car: print(f"Güncellenecek Araç: {c['plate']}")
+        )
+        btn_update.grid(row=0, column=1, padx=2)
+
+
 
     #Her bir kullanıcı için bir satır
     def add_user_row(self, row, user):
@@ -205,7 +329,7 @@ class AdminSayfasi(ctk.CTkFrame):
             self.user_list_frame, 
             fg_color=row_color, 
             corner_radius=6,
-            height=45 # Buton sığsın diye yüksekliği biraz artırdım
+            height=45 
         )
         row_frame.pack(fill="x", pady=2)
 
@@ -216,13 +340,12 @@ class AdminSayfasi(ctk.CTkFrame):
             user["phone"]
         ]
 
-        # Sütun konfigürasyonu (Buton sütunu dahil)
         for i, width in enumerate(self.user_col_widths):
             row_frame.grid_columnconfigure(i, minsize=width, weight=1)
 
-        # 1. ADIM: Yazıları Yerleştir (İlk 4 sütun)
+       
         for i, value in enumerate(values):
-            align_style = "ew" if i == 2 else "w" # Yaş ortalı
+            align_style = "ew" if i == 2 else "w" 
             padding_x = 0 if i == 2 else 10
             
             lbl = ctk.CTkLabel(
@@ -234,8 +357,6 @@ class AdminSayfasi(ctk.CTkFrame):
             )
             lbl.grid(row=0, column=i, sticky=align_style, padx=padding_x, pady=8)
 
-        # 2. ADIM: Butonu Yerleştir (5. Sütun -> index 4)
-        # Not: command kısmında lambda kullandık ki hangi kullanıcının tıklandığını bilsin.
         btn_history = ctk.CTkButton(
             row_frame,
             text="Kiraladığı Araçlar",
@@ -256,3 +377,31 @@ class AdminSayfasi(ctk.CTkFrame):
 
         for i, user in enumerate(users):
             self.add_user_row(i, user)
+
+    def get_all_cars(self):
+            for widget in self.car_list_frame.winfo_children():
+                widget.destroy()
+
+            cars = self.db.get_all_cars()
+
+            for i, car in enumerate(cars):
+                self.add_car_row(i, car)
+
+    def plaka_format(self, event=None):
+        text = self.entry_plaka.get().upper() 
+        text = re.sub(r'[^A-Z0-9 ]', '', text)  
+
+        text = text.replace(" ", "")  
+        if len(text) > 2:
+            text = text[:2] + " " + text[2:]
+        if len(text) > 6:
+            text = text[:6] + " " + text[6:]
+
+        self.entry_plaka.delete(0, "end")
+        self.entry_plaka.insert(0, text)
+
+        
+        if len(text) > 10:
+            self.entry_plaka.delete(9, "end")
+
+

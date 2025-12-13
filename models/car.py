@@ -1,10 +1,11 @@
 class Car:
-    def __init__(self,brand,model,plate,price,is_rented="Müsait",rented_id=None,start_date=None,finsh_date=None):
+    def __init__(self,brand,model,year,plate,price,status="Müsait",rented_id=None,start_date=None,finsh_date=None):
         self.brand=brand
         self.model=model
+        self.year=year
         self.plate=plate
         self.price=price
-        self.is_rented=is_rented
+        self.status=status
         self.rented_id=rented_id
         self.start_date=start_date
         self.finsh_date=finsh_date
@@ -13,8 +14,10 @@ class Car:
         return {
             "brand":self.brand,
             "model":self.model,
+            "year":self.year,
             "plate":self.plate,
-            "is_rented":self.is_rented,
+            "price":self.price,
+            "status":self.status,
             "rented_id":self.rented_id,
             "start_date":self.start_date,
             "finsh_date":self.finsh_date
