@@ -22,7 +22,7 @@ class Data_Manager:
 
     #Tüm kullanıcıları getir
     def get_all_users(self):
-        with open(self.userfile,"r") as f:
+        with open(self.userfile,"r",encoding="utf-8") as f:
             return json.load(f)
 
 

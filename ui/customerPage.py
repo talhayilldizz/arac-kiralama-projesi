@@ -207,3 +207,5 @@ class MusteriSayfasi(ctk.CTkFrame):
             state=btn_state,
             font=("Roboto", 10, "bold")
         ).pack(pady=(2, 8))
+
+ 

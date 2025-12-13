@@ -73,6 +73,19 @@ class AdminSayfasi(ctk.CTkFrame):
         )
         self.btn_add.grid(row=6, column=0, padx=20, pady=(30, 8), sticky="ew")
 
+        self.btn_price=ctk.CTkButton(
+            self.form_frame,
+            text="Fiyat Tahmin Et",
+            fg_color="orange",
+            text_color="#2C3E50",
+            height=40,
+            font=ctk.CTkFont(size=13, weight="bold"),
+            corner_radius=8,
+            command=self.btn_pricepage
+        )
+           
+        self.btn_price.grid(row=7, column=0, padx=20, pady=(30, 8), sticky="ew")
+
         #Tablolar
         self.table_container=ctk.CTkFrame(self,fg_color="transparent")
         self.table_container.grid(row=0, column=1, padx=25, pady=25, sticky="nsew")
@@ -129,34 +142,41 @@ class AdminSayfasi(ctk.CTkFrame):
         lbl_user_list.pack(anchor="w",pady=(0,5))
 
         #Kullanıcı Özelliklerinin Başlıklarının Olacağı Frame
-        self.header_frame2=ctk.CTkFrame(
+        self.header_frame2 = ctk.CTkFrame(
             self.bottom_frame,
             fg_color="#34495E",
             height=40,
             corner_radius=5
         )
-
         self.header_frame2.pack(fill="x", padx=0, pady=(0, 5))
 
+        # Sütun genişliklerini sabitliyoruz ki aşağıda da aynısını kullanalım
+        self.user_col_widths = [170, 200, 60, 130, 160] 
+        headers = ["AD SOYAD", "MAIL", "YAŞ", "TELEFON","GEÇMİŞ"]
 
-        headers=["ID", "AD", "MAIL","KIRALANAN ARACLAR"]
-        for i in range(4):
-            self.header_frame2.grid_columnconfigure(i, weight=1)
-            ctk.CTkLabel(self.header_frame2, text=headers[i], text_color="white", font=("Segoe UI", 12, "bold")).grid(row=0, column=i, pady=10)
+        for i, header in enumerate(headers):
+            self.header_frame2.grid_columnconfigure(i, minsize=self.user_col_widths[i], weight=1)
+            align = "ew" if i in [2, 4] else "w"
 
-        self.user_list_frame=ctk.CTkScrollableFrame(
+            ctk.CTkLabel(
+                self.header_frame2,
+                text=header,
+                text_color="white",
+                font=("Segoe UI", 12, "bold")
+            ).grid(row=0, column=i, padx=10, pady=10, sticky=align) 
+
+        self.user_list_frame = ctk.CTkScrollableFrame(
             self.bottom_frame,
             fg_color="transparent",
             height=200
         )
-        self.user_list_frame.pack(fill="both",expand=True)
+        self.user_list_frame.pack(fill="both", expand=True)
+
+        self.get_all_users()
 
 
     def get_all_cars(self):
         print("Tüm Araçları Getirme Fonksiyonu")
-
-    def get_all_users(self):
-        print("Tüm Kullanıcıları Getirme Fonksiyonu")
 
     def btn_car_add(self):
 
@@ -170,3 +190,69 @@ class AdminSayfasi(ctk.CTkFrame):
     def btn_car_delete(self):
 
         print("Araç Silme Fonksiyonu")
+
+    def btn_pricepage(self):
+        from ui.pricePage import TahminSayfasi
+        self.destroy()
+        TahminSayfasi(self.master, self.controller,self.db).pack(expand=True, fill="both")
+
+
+    #Her bir kullanıcı için bir satır
+    def add_user_row(self, row, user):
+        row_color = "#ECF0F1" if row % 2 == 0 else "transparent"
+        
+        row_frame = ctk.CTkFrame(
+            self.user_list_frame, 
+            fg_color=row_color, 
+            corner_radius=6,
+            height=45 # Buton sığsın diye yüksekliği biraz artırdım
+        )
+        row_frame.pack(fill="x", pady=2)
+
+        values = [
+            f"{user['name']} {user['surname']}",
+            user["mail"],
+            user["age"],
+            user["phone"]
+        ]
+
+        # Sütun konfigürasyonu (Buton sütunu dahil)
+        for i, width in enumerate(self.user_col_widths):
+            row_frame.grid_columnconfigure(i, minsize=width, weight=1)
+
+        # 1. ADIM: Yazıları Yerleştir (İlk 4 sütun)
+        for i, value in enumerate(values):
+            align_style = "ew" if i == 2 else "w" # Yaş ortalı
+            padding_x = 0 if i == 2 else 10
+            
+            lbl = ctk.CTkLabel(
+                row_frame,
+                text=value,
+                font=("Segoe UI", 12),
+                text_color="#2C3E50",
+                fg_color="transparent"
+            )
+            lbl.grid(row=0, column=i, sticky=align_style, padx=padding_x, pady=8)
+
+        # 2. ADIM: Butonu Yerleştir (5. Sütun -> index 4)
+        # Not: command kısmında lambda kullandık ki hangi kullanıcının tıklandığını bilsin.
+        btn_history = ctk.CTkButton(
+            row_frame,
+            text="Kiraladığı Araçlar",
+            font=("Segoe UI", 11, "bold"),
+            height=28,
+            width=120,
+            fg_color="#3498DB",
+            hover_color="#2980B9",
+            text_color="white",
+        )
+        btn_history.grid(row=0, column=4, padx=10, pady=5)
+
+    def get_all_users(self):
+        for widget in self.user_list_frame.winfo_children():
+            widget.destroy()
+
+        users = self.db.get_all_users()
+
+        for i, user in enumerate(users):
+            self.add_user_row(i, user)
