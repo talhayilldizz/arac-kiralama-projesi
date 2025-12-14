@@ -145,7 +145,7 @@ class RegisterPage(ctk.CTkFrame):
         for deger in degerler:
             if not deger:
                 messagebox.showerror("Hata","Eksik Kısımları Doldurun")
-                break
+                return
 
         #Yaş Kontrolü
         if int(age) < 18:

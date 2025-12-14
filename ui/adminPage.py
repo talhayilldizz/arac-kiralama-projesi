@@ -113,6 +113,20 @@ class AdminSayfasi(ctk.CTkFrame):
         )
         lbl_car_list.pack(anchor="w",pady=(0,5))
 
+        #çıkış yap
+        self.btn_cikis = ctk.CTkButton(
+            self.form_frame,
+            text="Çıkış Yap",
+            fg_color="#C0392B",  # Kırmızı tonu
+            hover_color="#E74C3C",  # Üzerine gelince açılan renk
+            height=40,
+            corner_radius=8,
+            font=("Roboto", 14, "bold"),
+            command=self.cikis_yap  # Tıklanınca çalışacak fonksiyon
+        )
+        # Row sayısını yüksek veriyoruz ki en altta kalsın
+        self.btn_cikis.grid(row=11, column=0, padx=20, pady=(30,8), sticky="ew")
+
 
         #Araç Özelliklerinin Başlıklarının Olacağı Frame
         self.header_frame = ctk.CTkFrame(
@@ -210,7 +224,7 @@ class AdminSayfasi(ctk.CTkFrame):
         for deger in degerler:
             if not deger:
                 messagebox.showerror("Hata","Eksik Kutuları Doldurun!")
-                break
+                return
 
         cars=self.db.get_all_cars()
         for car in cars:
@@ -404,4 +418,9 @@ class AdminSayfasi(ctk.CTkFrame):
         if len(text) > 10:
             self.entry_plaka.delete(9, "end")
 
+    def cikis_yap(self):
+        from ui.loginPage import LoginPage
+        self.destroy()
 
+        app = LoginPage(self.master, self.controller, self.db)
+        app.grid(row=0, column=0, sticky="nsew")

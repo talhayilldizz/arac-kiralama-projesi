@@ -4,8 +4,9 @@ from tkinter import messagebox
 class LoginPage(ctk.CTkFrame):
     def __init__(self, parent, controller,db_manager):
         super().__init__(parent, fg_color="#ECF0F1")
+        self.parent = parent
         self.controller = controller
-        self.db=db_manager
+        self.db_manager=db_manager
 
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
@@ -103,7 +104,7 @@ class LoginPage(ctk.CTkFrame):
 
         #Veritabanı Kontrolü
         # user_login fonksiyonu eşleşme varsa kullanıcıyı(dict), yoksa False döndürür.
-        user = self.db.user_login(mail, password)
+        user = self.db_manager.user_login(mail, password)
 
         if user:
             #giriş yapıldığında çıkacak popup
@@ -116,11 +117,12 @@ class LoginPage(ctk.CTkFrame):
             if user.get('role') == 'admin':
                 # Admin Sayfasına Git
                 from ui.adminPage import AdminSayfasi
-                AdminSayfasi(self.master, self.controller, self.db).pack(expand=True, fill="both")
+                AdminSayfasi(self.master, self.controller, self.db_manager).pack(expand=True, fill="both")
             else:
                 # Müşteri Sayfasına Git
                 from ui.customerPage import MusteriSayfasi
-                MusteriSayfasi(self.master, self.controller, self.db, current_user=user).pack(expand=True, fill="both")
+                MusteriSayfasi(self.parent, self.controller, self.db_manager, current_user=user).pack(expand=True,
+                                                                                                      fill="both")
         else:
             # giriş yapılamadağında
             messagebox.showerror("Hata", "Hatalı E-posta veya Şifre!")
@@ -128,4 +130,4 @@ class LoginPage(ctk.CTkFrame):
     def go_to_register(self):
         from ui.registerPage import RegisterPage
         self.destroy()
-        RegisterPage(self.master, self.controller,self.db).pack(expand=True, fill="both")
+        RegisterPage(self.master, self.controller,self.db_manager).pack(expand=True, fill="both")

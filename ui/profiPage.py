@@ -1,6 +1,8 @@
 import customtkinter as ctk
 from PIL import Image
 import os
+import json
+from tkinter import messagebox
 
 class ProfilSayfasi(ctk.CTkFrame):
     def __init__(self, parent, controller,db_manager, current_user):
@@ -8,6 +10,8 @@ class ProfilSayfasi(ctk.CTkFrame):
         self.controller = controller
         self.db_manager = db_manager
         self.current_user = current_user
+
+        self.entry_widgets = {}
 
         self.grid_columnconfigure(0, weight=0) 
         self.grid_columnconfigure(1, weight=1) 
@@ -84,6 +88,8 @@ class ProfilSayfasi(ctk.CTkFrame):
             )
             entry.insert(0, deger) 
             entry.grid(row=row_count+1, column=0, padx=20, pady=(0, 8), sticky="ew")
+
+            self.entry_widgets[etiket] = entry
             
             row_count += 2
 
@@ -94,7 +100,8 @@ class ProfilSayfasi(ctk.CTkFrame):
             width=300,
             height=45, 
             font=("Roboto", 14, "bold"), 
-            hover_color="#16A085"
+            hover_color="#16A085",
+            command=self.bilgileri_guncelle
         )
         self.btn_guncelle.grid(row=row_count+1, column=0, padx=20, pady=20, sticky="ew")
 
@@ -117,7 +124,8 @@ class ProfilSayfasi(ctk.CTkFrame):
             text="Araç Kiralama Sayfasına Dön", 
             fg_color="#8D3030",
             width=150, 
-            height=30
+            height=30,
+            command=self.musteri_sayfasina_git
         )
         self.btn_geri.pack(side="right")
 
@@ -211,6 +219,58 @@ class ProfilSayfasi(ctk.CTkFrame):
             font=("Roboto", 10, "bold")
         ).pack(pady=(5, 8))
 
+    def musteri_sayfasina_git(self):
+        from ui.customerPage import MusteriSayfasi
+        self.destroy()
+        app = MusteriSayfasi(self.master, self.controller, self.db_manager, self.current_user)
+        app.grid(row=0, column=0, sticky="nsew")
+
+    def bilgileri_guncelle(self):
+        # 1. Verileri Al
+        yeni_veriler = {
+            "name": self.entry_widgets["Ad"].get(),
+            "surname": self.entry_widgets["Soyad"].get(),
+            "age": self.entry_widgets["Yaş"].get(),
+            "phone": self.entry_widgets["Tel No"].get(),
+            "mail": self.entry_widgets["Gmail"].get(),
+            "password": self.entry_widgets["Şifre"].get()
+        }
+
+        ana_klasor = os.getcwd()
+        # "data" klasörünün içine girip "user.json" dosyasını hedefle
+        dosya_yolu = os.path.join(ana_klasor, "data", "user.json")
+        # -----------------------
+
+        print(f"Aranan dosya yolu: {dosya_yolu}")
+
+        try:
+            if not os.path.exists(dosya_yolu):
+                messagebox.showerror("Hata", f"Dosya bulunamadı!\nAranan yol:\n{dosya_yolu}")
+                return
+
+            with open(dosya_yolu, "r", encoding="utf-8") as f:
+                kullanicilar = json.load(f)
+
+            kullanici_bulundu = False
+            mevcut_mail = self.current_user.get("mail")
+
+            for user in kullanicilar:
+                if user.get("mail") == mevcut_mail:
+                    user.update(yeni_veriler)
+                    kullanici_bulundu = True
+                    break
+
+            if kullanici_bulundu:
+                with open(dosya_yolu, "w", encoding="utf-8") as f:
+                    json.dump(kullanicilar, f, ensure_ascii=False, indent=4)
+
+                self.current_user.update(yeni_veriler)
+                messagebox.showinfo("Başarılı", "Bilgileriniz güncellendi!")
+            else:
+                messagebox.showerror("Hata", "Kullanıcı dosyada bulunamadı.")
+
+        except Exception as e:
+            messagebox.showerror("Hata", f"Hata: {e}")
 
 if __name__ == "__main__":
     ctk.set_appearance_mode("Light")
