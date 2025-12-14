@@ -94,7 +94,8 @@ class MusteriSayfasi(ctk.CTkFrame):
             fg_color="#1ABC9C", 
             height=45, 
             font=("Roboto", 14, "bold"), 
-            hover_color="#16A085"
+            hover_color="#16A085",
+            command=self.listele
         )
         self.btn_uygula.grid(row=5, column=0, padx=20, pady=30, sticky="ew")
 
@@ -127,7 +128,7 @@ class MusteriSayfasi(ctk.CTkFrame):
         self.main_scroll = ctk.CTkScrollableFrame(self.main_container, fg_color="transparent")
         self.main_scroll.pack(fill="both", expand=True)
         
-        musait_araclar = [
+        self.musait_araclar = [
             {"ad": "Fiat Egea", "fiyat": "1000 ₺", "resim": "egea.png"},
             {"ad": "Renault Clio", "fiyat": "900 ₺", "resim": "clio.png"},
             {"ad": "Toyota Corolla", "fiyat": "1200 ₺", "resim": "corolla.png"},
@@ -135,44 +136,52 @@ class MusteriSayfasi(ctk.CTkFrame):
             {"ad": "Ford Focus", "fiyat": "1250 ₺", "resim": "focus.png"},
         ]
         
-        kirada_olanlar = [
+        self.kirada_olanlar = [
             {"ad": "BMW 5.20i", "fiyat": "3500 ₺", "resim": "bmw.png"},
             {"ad": "Mercedes C200", "fiyat": "4000 ₺", "resim": "mercedes.png"},
             {"ad": "Volvo S90", "fiyat": "4500 ₺", "resim": "volvo.png"},
             {"ad": "Audi A6", "fiyat": "4200 ₺", "resim": "audi.png"},
         ]
 
-        bakimda_olanlar = [
+        self.bakimda_olanlar = [
             {"ad": "VW Passat", "fiyat": "Bakımda", "resim": "passat.png"},
             {"ad": "Skoda Octavia", "fiyat": "Bakımda", "resim": "skoda.png"},
         ]
 
-        self.bolum_olustur(baslik="MÜSAİT ARAÇLAR", renk="#27AE60", arac_listesi=musait_araclar)
+        self.musait_grid_frame = None
+
+        self.musait_grid_frame = self.bolum_olustur(baslik="MÜSAİT ARAÇLAR", renk="#27AE60",arac_listesi=self.musait_araclar)
+
         ctk.CTkFrame(self.main_scroll, height=2, fg_color="#BDC3C7").pack(fill="x", pady=15, padx=10)
+        self.bolum_olustur(baslik="KİRADA OLANLAR", renk="#E67E22", arac_listesi=self.kirada_olanlar)
 
-        self.bolum_olustur(baslik="KİRADA OLANLAR", renk="#E67E22", arac_listesi=kirada_olanlar)
         ctk.CTkFrame(self.main_scroll, height=2, fg_color="#BDC3C7").pack(fill="x", pady=15, padx=10)
-
-        self.bolum_olustur(baslik="BAKIMDA OLANLAR", renk="#C0392B", arac_listesi=bakimda_olanlar)
-
+        self.bolum_olustur(baslik="BAKIMDA OLANLAR", renk="#C0392B", arac_listesi=self.bakimda_olanlar)
 
     def bolum_olustur(self, baslik, renk, arac_listesi):
         baslik_frame = ctk.CTkFrame(self.main_scroll, fg_color="transparent")
         baslik_frame.pack(fill="x", pady=(5, 10))
-        
+
         ctk.CTkFrame(baslik_frame, width=5, height=25, fg_color=renk).pack(side="left", padx=(10, 10))
         ctk.CTkLabel(baslik_frame, text=baslik, font=("Roboto", 16, "bold"), text_color="#2C3E50").pack(side="left")
 
         grid_frame = ctk.CTkFrame(self.main_scroll, fg_color="transparent")
         grid_frame.pack(fill="both")
 
+        # Grid sütun ayarları
         for i in range(4):
             grid_frame.grid_columnconfigure(i, weight=1)
 
-        for i, arac in enumerate(arac_listesi):
+        # Araçları karta dök
+        self.araclari_grid_doldur(grid_frame, arac_listesi, renk)
+
+        return grid_frame
+
+    def araclari_grid_doldur(self, parent_frame, liste, renk):
+        for i, arac in enumerate(liste):
             row = i // 4
             col = i % 4
-            self.kart_ekle(grid_frame, row, col, arac, renk)
+            self.kart_ekle(parent_frame, row, col, arac, renk)
 
 
     def kart_ekle(self, parent, r, c, arac_bilgisi, renk_tema):
@@ -213,22 +222,72 @@ class MusteriSayfasi(ctk.CTkFrame):
     def profile_git(self, secim):
         if secim == "Profilim":
             from ui.profiPage import ProfilSayfasi
-            self.destroy()  # Mevcut sayfayı kapat
+            self.destroy()
 
-            # --- DÜZELTME BURADA ---
-            # .pack() yerine .grid() kullanıyoruz
             app = ProfilSayfasi(self.master, self.controller, self.db, self.current_user)
             app.grid(row=0, column=0, sticky="nsew")
 
         elif secim == "Çıkış Yap":
             from ui.loginPage import LoginPage
-            self.destroy()  # Mevcut sayfayı kapat
+            self.destroy()
 
-            # Burada da .grid() kullanalım ki tutarlı olsun
             app = LoginPage(self.master, self.controller, self.db)
             app.grid(row=0, column=0, sticky="nsew")
 
-        # Menü yazısını resetle
-        #self.profil_menu.set("👤 Hesabım")
+        self.profil_menu.set("👤 Hesabım")
 
- 
+    def listele(self):
+        # 1. Seçimleri Al
+        secilen_marka = self.combo_marka.get()
+        secilen_model = self.combo_model.get()
+        secilen_fiyat = self.opt_fiyat.get()
+
+        filtrelenmis_liste = []
+
+        # 2. Tüm müsait araçları tek tek kontrol et
+        for arac in self.musait_araclar:
+            arac_adi = arac["ad"]
+            # Fiyatı sayıya çevir (Örn: "1000 ₺" -> 1000)
+            try:
+                arac_fiyat = int(arac["fiyat"].replace("₺", "").strip())
+            except:
+                arac_fiyat = 0
+
+                # --- KONTROL 1: MARKA ---
+            # Eğer "Marka" veya "Tümü" seçiliyse hepsi geçer. Değilse araç adında marka geçiyor mu bakarız.
+            marka_uygun = (secilen_marka in ["Marka", "Tümü"]) or (secilen_marka.lower() in arac_adi.lower())
+
+            # --- KONTROL 2: MODEL ---
+            model_uygun = (secilen_model in ["Model", "Tümü"]) or (secilen_model.lower() in arac_adi.lower())
+
+            # --- KONTROL 3: FİYAT ---
+            fiyat_uygun = False
+            if secilen_fiyat in ["Fiyat Aralığı", "Fark etmez"]:
+                fiyat_uygun = True
+            elif secilen_fiyat == "0 - 1000 TL" and 0 <= arac_fiyat <= 1000:
+                fiyat_uygun = True
+            elif secilen_fiyat == "1000 - 3000 TL" and 1000 <= arac_fiyat <= 3000:
+                fiyat_uygun = True
+            elif secilen_fiyat == "3000+ TL" and arac_fiyat >= 3000:
+                fiyat_uygun = True
+
+            # Eğer üç kriter de uyuyorsa listeye ekle
+            if marka_uygun and model_uygun and fiyat_uygun:
+                filtrelenmis_liste.append(arac)
+
+        # 3. Ekrana Basma İşlemi
+
+        # Önce eski kartları temizle (Widget'ları yok et)
+        for widget in self.musait_grid_frame.winfo_children():
+            widget.destroy()
+
+        # Grid yapılandırmasını tekrar yap (Silinince bozulabilir)
+        for i in range(4):
+            self.musait_grid_frame.grid_columnconfigure(i, weight=1)
+
+        # Filtrelenmiş yeni listeyi ekrana bas
+        for i, arac in enumerate(filtrelenmis_liste):
+            row = i // 4
+            col = i % 4
+            # Müsait araçlar olduğu için renk sabit yeşil
+            self.kart_ekle(self.musait_grid_frame, row, col, arac, "#27AE60")
