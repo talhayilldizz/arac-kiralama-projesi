@@ -210,7 +210,7 @@ class AdminSayfasi(ctk.CTkFrame):
         for deger in degerler:
             if not deger:
                 messagebox.showerror("Hata","Eksik Kutuları Doldurun!")
-                break
+                return
 
         cars=self.db.get_all_cars()
         for car in cars:
@@ -245,10 +245,14 @@ class AdminSayfasi(ctk.CTkFrame):
 
         print("Araç Silme Fonksiyonu")
 
+
+
     def btn_pricepage(self):
         from ui.pricePage import TahminSayfasi
         self.destroy()
         TahminSayfasi(self.master, self.controller,self.db).pack(expand=True, fill="both")
+
+
 
     #Her araç için bir satır
     def add_car_row(self, row, car):
@@ -369,6 +373,8 @@ class AdminSayfasi(ctk.CTkFrame):
         )
         btn_history.grid(row=0, column=4, padx=10, pady=5)
 
+
+    #Tüm kullanıcıları getir
     def get_all_users(self):
         for widget in self.user_list_frame.winfo_children():
             widget.destroy()
@@ -378,6 +384,8 @@ class AdminSayfasi(ctk.CTkFrame):
         for i, user in enumerate(users):
             self.add_user_row(i, user)
 
+
+    #Tüm araçları getir
     def get_all_cars(self):
             for widget in self.car_list_frame.winfo_children():
                 widget.destroy()
@@ -387,6 +395,8 @@ class AdminSayfasi(ctk.CTkFrame):
             for i, car in enumerate(cars):
                 self.add_car_row(i, car)
 
+
+    #Plaka format
     def plaka_format(self, event=None):
         text = self.entry_plaka.get().upper() 
         text = re.sub(r'[^A-Z0-9 ]', '', text)  
