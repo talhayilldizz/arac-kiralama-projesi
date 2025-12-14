@@ -230,6 +230,7 @@ class AdminSayfasi(ctk.CTkFrame):
         for car in cars:
             if car['plate'] == plate:
                 messagebox.showerror("Hata","Bu plaka sistemde kayıtlı!")
+                return
         
         success=self.db.add_car(brand,model,year,plate,price)
 
