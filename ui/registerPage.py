@@ -69,7 +69,7 @@ class RegisterPage(ctk.CTkFrame):
 
         self.entry_tel = ctk.CTkEntry(
             self.register_frame,
-            placeholder_text="Tel No (5XX...)",
+            placeholder_text="Tel No (05XX...)",
             width=160,
             height=40,
             font=("Roboto", 14)
@@ -161,7 +161,52 @@ class RegisterPage(ctk.CTkFrame):
         if '@' not in mail:
             messagebox.showerror("Hata","Mail adresi doğru formatta değil")
             return
-        
+
+        if mail.startswith('@'):
+            messagebox.showerror("Hata", "Mail adresinin başına kullanıcı adı yazmalısınız!")
+            return
+
+        if ' ' in mail:
+            messagebox.showerror("Hata", "Mail adresinde boşluk olamaz!")
+            return
+
+        # Çift nokta kontrolü (örn: ali..veli@gmail.com yanlıştır)
+        if ".." in mail:
+            messagebox.showerror("Hata", "Mail adresinde yan yana iki nokta (..) bulunamaz.")
+            return
+
+        # Yasaklı karakter kontrolü
+        yasakli_karakterler = ["\\","ş", "ü", "ö", "ç", "ğ", "ı", "Ş", "Ü", "Ö", "Ç", "Ğ", "İ", "(", ")", "*", "/"]
+        for harf in mail:
+            if harf in yasakli_karakterler:
+                messagebox.showerror("Hata", "Mail adresinde Türkçe karakter veya özel sembol kullanmayınız.")
+                return
+
+        # @ işaretinden önceki kısmı alalım
+        kullanici_adi = mail.split('@')[0]
+
+        # Kullanıcı adı en az 3 karakter olsun
+        if len(kullanici_adi) < 3:
+            messagebox.showerror("Hata", "Mail adresi çok kısa, lütfen geçerli bir adres girin.")
+            return
+
+        # Maili @ işaretinden ikiye bölüyoruz
+        parts = mail.split('@')
+
+        # Eğer split sonucu hatalıysa
+        if len(parts) < 2:
+            return
+
+        username = parts[0]  # @'den önceki kısım
+
+        if not username[0].isalpha():
+            messagebox.showerror("Hata","Mail adresi mutlaka bir harf ile başlamalıdır! (Rakam veya sembolle başlayamaz)")
+            return
+
+        if not username[-1].isalnum():
+            messagebox.showerror("Hata","Mail kullanıcı adı nokta veya özel karakterle bitemez! (@ işaretinden önce harf veya rakam olmalı)")
+            return
+
         allowed_domains = ["@gmail.com", "@hotmail.com"]
         if not any(mail.endswith(domain) for domain in allowed_domains):
             messagebox.showerror("Hata", "Mail adresiniz yalnızca @gmail.com veya @hotmail.com olabilir!")
@@ -170,6 +215,13 @@ class RegisterPage(ctk.CTkFrame):
         #Telefon numarası uzunluk kontrolü
         if len(phone) != 11:
             messagebox.showerror("Hata","Telefon numarası 11 karakterden oluşmalı!")
+            return
+
+        # regex yöntemi
+        import re
+        kural = r"^[a-z0-9._-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+        if not re.match(kural, mail):
+            messagebox.showerror("Hata", "hatalı mail!")
             return
         
 
@@ -183,7 +235,7 @@ class RegisterPage(ctk.CTkFrame):
             if user['mail'] == mail:
                 messagebox.showerror("Hata","Bu mail adresi sistemde kayıtlı")
                 return
-            
+
         #Verilerimiz kontrollerden geçerse data_manager dosyasındaki user_register fonksiyonu ile dosyaya yazıyoruz
         success=self.db.user_register(id,name,surname,password,age,mail,phone)
 
