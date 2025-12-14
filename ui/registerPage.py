@@ -41,6 +41,8 @@ class RegisterPage(ctk.CTkFrame):
             font=("Roboto", 14)
         )
         self.entry_ad.grid(row=2, column=0, padx=(20, 10), pady=10)
+        self.entry_ad.bind("<KeyPress>",self.only_character_key)
+
 
         self.entry_soyad = ctk.CTkEntry(
             self.register_frame,
@@ -50,6 +52,8 @@ class RegisterPage(ctk.CTkFrame):
             font=("Roboto", 14)
         )
         self.entry_soyad.grid(row=2, column=1, padx=(10, 20), pady=10)
+        self.entry_soyad.bind("<KeyPress>",self.only_character_key)
+
 
         # 2. Satır: Yaş ve Telefon (Yan Yana)
         self.entry_yas = ctk.CTkEntry(
@@ -60,6 +64,8 @@ class RegisterPage(ctk.CTkFrame):
             font=("Roboto", 14)
         )
         self.entry_yas.grid(row=3, column=0, padx=(20, 10), pady=10)
+        self.entry_yas.bind("<KeyPress>", self.only_number_key)
+
 
         self.entry_tel = ctk.CTkEntry(
             self.register_frame,
@@ -69,6 +75,7 @@ class RegisterPage(ctk.CTkFrame):
             font=("Roboto", 14)
         )
         self.entry_tel.grid(row=3, column=1, padx=(10, 20), pady=10)
+        self.entry_tel.bind("<KeyPress>", self.only_number_key)
 
         # 3. Satır: Email (Tam Genişlik)
         self.entry_email = ctk.CTkEntry(
@@ -155,6 +162,11 @@ class RegisterPage(ctk.CTkFrame):
             messagebox.showerror("Hata","Mail adresi doğru formatta değil")
             return
         
+        allowed_domains = ["@gmail.com", "@hotmail.com"]
+        if not any(mail.endswith(domain) for domain in allowed_domains):
+            messagebox.showerror("Hata", "Mail adresiniz yalnızca @gmail.com veya @hotmail.com olabilir!")
+            return
+        
         #Telefon numarası uzunluk kontrolü
         if len(phone) != 11:
             messagebox.showerror("Hata","Telefon numarası 11 karakterden oluşmalı!")
@@ -195,3 +207,19 @@ class RegisterPage(ctk.CTkFrame):
             if i not in existing_ids:
                 return i
         return None
+    
+    def only_number_key(self,event):
+            # Kontrol tuşlarına izin ver
+        if event.keysym in ("BackSpace", "Tab", "Left", "Right", "Delete"):
+            return
+
+        # Rakam değilse engelle
+        if not event.char.isdigit():
+            return "break"
+        
+    def only_character_key(self,event):
+        if event.keysym in ("BackSpace","Tab","Left","Right","Delete"):
+            return
+        
+        if not event.char.isalpha():
+            return "break"

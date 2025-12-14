@@ -18,5 +18,25 @@
         "mail": "admin@admin.com",
         "phone": "05555555555",
         "role": "admin"
+    },
+    {
+        "id": 2,
+        "name": "Talha",
+        "surname": "Yıldız",
+        "password": "123456",
+        "age": "21",
+        "mail": "talha@talha.com",
+        "phone": "05551231234",
+        "role": "musteri"
+    },
+    {
+        "id": 3,
+        "name": "nisa",
+        "surname": "şahin",
+        "password": "123214",
+        "age": "20",
+        "mail": "nisa.com@gmail.com",
+        "phone": "05555551236",
+        "role": "musteri"
     }
 ]

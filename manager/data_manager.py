@@ -22,7 +22,7 @@ class Data_Manager:
 
     #Tüm kullanıcıları getir
     def get_all_users(self):
-        with open(self.userfile,"r") as f:
+        with open(self.userfile,"r",encoding="utf-8") as f:
             return json.load(f)
 
 
@@ -58,6 +58,26 @@ class Data_Manager:
 
         # 3. Döngü biter ve eşleşme bulunamazsa (veya şifre yanlışsa) başarısız demektir
         return False
+
+
+
+    #Araç İşlemleri
+    def get_all_cars(self):
+        with open(self.carfile, "r",encoding="utf-8") as f:
+            return json.load(f)
+    
+    def add_car(self,brand ,model, year,plate, price):
+        car=Car(brand,model,year,plate,price).to_dict()
+        
+        cars=self.get_all_cars()
+
+        cars.append(car)
+
+        with open(self.carfile, "w",encoding="utf-8") as f:
+            json.dump(cars,f,indent=4,ensure_ascii=False)
+
+        return True
+
 
 
         

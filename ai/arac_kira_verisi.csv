@@ -1,0 +1,401 @@
+marka,model,km,hasar_durumu,model_yili,fiyat
+Toyota,Corolla,119347,Ağır Hasarlı,2016,438
+Ford,Fiesta,48197,Hasarsız,2021,1719
+Fiat,Linea,170839,Ağır Hasarlı,2019,400
+Renault,Symbol,45095,Hasarsız,2022,1648
+Fiat,Egea,74239,Lokal Boyalı,2021,1452
+Toyota,Corolla,121679,Hasarsız,2017,768
+Fiat,Linea,103935,Hasarsız,2020,953
+Toyota,Yaris,162292,Hasarsız,2019,895
+BMW,320i,107680,Ağır Hasarlı,2015,1151
+Fiat,Egea,95786,Hasarsız,2018,927
+Mercedes,A200,210279,Ağır Hasarlı,2017,1084
+BMW,520i,212057,Lokal Boyalı,2017,1667
+Fiat,Egea,113379,Hasarsız,2020,1204
+Mercedes,A200,193158,Lokal Boyalı,2017,1761
+Toyota,Yaris,86731,Hasarsız,2022,1770
+Toyota,Corolla,45336,Lokal Boyalı,2023,1958
+Mercedes,C180,133899,Hasarsız,2020,2582
+BMW,520i,106796,Ağır Hasarlı,2020,1548
+Toyota,Yaris,165397,Ağır Hasarlı,2019,482
+BMW,520i,59696,Değişenli,2022,2820
+Renault,Symbol,242320,Hasarsız,2016,400
+Fiat,Egea,14955,Lokal Boyalı,2024,2131
+Fiat,Egea,51126,Değişenli,2022,1610
+Renault,Symbol,147552,Değişenli,2020,617
+Fiat,Egea,58443,Hasarsız,2022,1667
+Renault,Clio,266703,Lokal Boyalı,2016,400
+Fiat,Egea,75798,Lokal Boyalı,2021,1353
+Fiat,Egea,76855,Lokal Boyalı,2021,1381
+Fiat,Egea,155080,Ağır Hasarlı,2019,435
+Renault,Symbol,76749,Hasarsız,2021,1371
+Toyota,Corolla,71112,Lokal Boyalı,2021,1645
+Fiat,Linea,96456,Lokal Boyalı,2020,938
+Renault,Megane,243317,Hasarsız,2016,400
+Fiat,Linea,46154,Değişenli,2023,1454
+Renault,Clio,285585,Değişenli,2015,400
+Fiat,Egea,71392,Hasarsız,2019,1181
+Ford,Fiesta,102891,Hasarsız,2021,1506
+Fiat,Egea,31743,Lokal Boyalı,2024,2169
+Renault,Symbol,101669,Hasarsız,2017,555
+Renault,Clio,86352,Hasarsız,2022,1319
+Fiat,Egea,147378,Değişenli,2017,454
+Fiat,Egea,59654,Lokal Boyalı,2022,1567
+Fiat,Egea,66906,Hasarsız,2022,1714
+Fiat,Egea,53500,Hasarsız,2023,1858
+Fiat,Egea,51707,Hasarsız,2021,1567
+Fiat,Linea,15697,Hasarsız,2024,2090
+Toyota,Corolla,136767,Ağır Hasarlı,2020,619
+Fiat,Egea,96246,Ağır Hasarlı,2019,740
+Fiat,Egea,90017,Değişenli,2022,1444
+Fiat,Linea,88847,Hasarsız,2022,1424
+Ford,Fiesta,110356,Lokal Boyalı,2020,1246
+Fiat,Egea,63590,Lokal Boyalı,2021,1409
+Fiat,Egea,56442,Ağır Hasarlı,2020,951
+Renault,Clio,78201,Hasarsız,2021,1408
+Renault,Clio,157300,Hasarsız,2019,621
+Renault,Clio,61318,Lokal Boyalı,2023,1553
+Renault,Megane,53037,Hasarsız,2023,1870
+Renault,Clio,241978,Lokal Boyalı,2017,400
+Fiat,Egea,101282,Lokal Boyalı,2020,1088
+Toyota,Corolla,116287,Hasarsız,2019,1034
+Mercedes,C180,55701,Lokal Boyalı,2020,2802
+Renault,Clio,54087,Lokal Boyalı,2020,1170
+Renault,Symbol,74973,Lokal Boyalı,2018,906
+Toyota,Yaris,295640,Lokal Boyalı,2015,400
+Toyota,Corolla,24083,Ağır Hasarlı,2024,1404
+Toyota,Yaris,183150,Hasarsız,2019,694
+Fiat,Egea,120150,Ağır Hasarlı,2019,527
+Fiat,Egea,140899,Değişenli,2020,977
+Toyota,Corolla,79697,Lokal Boyalı,2022,1627
+Toyota,Corolla,91152,Lokal Boyalı,2021,1496
+BMW,320i,145894,Ağır Hasarlı,2019,1519
+Fiat,Egea,167822,Değişenli,2018,540
+BMW,320i,55022,Lokal Boyalı,2021,3062
+Fiat,Egea,145399,Değişenli,2019,679
+Ford,Fiesta,87155,Ağır Hasarlı,2018,737
+Renault,Clio,61309,Hasarsız,2023,1793
+Toyota,Yaris,178071,Hasarsız,2019,782
+Renault,Clio,149641,Hasarsız,2017,400
+Renault,Symbol,189903,Hasarsız,2018,400
+Ford,Fiesta,140752,Değişenli,2018,672
+Mercedes,A200,79992,Lokal Boyalı,2020,2785
+Toyota,Corolla,57741,Hasarsız,2020,1591
+Fiat,Linea,63313,Lokal Boyalı,2021,1372
+Fiat,Egea,229741,Hasarsız,2016,400
+Fiat,Egea,262037,Lokal Boyalı,2016,400
+Renault,Megane,154844,Lokal Boyalı,2018,702
+Fiat,Linea,234797,Ağır Hasarlı,2017,400
+Fiat,Linea,17794,Lokal Boyalı,2024,1993
+Ford,Focus,121270,Lokal Boyalı,2021,1416
+Fiat,Egea,67117,Hasarsız,2022,1799
+Ford,Focus,264161,Lokal Boyalı,2015,400
+Renault,Clio,109905,Lokal Boyalı,2018,725
+Fiat,Linea,238006,Değişenli,2017,400
+Renault,Clio,67444,Hasarsız,2022,1577
+Toyota,Yaris,87325,Hasarsız,2022,1701
+Fiat,Egea,55843,Değişenli,2022,1491
+Fiat,Linea,131413,Değişenli,2020,746
+Toyota,Corolla,143536,Hasarsız,2020,1085
+Fiat,Linea,70046,Lokal Boyalı,2019,1000
+Toyota,Yaris,168107,Değişenli,2018,550
+Mercedes,A200,116047,Hasarsız,2021,2820
+Mercedes,A200,31670,Hasarsız,2024,3753
+Fiat,Egea,76112,Değişenli,2020,1261
+Renault,Clio,96916,Lokal Boyalı,2020,978
+Toyota,Corolla,111390,Hasarsız,2020,1248
+Fiat,Egea,50455,Lokal Boyalı,2023,1897
+Toyota,Yaris,181253,Lokal Boyalı,2017,544
+Fiat,Linea,113345,Lokal Boyalı,2020,955
+Mercedes,A200,202483,Değişenli,2015,1250
+Fiat,Linea,181621,Lokal Boyalı,2017,400
+Fiat,Egea,200944,Lokal Boyalı,2018,460
+Toyota,Corolla,57418,Hasarsız,2022,1864
+Toyota,Yaris,93939,Değişenli,2022,1424
+Toyota,Corolla,209030,Değişenli,2017,400
+BMW,320i,123903,Hasarsız,2018,2308
+Fiat,Egea,67088,Değişenli,2022,1556
+Toyota,Corolla,67591,Hasarsız,2019,1457
+Ford,Focus,93890,Değişenli,2019,1097
+Mercedes,C180,79950,Hasarsız,2021,3039
+Ford,Fiesta,264140,Değişenli,2015,400
+Fiat,Linea,127237,Ağır Hasarlı,2016,400
+Renault,Clio,94196,Hasarsız,2017,583
+Renault,Clio,25441,Hasarsız,2024,2069
+Toyota,Yaris,64572,Hasarsız,2022,1814
+Renault,Clio,140903,Hasarsız,2020,845
+Renault,Megane,173475,Hasarsız,2019,749
+Ford,Focus,119790,Hasarsız,2020,1215
+Renault,Symbol,103224,Değişenli,2021,1081
+Renault,Symbol,61108,Lokal Boyalı,2020,1223
+BMW,320i,59000,Hasarsız,2023,3491
+Toyota,Yaris,165958,Hasarsız,2017,514
+Renault,Megane,135408,Değişenli,2019,829
+Mercedes,C180,121676,Lokal Boyalı,2019,2312
+Fiat,Egea,146066,Lokal Boyalı,2020,1040
+BMW,320i,166902,Değişenli,2016,1490
+Fiat,Egea,74443,Lokal Boyalı,2018,1058
+Fiat,Linea,162358,Değişenli,2019,536
+Ford,Fiesta,71663,Hasarsız,2019,1374
+Renault,Clio,150594,Hasarsız,2018,514
+Renault,Megane,140630,Lokal Boyalı,2018,764
+BMW,320i,89582,Hasarsız,2022,3088
+Toyota,Yaris,146751,Değişenli,2018,641
+Renault,Symbol,136064,Değişenli,2017,400
+Fiat,Egea,51157,Ağır Hasarlı,2021,936
+Fiat,Egea,72640,Lokal Boyalı,2021,1486
+Renault,Megane,65265,Değişenli,2021,1375
+Renault,Megane,116491,Değişenli,2016,456
+BMW,520i,198661,Hasarsız,2018,1889
+Renault,Clio,94454,Hasarsız,2020,988
+Fiat,Egea,100740,Hasarsız,2019,1014
+Renault,Symbol,167235,Hasarsız,2015,400
+Renault,Symbol,255549,Lokal Boyalı,2016,400
+Renault,Megane,63963,Lokal Boyalı,2020,1393
+Toyota,Corolla,102624,Ağır Hasarlı,2021,869
+Ford,Focus,35178,Hasarsız,2023,2104
+Toyota,Yaris,78210,Lokal Boyalı,2018,1008
+Toyota,Corolla,118144,Lokal Boyalı,2017,822
+Toyota,Corolla,27948,Ağır Hasarlı,2024,1312
+Renault,Clio,74020,Hasarsız,2022,1527
+Renault,Megane,139235,Hasarsız,2020,1057
+Toyota,Corolla,154785,Lokal Boyalı,2019,881
+BMW,320i,180567,Lokal Boyalı,2017,1710
+Toyota,Yaris,150396,Lokal Boyalı,2015,405
+Fiat,Egea,123256,Değişenli,2019,763
+Fiat,Egea,201493,Hasarsız,2017,400
+Renault,Clio,147121,Lokal Boyalı,2020,745
+Toyota,Corolla,101077,Hasarsız,2018,947
+Ford,Focus,24550,Lokal Boyalı,2024,2307
+Fiat,Egea,27713,Ağır Hasarlı,2023,1333
+Fiat,Egea,102963,Lokal Boyalı,2019,1084
+Fiat,Egea,102290,Değişenli,2020,1007
+Toyota,Yaris,162039,Hasarsız,2019,879
+Fiat,Egea,221345,Lokal Boyalı,2016,400
+BMW,320i,73007,Değişenli,2022,2759
+Renault,Clio,114487,Değişenli,2019,686
+Renault,Clio,57721,Değişenli,2021,1112
+Mercedes,C180,223445,Lokal Boyalı,2016,1378
+Renault,Clio,113866,Hasarsız,2018,708
+Ford,Fiesta,180638,Lokal Boyalı,2019,750
+Fiat,Linea,90327,Hasarsız,2017,556
+Fiat,Egea,59530,Lokal Boyalı,2021,1571
+Renault,Clio,62228,Lokal Boyalı,2023,1557
+Renault,Megane,50867,Hasarsız,2021,1577
+Renault,Clio,65773,Ağır Hasarlı,2019,689
+Renault,Megane,108309,Değişenli,2018,795
+Ford,Fiesta,103490,Lokal Boyalı,2017,919
+Toyota,Corolla,74180,Lokal Boyalı,2020,1485
+BMW,520i,50877,Hasarsız,2023,3446
+Toyota,Corolla,57382,Değişenli,2021,1555
+Renault,Clio,41100,Lokal Boyalı,2023,1704
+Renault,Clio,117448,Ağır Hasarlı,2019,425
+Fiat,Linea,20563,Hasarsız,2024,1949
+Renault,Clio,67328,Lokal Boyalı,2021,1361
+Fiat,Egea,154118,Ağır Hasarlı,2017,400
+Toyota,Yaris,95963,Lokal Boyalı,2018,1036
+Toyota,Corolla,108117,Lokal Boyalı,2019,1020
+Fiat,Egea,150370,Hasarsız,2020,1024
+BMW,520i,201038,Değişenli,2018,1722
+Renault,Clio,135994,Lokal Boyalı,2019,689
+Toyota,Yaris,115513,Hasarsız,2019,1114
+Mercedes,C180,67661,Hasarsız,2021,2974
+Ford,Fiesta,145922,Lokal Boyalı,2019,912
+Toyota,Corolla,163464,Hasarsız,2019,952
+Renault,Megane,14976,Hasarsız,2024,2205
+Toyota,Yaris,153731,Hasarsız,2016,442
+Fiat,Linea,124113,Değişenli,2020,760
+Fiat,Egea,60616,Hasarsız,2022,1751
+Toyota,Yaris,98693,Hasarsız,2017,832
+Renault,Clio,118202,Hasarsız,2017,441
+Renault,Symbol,17184,Değişenli,2024,1733
+Ford,Focus,90878,Hasarsız,2020,1384
+Renault,Symbol,120629,Lokal Boyalı,2021,994
+Renault,Clio,23270,Lokal Boyalı,2023,1855
+Renault,Clio,225590,Hasarsız,2017,400
+Fiat,Egea,71283,Hasarsız,2019,1144
+Renault,Symbol,55999,Hasarsız,2023,1646
+Renault,Clio,71822,Hasarsız,2021,1240
+Fiat,Egea,148803,Lokal Boyalı,2017,428
+Fiat,Linea,153347,Lokal Boyalı,2019,630
+Fiat,Linea,68211,Hasarsız,2022,1485
+Renault,Clio,162804,Hasarsız,2019,653
+Toyota,Yaris,123328,Lokal Boyalı,2021,1364
+Renault,Clio,133635,Ağır Hasarlı,2020,613
+Toyota,Yaris,104433,Hasarsız,2020,1286
+Fiat,Egea,128208,Hasarsız,2018,874
+Fiat,Egea,160866,Hasarsız,2019,764
+Renault,Symbol,155442,Hasarsız,2019,693
+Mercedes,A200,156438,Hasarsız,2019,2291
+Toyota,Yaris,51058,Hasarsız,2022,1839
+Renault,Clio,99195,Hasarsız,2021,1195
+Fiat,Egea,94768,Değişenli,2021,1207
+Fiat,Linea,92717,Değişenli,2021,967
+Renault,Clio,161393,Hasarsız,2017,400
+BMW,520i,78866,Lokal Boyalı,2020,2737
+Fiat,Egea,58541,Hasarsız,2023,1852
+Ford,Fiesta,47122,Lokal Boyalı,2021,1689
+Ford,Focus,198056,Lokal Boyalı,2017,423
+Fiat,Egea,213447,Hasarsız,2018,400
+Renault,Symbol,51767,Lokal Boyalı,2021,1379
+Renault,Symbol,107646,Hasarsız,2015,400
+Ford,Focus,40155,Hasarsız,2023,2007
+Toyota,Corolla,54328,Lokal Boyalı,2022,1782
+BMW,320i,125101,Lokal Boyalı,2019,2251
+Fiat,Egea,89563,Lokal Boyalı,2018,923
+BMW,520i,177028,Hasarsız,2019,2263
+Toyota,Corolla,61413,Hasarsız,2021,1599
+Fiat,Egea,79519,Hasarsız,2018,1132
+Renault,Clio,53484,Hasarsız,2021,1345
+Renault,Symbol,119302,Lokal Boyalı,2021,1099
+Fiat,Egea,146151,Lokal Boyalı,2018,646
+BMW,520i,38587,Hasarsız,2023,3597
+Fiat,Egea,99223,Lokal Boyalı,2021,1291
+Fiat,Linea,195702,Ağır Hasarlı,2017,400
+Fiat,Linea,95443,Lokal Boyalı,2021,1249
+Fiat,Egea,99348,Değişenli,2018,730
+Toyota,Yaris,37462,Ağır Hasarlı,2023,1201
+Renault,Symbol,172216,Ağır Hasarlı,2019,400
+Toyota,Yaris,55342,Lokal Boyalı,2021,1651
+Fiat,Egea,82197,Hasarsız,2021,1428
+Fiat,Linea,121409,Hasarsız,2020,990
+Fiat,Linea,139199,Hasarsız,2019,652
+Toyota,Yaris,172796,Lokal Boyalı,2019,831
+Renault,Clio,220425,Değişenli,2015,400
+BMW,320i,120243,Hasarsız,2021,2753
+Fiat,Egea,155590,Lokal Boyalı,2019,817
+Toyota,Yaris,119118,Hasarsız,2021,1368
+Fiat,Egea,38728,Hasarsız,2023,2030
+Fiat,Egea,122507,Hasarsız,2020,1071
+Fiat,Egea,148843,Lokal Boyalı,2017,608
+Fiat,Linea,165776,Lokal Boyalı,2019,484
+Mercedes,A200,89797,Hasarsız,2019,2701
+Renault,Clio,220040,Lokal Boyalı,2016,400
+Fiat,Egea,170619,Hasarsız,2019,711
+Fiat,Egea,51846,Ağır Hasarlı,2020,959
+Renault,Symbol,141973,Hasarsız,2019,662
+Renault,Megane,120429,Hasarsız,2019,1064
+Fiat,Egea,91867,Lokal Boyalı,2022,1415
+Mercedes,C180,220505,Hasarsız,2015,1441
+BMW,520i,117833,Hasarsız,2018,2337
+Toyota,Corolla,135721,Hasarsız,2019,1023
+Fiat,Egea,85923,Lokal Boyalı,2021,1301
+Ford,Focus,131442,Değişenli,2019,860
+Fiat,Linea,78508,Hasarsız,2019,1068
+Toyota,Yaris,21605,Değişenli,2024,2008
+Ford,Fiesta,84620,Hasarsız,2021,1588
+Renault,Clio,174392,Hasarsız,2019,561
+Renault,Clio,264171,Lokal Boyalı,2016,400
+Renault,Megane,82444,Hasarsız,2019,1168
+Fiat,Egea,74071,Hasarsız,2020,1396
+Fiat,Linea,170642,Değişenli,2018,410
+Fiat,Linea,99953,Ağır Hasarlı,2018,538
+Fiat,Egea,252284,Hasarsız,2016,400
+Fiat,Linea,116055,Lokal Boyalı,2021,967
+Renault,Clio,128200,Hasarsız,2018,580
+Renault,Clio,81977,Hasarsız,2022,1382
+Ford,Focus,77318,Lokal Boyalı,2019,1221
+Renault,Clio,114276,Hasarsız,2015,400
+Renault,Clio,166172,Lokal Boyalı,2016,400
+Renault,Symbol,84314,Değişenli,2019,816
+Fiat,Egea,227183,Lokal Boyalı,2017,400
+Ford,Fiesta,115449,Hasarsız,2020,1172
+Ford,Focus,118206,Hasarsız,2019,1109
+Fiat,Egea,51586,Hasarsız,2023,1979
+Renault,Megane,37634,Hasarsız,2023,2064
+BMW,520i,147875,Hasarsız,2020,2532
+Renault,Clio,241433,Lokal Boyalı,2015,400
+Renault,Symbol,11635,Lokal Boyalı,2024,2016
+Mercedes,C180,241577,Değişenli,2017,1389
+Toyota,Yaris,238238,Lokal Boyalı,2017,400
+Fiat,Linea,61188,Hasarsız,2020,1196
+Renault,Symbol,34044,Değişenli,2022,1490
+Fiat,Egea,94555,Hasarsız,2017,859
+Renault,Clio,108714,Hasarsız,2017,656
+Renault,Megane,61428,Lokal Boyalı,2021,1472
+Renault,Megane,80012,Değişenli,2020,1074
+Renault,Clio,63639,Lokal Boyalı,2022,1518
+Fiat,Linea,83456,Lokal Boyalı,2018,764
+Fiat,Egea,138156,Hasarsız,2020,1033
+Ford,Focus,221913,Hasarsız,2015,400
+Renault,Symbol,71410,Hasarsız,2022,1592
+Fiat,Egea,94334,Hasarsız,2019,1051
+Fiat,Egea,150773,Değişenli,2020,833
+Ford,Focus,62374,Lokal Boyalı,2020,1442
+Renault,Symbol,222870,Hasarsız,2015,400
+Fiat,Egea,129802,Lokal Boyalı,2018,786
+Fiat,Egea,119606,Lokal Boyalı,2021,1240
+Renault,Clio,90561,Değişenli,2019,861
+Fiat,Egea,80946,Hasarsız,2019,1175
+Ford,Fiesta,34564,Hasarsız,2023,2054
+Fiat,Egea,153261,Hasarsız,2020,1027
+Toyota,Corolla,103414,Lokal Boyalı,2015,608
+Fiat,Egea,133248,Hasarsız,2019,1024
+Toyota,Yaris,120670,Lokal Boyalı,2021,1312
+Renault,Symbol,43836,Hasarsız,2023,1829
+Renault,Symbol,151520,Değişenli,2019,450
+Fiat,Egea,109086,Hasarsız,2021,1367
+Renault,Clio,63765,Değişenli,2021,1125
+Toyota,Yaris,135535,Ağır Hasarlı,2018,599
+Ford,Focus,111286,Hasarsız,2019,1062
+Renault,Clio,91524,Lokal Boyalı,2022,1363
+Renault,Clio,114203,Lokal Boyalı,2021,1086
+Toyota,Yaris,34520,Hasarsız,2022,1891
+Renault,Clio,102078,Lokal Boyalı,2019,882
+Toyota,Corolla,110141,Lokal Boyalı,2018,985
+Fiat,Egea,106753,Ağır Hasarlı,2015,400
+Renault,Clio,150659,Değişenli,2020,762
+Toyota,Corolla,145905,Ağır Hasarlı,2020,662
+Renault,Megane,101564,Lokal Boyalı,2019,1111
+Fiat,Egea,86344,Hasarsız,2019,1180
+Toyota,Corolla,123293,Hasarsız,2019,1167
+Toyota,Corolla,138814,Ağır Hasarlı,2016,400
+Fiat,Linea,151911,Lokal Boyalı,2018,400
+Renault,Symbol,128664,Hasarsız,2018,564
+Toyota,Yaris,25692,Ağır Hasarlı,2023,1389
+Fiat,Egea,93849,Hasarsız,2019,1177
+Renault,Megane,104088,Lokal Boyalı,2021,1377
+Fiat,Egea,49804,Lokal Boyalı,2022,1693
+Toyota,Yaris,86698,Hasarsız,2020,1446
+Fiat,Egea,86173,Lokal Boyalı,2019,1126
+Renault,Megane,102499,Değişenli,2018,876
+Toyota,Corolla,38005,Değişenli,2023,1762
+Toyota,Corolla,224582,Lokal Boyalı,2017,400
+Toyota,Corolla,234855,Hasarsız,2017,400
+Renault,Clio,118456,Lokal Boyalı,2021,1150
+Fiat,Egea,92277,Değişenli,2020,1129
+Fiat,Egea,62856,Hasarsız,2021,1576
+Renault,Clio,167465,Lokal Boyalı,2019,459
+Fiat,Egea,73738,Hasarsız,2018,1082
+Toyota,Corolla,110910,Hasarsız,2020,1211
+Renault,Clio,141168,Hasarsız,2020,802
+Renault,Clio,141015,Hasarsız,2020,850
+Fiat,Egea,107788,Ağır Hasarlı,2021,889
+Toyota,Yaris,76596,Lokal Boyalı,2020,1349
+Renault,Clio,34570,Hasarsız,2022,1683
+Fiat,Egea,161803,Lokal Boyalı,2019,702
+Fiat,Egea,90148,Lokal Boyalı,2018,861
+Ford,Focus,81396,Lokal Boyalı,2019,1171
+Fiat,Egea,83656,Lokal Boyalı,2019,1035
+Fiat,Linea,168484,Hasarsız,2019,465
+Fiat,Egea,230876,Lokal Boyalı,2017,400
+BMW,520i,111290,Hasarsız,2017,2285
+Toyota,Yaris,64423,Değişenli,2019,1204
+Renault,Symbol,109583,Hasarsız,2021,1056
+Renault,Clio,195918,Hasarsız,2018,400
+Renault,Clio,21999,Hasarsız,2023,1807
+Renault,Megane,83712,Lokal Boyalı,2022,1594
+Toyota,Corolla,39425,Lokal Boyalı,2023,2022
+Ford,Fiesta,150916,Lokal Boyalı,2017,611
+Renault,Megane,295503,Değişenli,2015,400
+Toyota,Yaris,54176,Lokal Boyalı,2023,1952
+Renault,Clio,47304,Ağır Hasarlı,2021,814
+Fiat,Egea,74962,Lokal Boyalı,2020,1306
+Renault,Megane,125631,Ağır Hasarlı,2020,662
+Fiat,Egea,107280,Değişenli,2018,761
+Fiat,Egea,103466,Lokal Boyalı,2018,904
+Mercedes,A200,133991,Ağır Hasarlı,2019,1445
+Fiat,Linea,214290,Hasarsız,2018,400
+Fiat,Linea,86044,Hasarsız,2022,1493
+Renault,Clio,53390,Hasarsız,2021,1347
+Ford,Focus,75094,Lokal Boyalı,2020,1370
