@@ -8,7 +8,6 @@ import tkinter.messagebox as messagebox
 
 
 class KiralaPopup(ctk.CTkToplevel):
-    # init kısmına 'db' ve 'current_user_mail' eklendi
     def __init__(self, parent, arac_bilgisi, db, current_user_mail):
         super().__init__(parent)
         self.title("Araç Kiralama Onayı")
@@ -16,7 +15,7 @@ class KiralaPopup(ctk.CTkToplevel):
         self.resizable(False, False)
 
         self.db = db
-        self.user_mail = current_user_mail  # Kiralayan kişinin maili
+        self.user_mail = current_user_mail
 
         self.attributes("-topmost", True)
         self.grab_set()
@@ -36,7 +35,6 @@ class KiralaPopup(ctk.CTkToplevel):
         except:
             self.gunluk_fiyat = 0
 
-        # --- ARAYÜZ ---
         ctk.CTkLabel(self, text=f"{self.arac_adi}", font=("Roboto", 22, "bold"), text_color="#2C3E50").pack(
             pady=(20, 5))
         ctk.CTkLabel(self, text=f"Günlük: {self.gunluk_fiyat} TL", font=("Roboto", 14), text_color="gray").pack(
@@ -85,22 +83,16 @@ class KiralaPopup(ctk.CTkToplevel):
         tutar = self.hesapla()
 
         if tutar:
-            # 1. Gerekli Bilgileri Hazırla
             plaka = self.arac.get("plate")
             start_date = self.cal_baslangic.get_date().strftime("%d.%m.%Y")
             finish_date = self.cal_bitis.get_date().strftime("%d.%m.%Y")
 
-            # 2. DEBUG: Terminale yazalım ki çalıştığını görelim
-            print(f"DEBUG: DB Fonksiyonu çağırılıyor... Plaka: {plaka}")
-
-            # 3. VERİTABANI FONKSİYONUNU ÇAĞIR
             # Data_Manager içindeki rent_car fonksiyonu çalışacak
             basari = self.db.rent_car(plaka, self.user_mail, start_date, finish_date)
 
             if basari:
                 messagebox.showinfo("Başarılı", f"{self.arac_adi} başarıyla kiralandı!")
 
-                # 4. Müşteri sayfasındaki listeyi yenile (Araç müsaitlerden gitsin)
                 if hasattr(self.master, 'listele'):
                     self.master.listele()
                 elif hasattr(self.master, 'verileri_yukle_ve_goster'):
@@ -121,24 +113,21 @@ class DetayPopup(ctk.CTkToplevel):
         self.attributes("-topmost", True)
         self.grab_set()
 
-        # Araç Adı
+
         marka = arac_bilgisi.get("brand", "")
         model = arac_bilgisi.get("model", "")
         ad = f"{marka} {model}"
 
-        # Verileri Çek (Hata varsa tire koy)
+
         baslangic = arac_bilgisi.get("start_date", "-")
         bitis = arac_bilgisi.get("finsh_date", "-")  # Senin JSON yapındaki 'finsh' typo'su korundu
 
-        # --- TASARIM ---
-        # Başlık ve Simge
         header_frame = ctk.CTkFrame(self, fg_color="#E67E22", corner_radius=0, height=60)
         header_frame.pack(fill="x")
 
         ctk.CTkLabel(header_frame, text="ARAÇ KİRADA", font=("Roboto", 20, "bold"), text_color="white").place(relx=0.5,
                                                                                                               rely=0.5,
                                                                                                               anchor="center")
-
         # Araç Bilgisi
         content_frame = ctk.CTkFrame(self, fg_color="transparent")
         content_frame.pack(fill="both", expand=True, padx=20, pady=20)
@@ -178,7 +167,6 @@ class MusteriSayfasi(ctk.CTkFrame):
         self.grid_columnconfigure(0, minsize=300)
         self.grid_rowconfigure(0, weight=1)
 
-        # --- SOL MENU (SIDEBAR) ---
         self.sidebar = ctk.CTkFrame(self, width=320, corner_radius=0, fg_color="#2C3E50")
         self.sidebar.grid(row=0, column=0, sticky="nsew")
         self.sidebar.grid_columnconfigure(0, weight=1)
@@ -199,7 +187,7 @@ class MusteriSayfasi(ctk.CTkFrame):
             anchor="w"
         ).grid(row=1, column=0, padx=20, pady=(20, 20), sticky="w")
 
-        # Filtre Inputları
+
         self.entry_marka = ctk.CTkEntry(
             self.sidebar,
             placeholder_text="Marka Ara...",
@@ -247,15 +235,15 @@ class MusteriSayfasi(ctk.CTkFrame):
             height=50,
             font=("Roboto", 15, "bold"),
             hover_color="#16A085",
-            command=self.listele  # Listele fonksiyonu verileri de yeniler
+            command=self.listele
         )
         self.btn_uygula.grid(row=5, column=0, padx=20, pady=30, sticky="ew")
 
-        # --- SAĞ TARAF (ANA İÇERİK) ---
+
         self.main_container = ctk.CTkFrame(self, fg_color="transparent")
         self.main_container.grid(row=0, column=1, sticky="nsew", padx=20, pady=20)
 
-        # Üst Bar
+
         self.top_bar = ctk.CTkFrame(self.main_container, fg_color="transparent")
         self.top_bar.pack(fill="x", pady=(10, 10))
 
@@ -277,25 +265,22 @@ class MusteriSayfasi(ctk.CTkFrame):
         self.profil_menu.set(f"👤 Hesabım")
         self.profil_menu.pack(side="right")
 
-        # Scroll Alanı
+
         self.main_scroll = ctk.CTkScrollableFrame(self.main_container, fg_color="transparent")
         self.main_scroll.pack(fill="both", expand=True)
 
-        # Grid Frameleri (Referanslarını tutuyoruz ki içlerini temizleyebilelim)
+
         self.musait_grid_frame = None
         self.kirada_grid_frame = None
         self.bakimda_grid_frame = None
 
-        # Verileri Çek ve Ekrana Bas
+
         self.verileri_yukle_ve_goster()
 
     def verileri_yukle_ve_goster(self):
-        """ Veritabanından verileri çeker, sadece Müsait ve Kirada olanları gösterir. """
-
-        # Listeleri sıfırla
         self.musait_araclar = []
         self.kirada_olanlar = []
-        # Bakımda listesini sildik
+
 
         try:
             tum_araclar = self.db.get_all_cars()
@@ -303,7 +288,6 @@ class MusteriSayfasi(ctk.CTkFrame):
             print(f"Veri çekme hatası: {e}")
             tum_araclar = []
 
-        # Araçları durumlarına göre ayır
         for arac in tum_araclar:
             durum = arac.get("status", "").lower()
 
@@ -318,41 +302,31 @@ class MusteriSayfasi(ctk.CTkFrame):
             elif "kirada" in durum:
                 self.kirada_olanlar.append(arac)
 
-            # "bakım" durumu artık kontrol edilmiyor, sistem onları görmezden gelir.
-
         # Arayüzü Temizle
         for widget in self.main_scroll.winfo_children():
             widget.destroy()
 
-        # --- BÖLÜMLERİ OLUŞTUR ---
-
-        # 1. MÜSAİT ARAÇLAR
         # Müsait araç olmasa bile başlığı gösteriyoruz
         self.musait_grid_frame = self.bolum_olustur(baslik="MÜSAİT ARAÇLAR", renk="#27AE60",
                                                     arac_listesi=self.musait_araclar)
         ctk.CTkFrame(self.main_scroll, height=2, fg_color="#BDC3C7").pack(fill="x", pady=20, padx=10)
 
-        # 2. KİRADA OLANLAR
         # Kirada araç olmasa bile başlığı gösteriyoruz
         self.kirada_grid_frame = self.bolum_olustur(baslik="KİRADA OLANLAR", renk="#E67E22",
                                                     arac_listesi=self.kirada_olanlar)
-
-        # Bakımda olanlar bölümü oluşturma kodu tamamen kaldırıldı.
 
     def bolum_olustur(self, baslik, renk, arac_listesi):
         baslik_frame = ctk.CTkFrame(self.main_scroll, fg_color="transparent")
         baslik_frame.pack(fill="x", pady=(5, 10))
 
-        # Renkli Çubuk
         ctk.CTkFrame(baslik_frame, width=6, height=28, fg_color=renk, corner_radius=4).pack(side="left", padx=(10, 10))
-        # Başlık Yazısı
         ctk.CTkLabel(baslik_frame, text=f"{baslik} ({len(arac_listesi)})", font=("Roboto", 18, "bold"),
                      text_color="#2C3E50").pack(side="left")
 
         grid_frame = ctk.CTkFrame(self.main_scroll, fg_color="transparent")
         grid_frame.pack(fill="both")
 
-        # Responsive Grid (4 Sütun)
+
         for i in range(4):
             grid_frame.grid_columnconfigure(i, weight=1)
 
@@ -372,30 +346,27 @@ class MusteriSayfasi(ctk.CTkFrame):
             self.kart_ekle(parent_frame, row, col, arac, renk)
 
     def kart_ekle(self, parent, r, c, arac_bilgisi, renk_tema):
-        """ Resimsiz, Bilgi Odaklı Kart Tasarımı """
-
-        # Kart Kutusu
         kutu = ctk.CTkFrame(parent, fg_color="white", corner_radius=12, border_color="#BDC3C7", border_width=1)
         kutu.grid(row=r, column=c, padx=8, pady=8, sticky="nsew")
         kutu.grid_rowconfigure(0, weight=1)  # İçerik dikeyde esnesin
 
-        # İçerik Çerçevesi
+
         content_frame = ctk.CTkFrame(kutu, fg_color="transparent")
         content_frame.pack(fill="both", expand=True, padx=15, pady=15)
 
-        # 1. Başlık (Marka Model)
+
         full_name = f"{arac_bilgisi.get('brand', '')} {arac_bilgisi.get('model', '')}"
         ctk.CTkLabel(
             content_frame,
             text=full_name,
             font=("Roboto", 16, "bold"),
             text_color="#2C3E50",
-            wraplength=150  # Uzun isimler aşağı kaysın
+            wraplength=150
         ).pack(anchor="w")
 
-        # 2. Alt Bilgi (Yıl - Plaka)
+
         yil = arac_bilgisi.get('year', '-')
-        # Plakanın sonunu gizleyebiliriz estetik durması için veya tam gösterebiliriz
+
         plaka = arac_bilgisi.get('plate', '---')
         ctk.CTkLabel(
             content_frame,
@@ -404,19 +375,19 @@ class MusteriSayfasi(ctk.CTkFrame):
             text_color="#7F8C8D"
         ).pack(anchor="w", pady=(2, 10))
 
-        # Araya Çizgi
+
         ctk.CTkFrame(content_frame, height=2, fg_color="#F0F3F4").pack(fill="x", pady=5)
 
-        # 3. Fiyat
+
         fiyat = arac_bilgisi.get("display_price", "0 TL")
         ctk.CTkLabel(
             content_frame,
             text=fiyat,
             font=("Roboto", 18, "bold"),
-            text_color=renk_tema  # Duruma göre renk (Yeşil, Turuncu vs.)
+            text_color=renk_tema
         ).pack(pady=(10, 5))
 
-        # 4. Buton
+
         durum = arac_bilgisi.get("status", "").lower()
         musait_mi = "müsait" in durum
 
@@ -440,23 +411,17 @@ class MusteriSayfasi(ctk.CTkFrame):
         ).pack(pady=(10, 0), side="bottom")
 
     def listele(self):
-        """ Hem filtreleme yapar hem de kirada olanlar listesini günceller """
-
-        # 1. En güncel veriyi çek
         try:
             tum_araclar = self.db.get_all_cars()
         except:
             tum_araclar = []
 
-        # 2. Listeleri sıfırla (Çünkü statüleri değişmiş olabilir)
+
         self.musait_araclar = []
         self.kirada_olanlar = []
 
-        # 3. Araçları yeniden dağıt
         for arac in tum_araclar:
             durum = arac.get("status", "").lower()
-
-            # Fiyat düzeltmesi
             fiyat = str(arac.get("price", "0"))
             if "₺" not in fiyat and "TL" not in fiyat:
                 fiyat += " TL"
@@ -467,7 +432,6 @@ class MusteriSayfasi(ctk.CTkFrame):
             elif "kirada" in durum:
                 self.kirada_olanlar.append(arac)
 
-        # --- FİLTRELEME (Sadece Müsait Araçlar İçin) ---
         girilen_marka = self.entry_marka.get().strip().lower()
         girilen_model = self.entry_model.get().strip().lower()
         secilen_fiyat = self.opt_fiyat.get()
@@ -502,9 +466,7 @@ class MusteriSayfasi(ctk.CTkFrame):
             if marka_uygun and model_uygun and fiyat_uygun:
                 filtrelenmis_musait.append(arac)
 
-        # --- EKRANI GÜNCELLE ---
 
-        # A) Müsait Araçları Yenile
         if self.musait_grid_frame is not None:
             for widget in self.musait_grid_frame.winfo_children():
                 widget.destroy()
@@ -517,7 +479,6 @@ class MusteriSayfasi(ctk.CTkFrame):
             else:
                 self.araclari_grid_doldur(self.musait_grid_frame, filtrelenmis_musait, "#27AE60")
 
-        # B) Kirada Olanları Yenile (BU KISIM EKSİKTİ, ARTIK EKLENDİ)
         if self.kirada_grid_frame is not None:
             for widget in self.kirada_grid_frame.winfo_children():
                 widget.destroy()
@@ -544,13 +505,8 @@ class MusteriSayfasi(ctk.CTkFrame):
             app.grid(row=0, column=0, sticky="nsew")
 
     def popup_ac(self, arac_bilgisi):
-        # ÖNEMLİ: self.db ve self.current_user'ı popup'a gönderiyoruz
-        # Eğer current_user yoksa None gider, hata vermez.
         user_mail = self.current_user['mail'] if isinstance(self.current_user, dict) else "Misafir"
-
-        # Popup sınıfını çağırırken db'yi de ekliyoruz
         KiralaPopup(self, arac_bilgisi, self.db, user_mail)
 
     def detay_popup_ac(self, arac_bilgisi):
-        # Yeni oluşturduğumuz DetayPopup sınıfını çağırır
         DetayPopup(self, arac_bilgisi)

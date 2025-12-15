@@ -9,7 +9,7 @@ class Data_Manager:
         self.userfile = 'data/user.json'
         self.carfile = 'data/car.json'
 
-        # Klasör yoksa oluştur (Opsiyonel güvenlik önlemi)
+        # Klasör yoksa oluştur
         if not os.path.exists('data'):
             os.makedirs('data')
 
@@ -20,8 +20,6 @@ class Data_Manager:
         if not os.path.exists(self.carfile):
             with open(self.carfile, "w", encoding="utf-8") as f:
                 json.dump([], f)
-
-    # --- KULLANICI İŞLEMLERİ ---
 
     def get_all_users(self):
         with open(self.userfile, "r", encoding="utf-8") as f:
@@ -122,17 +120,11 @@ class Data_Manager:
                 return car
         return None
 
-    # --- YENİ EKLENEN KİRALAMA FONKSİYONU ---
     def rent_car(self, plate, user_id, start_date, finish_date):
         cars = self.get_all_cars()
         updated = False
 
-        # Debug için konsola yazdıralım (Hata varsa Pycharm terminalde görürsün)
-        print(f"DEBUG: Kiralama İsteği -> Plaka: {plate}, Kullanıcı: {user_id}")
-
         for car in cars:
-            # Plakaları karşılaştırırken sağdaki soldaki boşlukları silelim (strip)
-            # ve garanti olsun diye string'e çevirelim.
             db_plate = str(car.get('plate', '')).strip()
             target_plate = str(plate).strip()
 
@@ -141,7 +133,7 @@ class Data_Manager:
                 car['status'] = "Kirada"
                 car['rented_id'] = user_id
                 car['start_date'] = start_date
-                car['finsh_date'] = finish_date  # JSON dosyanla aynı isim (finsh_date)
+                car['finsh_date'] = finish_date
                 updated = True
                 break
 
