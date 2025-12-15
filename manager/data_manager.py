@@ -119,6 +119,18 @@ class Data_Manager:
             if car["plate"] == plate:
                 return car
         return None
+    
+    def get_car_by_mail(self,mail):
+        rented_cars = []
+        all_cars = self.get_all_cars() 
+        
+        for car in all_cars:
+            if car.get('rented_id') == mail:
+                rented_cars.append(car)
+                
+        return rented_cars
+        
+
 
     def rent_car(self, plate, user_id, start_date, finish_date):
         cars = self.get_all_cars()
