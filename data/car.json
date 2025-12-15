@@ -1,11 +1,11 @@
 [
     {
         "brand": "Bmw",
-        "model": "F30",
+        "model": "I8",
         "year": "2024",
-        "plate": "34 ABC 123",
+        "plate": "34 ABC 125",
         "price": "3000",
-        "status": "Kirada",
+        "status": "Müsait",
         "rented_id": null,
         "start_date": null,
         "finsh_date": null
@@ -16,17 +16,6 @@
         "year": "2023",
         "plate": "34 JGF 34",
         "price": "4300",
-        "status": "Müsait",
-        "rented_id": null,
-        "start_date": null,
-        "finsh_date": null
-    },
-    {
-        "brand": "Mercedes",
-        "model": "S300",
-        "year": "2024",
-        "plate": "34 DSE 321",
-        "price": "5000",
         "status": "Müsait",
         "rented_id": null,
         "start_date": null,

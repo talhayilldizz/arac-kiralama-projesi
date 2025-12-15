@@ -223,18 +223,17 @@ class MusteriSayfasi(ctk.CTkFrame):
         if secim == "Profilim":
             from ui.profilePage import ProfilSayfasi
             self.destroy()  # Mevcut sayfayı kapat
-
-            app = ProfilSayfasi(self.master, self.controller, self.db, self.current_user)
+            app=ProfilSayfasi(self.master, self.controller, self.db, self.current_user)
             app.grid(row=0, column=0, sticky="nsew")
+            
 
         elif secim == "Çıkış Yap":
             from ui.loginPage import LoginPage
             self.destroy()
-
-            app = LoginPage(self.master, self.controller, self.db)
+            app=LoginPage(self.master, self.controller, self.db)
             app.grid(row=0, column=0, sticky="nsew")
 
-        self.profil_menu.set("👤 Hesabım")
+       
 
     def listele(self):
         # 1. Seçimleri Al
