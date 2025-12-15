@@ -237,11 +237,8 @@ class ProfilSayfasi(ctk.CTkFrame):
         }
 
         ana_klasor = os.getcwd()
-        # "data" klasörünün içine girip "user.json" dosyasını hedefle
-        dosya_yolu = os.path.join(ana_klasor, "data", "user.json")
-        # -----------------------
 
-        print(f"Aranan dosya yolu: {dosya_yolu}")
+        dosya_yolu = os.path.join(ana_klasor, "data", "user.json")
 
         try:
             if not os.path.exists(dosya_yolu):
