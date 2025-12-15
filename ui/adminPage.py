@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from tkinter import messagebox
 import re
+
 class AdminSayfasi(ctk.CTkFrame):
     def __init__(self,parent,controller, db_manager):
         super().__init__(parent,fg_color="#ECF0F1")

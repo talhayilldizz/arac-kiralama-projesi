@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from PIL import Image
 import os
+from tkinter import messagebox
 
 class MusteriSayfasi(ctk.CTkFrame):
     def __init__(self, parent, controller,db_manager, current_user=None):
@@ -33,55 +34,44 @@ class MusteriSayfasi(ctk.CTkFrame):
             anchor="w"
         ).grid(row=1, column=0, padx=20, pady=(20, 20), sticky="w")
 
-
-        KUTU_RENGI = "#34495E"     
-        KENARLIK_RENGI = "#7F8C8D"  
-        YAZI_RENGI = "#95A5A6"     
+    
         
-        self.combo_marka = ctk.CTkComboBox(
+        self.entry_marka = ctk.CTkEntry(
             self.sidebar, 
-            values=["Tümü", "Fiat", "Renault", "BMW", "Mercedes", "Volvo", "Audi"], 
+            placeholder_text="Marka",
             height=35,
             font=("Roboto", 14),
-            fg_color=KUTU_RENGI,      
-            text_color=YAZI_RENGI,    
-            button_color=KUTU_RENGI,
-            border_width=0, 
-            button_hover_color="#2C3E50",
-            dropdown_fg_color=KUTU_RENGI,
-            dropdown_text_color="white" 
+            fg_color="#34495E",           
+            text_color="#95A5A6", 
+            placeholder_text_color="#5D6D7E",   
+            border_width=0
         )
-        self.combo_marka.set("Marka") 
-        self.combo_marka.grid(row=2, column=0, padx=20, pady=(0, 15), sticky="ew")
-
      
-        self.combo_model = ctk.CTkComboBox(
+        self.entry_marka.grid(row=2, column=0, padx=20, pady=(0, 15), sticky="ew")
+
+        self.entry_model = ctk.CTkEntry(
             self.sidebar, 
-            values=["Tümü", "Egea", "Clio", "3.20i", "C200", "S90", "A6"], 
+            placeholder_text="Model",
             height=35,
             font=("Roboto", 14),
-            fg_color=KUTU_RENGI,         
-            text_color=YAZI_RENGI,    
-            button_color=KUTU_RENGI,
-            border_width=0, 
-            button_hover_color="#2C3E50",
-            dropdown_fg_color=KUTU_RENGI,
-            dropdown_text_color="white"
+            fg_color="#34495E",         
+            text_color="#95A5A6",   
+            placeholder_text_color="#5D6D7E", 
+            border_width=0
         )
-        self.combo_model.set("Model") 
-        self.combo_model.grid(row=3, column=0, padx=20, pady=(0, 15), sticky="ew")
+        self.entry_model.grid(row=3, column=0, padx=20, pady=(0, 15), sticky="ew")
 
         self.opt_fiyat = ctk.CTkComboBox(
             self.sidebar, 
             values=["Fark etmez", "0 - 1000 TL", "1000 - 3000 TL", "3000+ TL"], 
             height=35,
             font=("Roboto", 14),
-            fg_color=KUTU_RENGI,
-            text_color=YAZI_RENGI,    
-            button_color=KUTU_RENGI,  
+            fg_color="#34495E",
+            text_color="#95A5A6",    
+            button_color="#34494E",  
             border_width=0,
             button_hover_color="#2C3E50",
-            dropdown_fg_color=KUTU_RENGI,
+            dropdown_fg_color="#34495E",
             dropdown_text_color="white"
         )
         self.opt_fiyat.set("Fiyat Aralığı") 
@@ -129,24 +119,20 @@ class MusteriSayfasi(ctk.CTkFrame):
         self.main_scroll.pack(fill="both", expand=True)
         
         self.musait_araclar = [
-            {"ad": "Fiat Egea", "fiyat": "1000 ₺", "resim": "egea.png"},
-            {"ad": "Renault Clio", "fiyat": "900 ₺", "resim": "clio.png"},
-            {"ad": "Toyota Corolla", "fiyat": "1200 ₺", "resim": "corolla.png"},
-            {"ad": "Honda Civic", "fiyat": "1300 ₺", "resim": "civic.png"},
-            {"ad": "Ford Focus", "fiyat": "1250 ₺", "resim": "focus.png"},
+            {"marka": "Fiat", "model": "Egea", "fiyat": "1000 ₺", "resim": "egea.png"},
+            {"marka": "Renault", "model": "Clio", "fiyat": "900 ₺", "resim": "clio.png"},
+            {"marka": "Toyota", "model": "Corolla", "fiyat": "1200 ₺", "resim": "corolla.png"},
+            {"marka": "Honda", "model": "Civic" , "fiyat": "2500 ₺", "resim": "civic.png"},
+            {"marka": "Ford", "model" : "Focus", "fiyat": "3250 ₺", "resim": "focus.png"},
         ]
         
         self.kirada_olanlar = [
-            {"ad": "BMW 5.20i", "fiyat": "3500 ₺", "resim": "bmw.png"},
-            {"ad": "Mercedes C200", "fiyat": "4000 ₺", "resim": "mercedes.png"},
-            {"ad": "Volvo S90", "fiyat": "4500 ₺", "resim": "volvo.png"},
-            {"ad": "Audi A6", "fiyat": "4200 ₺", "resim": "audi.png"},
+            {"marka": "BMW", "model": "5.20i", "fiyat": "3500 ₺", "resim": "bmw.png"},
+            {"marka": "Mercedes", "model": "C200", "fiyat": "4000 ₺", "resim": "mercedes.png"},
+            {"marka": "Volvo", "model": "S90", "fiyat": "4500 ₺", "resim": "volvo.png"},
+            {"marka": "Audi", "model": " A6", "fiyat": "4200 ₺", "resim": "audi.png"},
         ]
 
-        self.bakimda_olanlar = [
-            {"ad": "VW Passat", "fiyat": "Bakımda", "resim": "passat.png"},
-            {"ad": "Skoda Octavia", "fiyat": "Bakımda", "resim": "skoda.png"},
-        ]
 
         self.musait_grid_frame = None
 
@@ -154,9 +140,6 @@ class MusteriSayfasi(ctk.CTkFrame):
 
         ctk.CTkFrame(self.main_scroll, height=2, fg_color="#BDC3C7").pack(fill="x", pady=15, padx=10)
         self.bolum_olustur(baslik="KİRADA OLANLAR", renk="#E67E22", arac_listesi=self.kirada_olanlar)
-
-        ctk.CTkFrame(self.main_scroll, height=2, fg_color="#BDC3C7").pack(fill="x", pady=15, padx=10)
-        self.bolum_olustur(baslik="BAKIMDA OLANLAR", renk="#C0392B", arac_listesi=self.bakimda_olanlar)
 
     def bolum_olustur(self, baslik, renk, arac_listesi):
         baslik_frame = ctk.CTkFrame(self.main_scroll, fg_color="transparent")
@@ -200,7 +183,7 @@ class MusteriSayfasi(ctk.CTkFrame):
             ctk.CTkFrame(kutu, height=75, width=130, fg_color="#BDC3C7", corner_radius=6).pack(pady=(5,0))
 
         
-        ctk.CTkLabel(kutu, text=arac_bilgisi["ad"], font=("Roboto", 12, "bold"), text_color="#2C3E50").pack(pady=(3,0))
+        ctk.CTkLabel(kutu, text=arac_bilgisi["marka"] + " "  + arac_bilgisi["model"], font=("Roboto", 12, "bold"), text_color="#2C3E50").pack(pady=(3,0))
         ctk.CTkLabel(kutu, text=arac_bilgisi["fiyat"], font=("Roboto", 12, "bold"), text_color=renk_tema).pack(pady=0)
 
         musait_mi = renk_tema.lower() == "#27ae60"
@@ -222,7 +205,7 @@ class MusteriSayfasi(ctk.CTkFrame):
     def profile_git(self, secim):
         if secim == "Profilim":
             from ui.profilePage import ProfilSayfasi
-            self.destroy()  # Mevcut sayfayı kapat
+            self.destroy()
             app=ProfilSayfasi(self.master, self.controller, self.db, self.current_user)
             app.grid(row=0, column=0, sticky="nsew")
             
@@ -236,30 +219,28 @@ class MusteriSayfasi(ctk.CTkFrame):
        
 
     def listele(self):
-        # 1. Seçimleri Al
-        secilen_marka = self.combo_marka.get()
-        secilen_model = self.combo_model.get()
+        
+        girilen_marka = self.entry_marka.get().strip().lower()
+        girilen_model = self.entry_model.get().strip().lower()
         secilen_fiyat = self.opt_fiyat.get()
 
         filtrelenmis_liste = []
 
-        # 2. Tüm müsait araçları tek tek kontrol et
         for arac in self.musait_araclar:
-            arac_adi = arac["ad"]
+            arac_marka = arac["marka"].lower()
+            arac_model = arac["model"].lower()
+           
             # Fiyatı sayıya çevir (Örn: "1000 ₺" -> 1000)
             try:
                 arac_fiyat = int(arac["fiyat"].replace("₺", "").strip())
             except:
                 arac_fiyat = 0
 
-                # --- KONTROL 1: MARKA ---
-            # Eğer "Marka" veya "Tümü" seçiliyse hepsi geçer. Değilse araç adında marka geçiyor mu bakarız.
-            marka_uygun = (secilen_marka in ["Marka", "Tümü"]) or (secilen_marka.lower() in arac_adi.lower())
 
-            # --- KONTROL 2: MODEL ---
-            model_uygun = (secilen_model in ["Model", "Tümü"]) or (secilen_model.lower() in arac_adi.lower())
+            marka_uygun = (not girilen_marka) or (girilen_marka in arac_marka)
+            model_uygun = (not girilen_model) or (girilen_model in arac_model)
 
-            # --- KONTROL 3: FİYAT ---
+            
             fiyat_uygun = False
             if secilen_fiyat in ["Fiyat Aralığı", "Fark etmez"]:
                 fiyat_uygun = True
@@ -270,23 +251,27 @@ class MusteriSayfasi(ctk.CTkFrame):
             elif secilen_fiyat == "3000+ TL" and arac_fiyat >= 3000:
                 fiyat_uygun = True
 
-            # Eğer üç kriter de uyuyorsa listeye ekle
+            
             if marka_uygun and model_uygun and fiyat_uygun:
                 filtrelenmis_liste.append(arac)
 
         # 3. Ekrana Basma İşlemi
 
-        # Önce eski kartları temizle (Widget'ları yok et)
-        for widget in self.musait_grid_frame.winfo_children():
+        # Önce eski kartları yok edip tekrar yapıcaz
+       
+        if self.musait_grid_frame is not None:
+          for widget in self.musait_grid_frame.winfo_children():
             widget.destroy()
 
-        # Grid yapılandırmasını tekrar yap (Silinince bozulabilir)
-        for i in range(4):
+          for i in range(4):
             self.musait_grid_frame.grid_columnconfigure(i, weight=1)
 
-        # Filtrelenmiş yeni listeyi ekrana bas
-        for i, arac in enumerate(filtrelenmis_liste):
+          for i, arac in enumerate(filtrelenmis_liste):
             row = i // 4
             col = i % 4
-            # Müsait araçlar olduğu için renk sabit yeşil
             self.kart_ekle(self.musait_grid_frame, row, col, arac, "#27AE60")
+        
+
+        if not filtrelenmis_liste:
+            messagebox.showwarning("Hata","Aradığınız kriterlere uygun araç bulunamamıştır")
+            ctk.CTkLabel(self.musait_grid_frame, text="Kriterlere uygun araç bulunamadı.", text_color="red").grid(row=0, column=0, columnspan=4, pady=20)

@@ -1,16 +1,5 @@
 [
     {
-        "brand": "Bmw",
-        "model": "I8",
-        "year": "2024",
-        "plate": "34 ABC 125",
-        "price": "3000",
-        "status": "Müsait",
-        "rented_id": null,
-        "start_date": null,
-        "finsh_date": null
-    },
-    {
         "brand": "Seat",
         "model": "Leon",
         "year": "2023",

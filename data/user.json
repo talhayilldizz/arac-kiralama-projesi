@@ -38,5 +38,15 @@
         "mail": "nisa.com@gmail.com",
         "phone": "05555551236",
         "role": "musteri"
+    },
+    {
+        "id": 4,
+        "name": "Fatma",
+        "surname": "tanrıverdi",
+        "password": "1234",
+        "age": "20",
+        "mail": "fatmatanriverdi@gmail.com",
+        "phone": "05363309452",
+        "role": "musteri"
     }
 ]
