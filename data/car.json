@@ -2,9 +2,20 @@
     {
         "brand": "Seat",
         "model": "Leon",
-        "year": "2023",
+        "year": "2024",
         "plate": "34 JGF 34",
         "price": "4300",
+        "status": "Müsait",
+        "rented_id": null,
+        "start_date": null,
+        "finsh_date": null
+    },
+    {
+        "brand": "Mercedes",
+        "model": "S300",
+        "year": "2025",
+        "plate": "34 ASD 432",
+        "price": "4000",
         "status": "Müsait",
         "rented_id": null,
         "start_date": null,

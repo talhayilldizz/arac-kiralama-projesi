@@ -311,7 +311,7 @@ class AdminSayfasi(ctk.CTkFrame):
         
         cars=self.db.get_all_cars()
         for car in cars:
-            if car['plate'] == new_plate:
+            if car['plate'] == new_plate and car['plate'] != self.edit_car_plate:
                 messagebox.showerror("Hata","Bu plaka başka araca ait. Başka plaka deneyin.")
                 return
         
@@ -326,7 +326,7 @@ class AdminSayfasi(ctk.CTkFrame):
             self.entry_yıl.delete(0, 'end')
             self.entry_ucret.delete(0, 'end')
 
-            self.btn_add.configure(text="Araç Ekle", fg_color="green", command=self.btn_car_add)
+            self.btn_add.configure(text="Araç Ekle", fg_color="#1ABC9C", command=self.btn_car_add)
             self.edit_mode=False
             self.edit_car_plate=None
 
@@ -337,7 +337,7 @@ class AdminSayfasi(ctk.CTkFrame):
     
 
     def delete_car(self,car_plate):
-        if messagebox.askquestion("Onay","Aracı Silmek İstediğinize Eminmisiniz?"):
+        if messagebox.askyesno("Onay","Aracı Silmek İstediğinize Eminmisiniz?"):
             success=self.db.car_delete(car_plate)
             if success:
                 messagebox.showinfo("Başarılı","Araç Silindi")
