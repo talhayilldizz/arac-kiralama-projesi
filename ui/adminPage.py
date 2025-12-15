@@ -7,6 +7,10 @@ class AdminSayfasi(ctk.CTkFrame):
         self.controller=controller
         self.db = db_manager
 
+        #Güncelleme işleminde kullanılacak
+        self.edit_mode=False
+        self.edit_car_plate=None
+
         #Sayfayı 2 ye böldüm
         self.grid_columnconfigure(1,weight=1)
         self.grid_columnconfigure(0, minsize=300)
@@ -73,6 +77,7 @@ class AdminSayfasi(ctk.CTkFrame):
         self.entry_ucret.grid(row=6,column=0,padx=20,pady=8,sticky="ew")
         self.entry_ucret.bind("<KeyPress>", self.only_number_key)
 
+        #Ekle Butonu
         self.btn_add=ctk.CTkButton(
             self.form_frame,
             text="Araç Ekle",
@@ -84,6 +89,7 @@ class AdminSayfasi(ctk.CTkFrame):
         )
         self.btn_add.grid(row=7, column=0, padx=20, pady=(30, 8), sticky="ew")
 
+        #Aİ butonu
         self.btn_price=ctk.CTkButton(
             self.form_frame,
             text="Fiyat Tahmin Et",
@@ -94,8 +100,8 @@ class AdminSayfasi(ctk.CTkFrame):
             corner_radius=8,
             command=self.btn_pricepage
         )
-           
         self.btn_price.grid(row=8, column=0, padx=20, pady=(30, 8), sticky="ew")
+
 
         #Tablolar
         self.table_container=ctk.CTkFrame(self,fg_color="transparent")
@@ -210,9 +216,6 @@ class AdminSayfasi(ctk.CTkFrame):
 
 
 
-    def get_all_cars(self):
-        print("Tüm Araçları Getirme Fonksiyonu")
-
     def btn_car_add(self):
         plate=self.entry_plaka.get()
         brand=self.entry_marka.get().capitalize()
@@ -237,6 +240,12 @@ class AdminSayfasi(ctk.CTkFrame):
         if success:
             messagebox.showinfo("Başarılı","Araç Eklendi")
             self.get_all_cars()
+
+            self.entry_plaka.delete(0,"end")
+            self.entry_marka.delete(0,"end")
+            self.entry_model.delete(0,"end")
+            self.entry_yıl.delete(0,"end")
+            self.entry_ucret.delete(0,"end")
         else:
             messagebox.showwarning("Hata","Araç Eklenemedi")
         
@@ -252,22 +261,94 @@ class AdminSayfasi(ctk.CTkFrame):
             return "break"
 
    
-    def btn_car_edit(self):
+    def btn_car_edit(self,car_plate):
+        car=self.db.get_car_by_id(car_plate)
 
-        print("Araç Güncelleme Fonksiyonu")
+        #İnputları temizleyip güncellenecek aracın bilgilerini yazmamız lazım
+        if not car:
+            messagebox.showerror("Hata","Araç Bulunamadı..")
+            return
+        
+        #plaka
+        self.entry_plaka.delete(0,"end")
+        self.entry_plaka.insert(0,car["plate"])
 
-    def btn_car_delete(self):
+        #marka
+        self.entry_marka.delete(0,"end")
+        self.entry_marka.insert(0,car["brand"])
 
-        print("Araç Silme Fonksiyonu")
+        #model
+        self.entry_model.delete(0,"end")
+        self.entry_model.insert(0,car["model"])
 
+        #yıl
+        self.entry_yıl.delete(0,"end")
+        self.entry_yıl.insert(0,car["year"])
+
+        #ücret
+        self.entry_ucret.delete(0,"end")
+        self.entry_ucret.insert(0,car["price"])
+
+        self.edit_mode=True
+        self.edit_car_plate=car_plate
+
+        self.btn_add.configure(text="Güncelle",fg_color="blue",command=self.save_update_car)
+
+
+    def save_update_car(self):
+        new_plate=self.entry_plaka.get()
+        brand=self.entry_marka.get().capitalize()
+        model=self.entry_model.get().capitalize()
+        year=self.entry_yıl.get()
+        price=self.entry_ucret.get()
+
+        degerler=[new_plate,brand,model,year,price]
+        for deger in degerler:
+            if not deger:
+                messagebox.showerror("Hata","Eksik Kısımları Doldurun..")
+                return
+        
+        cars=self.db.get_all_cars()
+        for car in cars:
+            if car['plate'] == new_plate:
+                messagebox.showerror("Hata","Bu plaka başka araca ait. Başka plaka deneyin.")
+                return
+        
+        success=self.db.update_car(self.edit_car_plate,new_plate,brand,model,year,price)
+
+        if success:
+            messagebox.showinfo("Başarılı","Araç Güncellendi")
+             #Inputlar Temizlenir
+            self.entry_plaka.delete(0, 'end')
+            self.entry_marka.delete(0, 'end')
+            self.entry_model.delete(0, 'end')
+            self.entry_yıl.delete(0, 'end')
+            self.entry_ucret.delete(0, 'end')
+
+            self.btn_add.configure(text="Araç Ekle", fg_color="green", command=self.btn_car_add)
+            self.edit_mode=False
+            self.edit_car_plate=None
+
+            self.get_all_cars()
+        else:
+            messagebox.showerror("Hata","Bi sıkıntı oluştu. Araç Güncellenemdi.")
+        
+    
+
+    def delete_car(self,car_plate):
+        if messagebox.askquestion("Onay","Aracı Silmek İstediğinize Eminmisiniz?"):
+            success=self.db.car_delete(car_plate)
+            if success:
+                messagebox.showinfo("Başarılı","Araç Silindi")
+                self.get_all_cars()
+            else:
+                messagebox.showerror("Hata","Araç Kirada Olduğundan Silinemiyor!")
 
 
     def btn_pricepage(self):
         from ui.pricePage import TahminSayfasi
         self.destroy()
         TahminSayfasi(self.master, self.controller,self.db).pack(expand=True, fill="both")
-
-
 
     #Her araç için bir satır
     def add_car_row(self, row, car):
@@ -321,7 +402,9 @@ class AdminSayfasi(ctk.CTkFrame):
             fg_color="#C0392B",
             hover_color="#E74C3C",
             text_color="white",
-            command=lambda c=car: print(f"Silinecek Araç: {c['plate']}")
+            command=lambda c=car['plate']:(
+                self.delete_car(c)
+            )
         )
         btn_delete.grid(row=0, column=0, padx=2)
 
@@ -334,7 +417,9 @@ class AdminSayfasi(ctk.CTkFrame):
             fg_color="#FF8E04",
             hover_color="#FF9100",
             text_color="white",
-            command=lambda c=car: print(f"Güncellenecek Araç: {c['plate']}")
+            command=lambda c=car["plate"]:(
+                self.btn_car_edit(c)
+            )
         )
         btn_update.grid(row=0, column=1, padx=2)
 

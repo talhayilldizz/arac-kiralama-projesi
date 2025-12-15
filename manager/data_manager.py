@@ -77,6 +77,56 @@ class Data_Manager:
             json.dump(cars,f,indent=4,ensure_ascii=False)
 
         return True
+    
+    def update_car(self,current_plate,new_plate,brand,model,year,price):
+        cars=self.get_all_cars()
+        update_cars=[]
+
+        for car in cars:
+            if car['plate'] == current_plate:
+                car['plate'] =new_plate
+                car['brand']=brand
+                car['model']=model
+                car['year']=year
+                car['price']=price
+
+            update_cars.append(car)
+
+        with open(self.carfile,"w", encoding="utf-8") as f:
+            json.dump(update_cars, f, indent=4,ensure_ascii=False)
+
+        return True 
+    
+    def car_delete(self,plate):
+        cars=self.get_all_cars()
+        new_cars=[]
+        deleted=False
+
+        for car in cars:
+            is_car_to_delete = car['plate'] == plate
+            is_available = car.get('status', 'Müsait') == 'Müsait'
+
+            if is_car_to_delete and is_available:
+                deleted=True
+                continue
+            else:
+                new_cars.append(car)
+
+        if deleted:
+            with open(self.carfile,"w",encoding="utf-8") as f:
+                json.dump(new_cars,f,indent=4,ensure_ascii=False)
+            return True
+        else:
+            return False
+
+    #plakaya göre o aracı getirme
+    def get_car_by_id(self,plate):
+        cars=self.get_all_cars()
+
+        for car in cars:
+            if car["plate"] == plate:
+                return car
+
 
 
 

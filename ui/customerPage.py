@@ -212,7 +212,7 @@ class MusteriSayfasi(ctk.CTkFrame):
 
     def profile_git(self, secim):
         if secim == "Profilim":
-            from ui.profiPage import ProfilSayfasi
+            from ui.profilePage import ProfilSayfasi
             self.destroy()  # Mevcut sayfayı kapat
 
             # --- DÜZELTME BURADA ---
