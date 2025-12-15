@@ -5,10 +5,10 @@
         "year": "2024",
         "plate": "34 JGF 34",
         "price": "4300",
-        "status": "Müsait",
-        "rented_id": null,
-        "start_date": null,
-        "finsh_date": null
+        "status": "Kirada",
+        "rented_id": "test@gmail.com",
+        "start_date": "15.12.2025",
+        "finsh_date": "17.12.2025"
     },
     {
         "brand": "Mercedes",
@@ -16,11 +16,34 @@
         "year": "2025",
         "plate": "34 ASD 432",
         "price": "4000",
+        "status": "Kirada",
+        "rented_id": "test@gmail.com",
+        "start_date": "15.12.2025",
+        "finsh_date": "17.12.2025"
+    },
+    {
+        "brand": "Ford",
+        "model": "Focus",
+        "year": "2024",
+        "plate": "34 RET 43",
+        "price": "3000",
+        "status": "Kirada",
+        "rented_id": "talha@talha.com",
+        "start_date": "16.12.2025",
+        "finsh_date": "18.12.2025"
+    },
+    {
+        "brand": "Renault",
+        "model": "Megane",
+        "year": "2024",
+        "plate": "34 FDR 342",
+        "price": "3200",
         "status": "Müsait",
         "rented_id": null,
         "start_date": null,
         "finsh_date": null
     },
+<<<<<<< HEAD
 
     {   "brand": "Audi", 
         "model": " A6",
@@ -32,6 +55,18 @@
         "start_date": null,
         "finsh_date": null
     
+=======
+    {
+        "brand": "Opel",
+        "model": "Astra",
+        "year": "2020",
+        "plate": "34 IUY 65",
+        "price": "2000",
+        "status": "Kirada",
+        "rented_id": "talha@talha.com",
+        "start_date": "16.12.2025",
+        "finsh_date": "25.12.2025"
+>>>>>>> b4c01851b7b7e4a8a32094e6dbd261ee51d56cb9
     }
 
 

@@ -1,6 +1,8 @@
 import customtkinter as ctk
 from tkinter import messagebox
 import re
+from tkcalendar import DateEntry
+from datetime import datetime
 
 class AdminSayfasi(ctk.CTkFrame):
     def __init__(self,parent,controller, db_manager):
@@ -11,6 +13,9 @@ class AdminSayfasi(ctk.CTkFrame):
         #Güncelleme işleminde kullanılacak
         self.edit_mode=False
         self.edit_car_plate=None
+
+        #Aracı kiralayan kişinin idsi
+        self.current_user_mail=None
 
         #Sayfayı 2 ye böldüm
         self.grid_columnconfigure(1,weight=1)
@@ -103,23 +108,6 @@ class AdminSayfasi(ctk.CTkFrame):
         )
         self.btn_price.grid(row=8, column=0, padx=20, pady=(30, 8), sticky="ew")
 
-
-        #Tablolar
-        self.table_container=ctk.CTkFrame(self,fg_color="transparent")
-        self.table_container.grid(row=0, column=1, padx=25, pady=25, sticky="nsew")
-
-        #Araçlar Tablosu
-        self.top_frame=ctk.CTkFrame(self.table_container, fg_color="transparent")
-        self.top_frame.pack(side="top", fill="both", expand=True, pady=(0, 10))
-
-        lbl_car_list=ctk.CTkLabel(
-            self.top_frame,
-            text="ARAÇLAR",
-            font=("Roboto",20,"bold"),
-            text_color="#05113E",
-        )
-        lbl_car_list.pack(anchor="w",pady=(0,5))
-
         #çıkış yap
         self.btn_cikis = ctk.CTkButton(
             self.form_frame,
@@ -135,6 +123,24 @@ class AdminSayfasi(ctk.CTkFrame):
         self.btn_cikis.grid(row=11, column=0, padx=20, pady=(30,8), sticky="ew")
 
 
+        #Tablolar
+        self.table_container=ctk.CTkFrame(self,fg_color="transparent")
+        self.table_container.grid(row=0, column=1, padx=25, pady=25, sticky="nsew")
+        self.table_container.grid_rowconfigure(1,weight=1) # bottom_frame'in esnemesini sağlar
+        self.table_container.grid_columnconfigure(0, weight=1)
+
+        #Araçlar Tablosu
+        self.top_frame=ctk.CTkFrame(self.table_container, fg_color="transparent")
+        self.top_frame.grid(row=0,column=0,sticky="nsew",pady=(0,10))
+
+        lbl_car_list=ctk.CTkLabel(
+            self.top_frame,
+            text="ARAÇLAR",
+            font=("Roboto",20,"bold"),
+            text_color="#05113E",
+        )
+        lbl_car_list.pack(anchor="w",pady=(0,5))
+
         #Araç Özelliklerinin Başlıklarının Olacağı Frame
         self.header_frame = ctk.CTkFrame(
             self.top_frame,
@@ -149,9 +155,7 @@ class AdminSayfasi(ctk.CTkFrame):
         headers = ["PLAKA", "MARKA", "MODEL", "YIL", "ÜCRET", "DURUM", "İŞLEM"]
         
         for i, header in enumerate(headers):
-            # minsize kullanarak genişliği zorluyoruz
             self.header_frame.grid_columnconfigure(i, weight=1, minsize=self.car_col_widths[i])
-            
             ctk.CTkLabel(
                 self.header_frame, 
                 text=header, 
@@ -165,30 +169,41 @@ class AdminSayfasi(ctk.CTkFrame):
         )
         self.car_list_frame.pack(fill="both",expand=True)
 
-        #Kullanıcılar Tablosu
+        # Kullanıcılar ve Kiralanan araçlar
         self.bottom_frame=ctk.CTkFrame(
             self.table_container,
             fg_color="transparent"
         )
-        self.bottom_frame.pack(side="bottom", fill="both", expand=True, pady=(10, 0))
+        self.bottom_frame.grid(row=1,column=0,sticky="nsew",pady=(10,0))
 
+        self.bottom_frame.grid_columnconfigure(0, weight=1)
+        self.bottom_frame.grid_columnconfigure(1, weight=1)
+        self.bottom_frame.grid_rowconfigure(0, weight=1)
+
+        # Kullanıcı Listesi Alanı 
+        self.user_list_area = ctk.CTkFrame(self.bottom_frame, fg_color="transparent")
+        self.user_list_area.grid(row=0, column=0, sticky="nsew")
+        self.user_list_area.configure(width=0)
+        self.user_list_area.grid_rowconfigure(2, weight=1)
+        self.user_list_area.grid_columnconfigure(0, weight=1)
 
         lbl_user_list=ctk.CTkLabel(
-            self.bottom_frame,
+            self.user_list_area,
             text="KULLANICILAR",
             font=("Roboto",20,"bold"),
             text_color="#2C3E50"
         )
-        lbl_user_list.pack(anchor="w",pady=(0,5))
+        lbl_user_list.grid(row=0, column=0, sticky="w",padx=20, pady=(0,5))
 
         #Kullanıcı Özelliklerinin Başlıklarının Olacağı Frame
         self.header_frame2 = ctk.CTkFrame(
-            self.bottom_frame,
+            self.user_list_area, # user_list_area içinde
             fg_color="#34495E",
             height=40,
-            corner_radius=5
+            corner_radius=5,
+            # width=100
         )
-        self.header_frame2.pack(fill="x", padx=0, pady=(0, 5))
+        self.header_frame2.grid(row=1, column=0, sticky="ew",padx=20, pady=(0, 5))
 
         # Sütun genişliklerini sabitliyoruz ki aşağıda da aynısını kullanalım
         self.user_col_widths = [170, 200, 60, 130, 160] 
@@ -203,14 +218,57 @@ class AdminSayfasi(ctk.CTkFrame):
                 text=header,
                 text_color="white",
                 font=("Segoe UI", 12, "bold")
-            ).grid(row=0, column=i, padx=10, pady=10, sticky=align) 
+            ).grid(row=0, column=i, padx=10, pady=10, sticky=align)
 
         self.user_list_frame = ctk.CTkScrollableFrame(
-            self.bottom_frame,
-            fg_color="transparent",
-            height=200
+            self.user_list_area, # user_list_area içinde
+            fg_color="transparent"
         )
-        self.user_list_frame.pack(fill="both", expand=True)
+        self.user_list_frame.grid(row=2, column=0, sticky="nsew") # Kullanıcı listesi dikeyde esner
+
+
+        # Kiralanan araçlar listesi (bottom_frame Sütun 1)
+        self.rented_car_area = ctk.CTkFrame(self.bottom_frame, fg_color="transparent")
+        self.rented_car_area.grid(row=0, column=1, sticky="nsew")
+        self.rented_car_area.configure(width=0)
+
+        self.rented_car_area.grid_rowconfigure(2, weight=1)
+        self.rented_car_area.grid_columnconfigure(0, weight=1)
+
+        self.lbl_rented_list = ctk.CTkLabel(
+            self.rented_car_area,
+            text="KİRALAMA GEÇMİŞİ",
+            font=("Roboto", 16, "bold"),
+            text_color="#2C3E50",
+            anchor="w"
+        )
+        self.lbl_rented_list.grid(row=0,column=0,sticky="ew",padx=20,pady=(0,5)) 
+
+        self.rented_header_frame = ctk.CTkFrame(
+            self.rented_car_area,
+            fg_color="#34495E",
+            height=40,
+            corner_radius=5
+        )
+        self.rented_header_frame.grid(row=1, column=0, sticky="ew", pady=(0, 5))
+
+        self.rented_col_widths = [80, 80, 80, 80,80]
+        rented_headers = ["PLAKA", "MARKA", "BAŞ.", "BİT.","ÜCRET"]
+
+        for i, header in enumerate(rented_headers):
+            self.rented_header_frame.grid_columnconfigure(i, weight=1, minsize=self.rented_col_widths[i])
+            ctk.CTkLabel(
+                self.rented_header_frame, 
+                text=header, 
+                text_color="white", 
+                font=("Segoe UI", 11, "bold")
+            ).grid(row=0, column=i, pady=10, sticky="ew")
+
+        self.rented_list_frame = ctk.CTkScrollableFrame(
+            self.rented_car_area,
+            fg_color="transparent"
+        )
+        self.rented_list_frame.grid(row=2, column=0, sticky="nsew", padx=10, pady=(0, 10)) 
 
         self.get_all_cars()
         self.get_all_users()
@@ -362,6 +420,7 @@ class AdminSayfasi(ctk.CTkFrame):
             height=45
         )
         row_frame.pack(fill="x", pady=2)
+        
 
         values = [
             car["plate"],
@@ -471,6 +530,9 @@ class AdminSayfasi(ctk.CTkFrame):
             fg_color="#3498DB",
             hover_color="#2980B9",
             text_color="white",
+            command=lambda mail=user['mail']:( 
+                self.get_users_car(mail)
+            )
         )
         btn_history.grid(row=0, column=4, padx=10, pady=5)
 
@@ -521,3 +583,69 @@ class AdminSayfasi(ctk.CTkFrame):
 
         app = LoginPage(self.master, self.controller, self.db)
         app.grid(row=0, column=0, sticky="nsew")
+
+    #Kullanıcının kiraladğı araçlar
+    def get_users_car(self, user_mail):
+        self.current_user_mail=user_mail
+        
+        for widget in self.rented_list_frame.winfo_children():
+            widget.destroy()
+
+        rentals = self.db.get_car_by_mail(user_mail) 
+
+        if not rentals or not isinstance(rentals, list): 
+            ctk.CTkLabel(
+                self.rented_list_frame,
+                text=f"'{user_mail}' kullanıcısının kiralama geçmişi bulunmamaktadır.",
+                text_color="#C0392B",
+                font=("Segoe UI", 12, "italic")
+            ).pack(pady=20, padx=10)
+            return
+        
+        for i, rental in enumerate(rentals):
+             if not isinstance(rental, dict):
+                 continue
+                 
+             self.add_rented_car_row(i, rental)
+
+    def add_rented_car_row(self, row, rental):
+        row_color = "#ECF0F1" if row % 2 == 0 else "transparent"
+        row_frame = ctk.CTkFrame(self.rented_list_frame, fg_color=row_color, corner_radius=4, height=35)
+        row_frame.pack(fill="x", pady=1)
+
+        #ücret hesaplaması
+        start_date = datetime.strptime(rental["start_date"], "%d.%m.%Y")
+        finish_date = datetime.strptime(rental["finsh_date"], "%d.%m.%Y")
+
+        gun_sayisi = (finish_date - start_date).days
+        gun_sayisi = max(gun_sayisi, 1)
+        toplam_tutar = gun_sayisi * int(rental["price"])
+
+
+        # Görüntülenecek veriler (PLAKA, MARKA, BAŞ. Tarihi, BİT. Tarihi, TOPLAM ÜCR.)
+        values = [
+            rental["plate"],
+            rental["brand"],
+            rental["start_date"],
+            rental["finsh_date"],
+            f"{toplam_tutar} TL"
+        ]
+
+
+        
+        for i, width in enumerate(self.rented_col_widths):
+            row_frame.grid_columnconfigure(i, weight=1, minsize=width)
+
+        # Verileri yerleştir
+        for i, value in enumerate(values):
+            lbl = ctk.CTkLabel(
+                row_frame,
+                text=value,
+                font=("Segoe UI", 11),
+                text_color="#2C3E50",
+                fg_color="transparent"
+            )
+            lbl.grid(row=0, column=i, sticky="ew", padx=3, pady=6)
+
+
+    

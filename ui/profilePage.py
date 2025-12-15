@@ -342,11 +342,9 @@ class ProfilSayfasi(ctk.CTkFrame):
             "password": self.entry_widgets["Şifre"].get()
         }
 
-        ana_klasor = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        dosya_yolu = os.path.join(ana_klasor, "data", "user.json")
-      
+        ana_klasor = os.getcwd()
 
-        print(f"Aranan dosya yolu: {dosya_yolu}")
+        dosya_yolu = os.path.join(ana_klasor, "data", "user.json")
 
         try:
             if not os.path.exists(dosya_yolu):
