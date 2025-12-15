@@ -3,131 +3,157 @@ import os
 from models.car import Car
 from models.user import User
 
+
 class Data_Manager:
     def __init__(self):
-        self.userfile='data/user.json'
-        self.carfile='data/car.json'
+        self.userfile = 'data/user.json'
+        self.carfile = 'data/car.json'
+
+        # Klasör yoksa oluştur (Opsiyonel güvenlik önlemi)
+        if not os.path.exists('data'):
+            os.makedirs('data')
 
         if not os.path.exists(self.userfile):
-            with open(self.userfile, "w") as f:
-                json.dump([],f)
-
-        if not os.path.exists(self.carfile):
-            with open(self.carfile, "w") as f:
+            with open(self.userfile, "w", encoding="utf-8") as f:
                 json.dump([], f)
 
-        
+        if not os.path.exists(self.carfile):
+            with open(self.carfile, "w", encoding="utf-8") as f:
+                json.dump([], f)
 
-    #Kullanıcı İşlemleri
+    # --- KULLANICI İŞLEMLERİ ---
 
-    #Tüm kullanıcıları getir
     def get_all_users(self):
-        with open(self.userfile,"r",encoding="utf-8") as f:
+        with open(self.userfile, "r", encoding="utf-8") as f:
             return json.load(f)
 
+    def user_register(self, id, name, surname, password, age, mail, phone):
+        user = User(id, name, surname, password, age, mail, phone).to_dict()
 
-    #Register
-    def user_register(self,id,name,surname,password,age,mail,phone):
+        with open(self.userfile, "r", encoding="utf-8") as f:
+            users = json.load(f)
 
-        #Register sayfasından gelen verileri User classına sırasıyla yazıp
-        #to_dict fonksiyonu ile json formatına çevirdim
-        user=User(id,name,surname,password,age,mail,phone).to_dict()
-
-        #User dosyasındaki tüm verileri çektim
-        with open(self.userfile,"r",encoding="utf-8") as f:
-            users=json.load(f)
-
-        #Registerdan gelen değerleri atadığım user fonksiyonunu yukarıda çektipim kullanıcı dosyasına ekledim
         users.append(user)
 
-        #Ve kullanıcı dosyasını yazma modunda açıp son halini yazdım
-        with open(self.userfile, "w",encoding="utf-8") as f:
-            json.dump(users,f,indent=4,ensure_ascii=False)
+        with open(self.userfile, "w", encoding="utf-8") as f:
+            json.dump(users, f, indent=4, ensure_ascii=False)
 
         return True
 
     def user_login(self, mail, password):
-        users=self.get_all_users()
-
-        # 2. Listeyi döngüye alıp eşleşen kullanıcı var mı diye bakıyoruz
+        users = self.get_all_users()
         for user in users:
-            # Sözlük içindeki mail ve şifre alanlarını kontrol ediyoruz
             if user.get('mail') == mail and user.get('password') == password:
-                # Eşleşme bulunduysa, giriş yapan kullanıcının tüm bilgilerini döndürürüz.
-                 return user
-
-        # 3. Döngü biter ve eşleşme bulunamazsa (veya şifre yanlışsa) başarısız demektir
+                return user
         return False
 
+    # --- ARAÇ İŞLEMLERİ ---
 
-
-    #Araç İşlemleri
     def get_all_cars(self):
-        with open(self.carfile, "r",encoding="utf-8") as f:
+        with open(self.carfile, "r", encoding="utf-8") as f:
             return json.load(f)
-    
-    def add_car(self,brand ,model, year,plate, price):
-        car=Car(brand,model,year,plate,price).to_dict()
-        
-        cars=self.get_all_cars()
 
-        cars.append(car)
+    def add_car(self, brand, model, year, plate, price):
+        # Yeni araç eklerken varsayılan değerleri de ekleyelim ki json düzgün olsun
+        car_dict = Car(brand, model, year, plate, price).to_dict()
 
-        with open(self.carfile, "w",encoding="utf-8") as f:
-            json.dump(cars,f,indent=4,ensure_ascii=False)
+        # Car modelinde bu alanlar yoksa manuel ekleyelim
+        if "status" not in car_dict: car_dict["status"] = "Müsait"
+        if "rented_id" not in car_dict: car_dict["rented_id"] = None
+        if "start_date" not in car_dict: car_dict["start_date"] = None
+        if "finsh_date" not in car_dict: car_dict["finsh_date"] = None  # Senin json yapına uyumlu (i eksik)
+
+        cars = self.get_all_cars()
+        cars.append(car_dict)
+
+        with open(self.carfile, "w", encoding="utf-8") as f:
+            json.dump(cars, f, indent=4, ensure_ascii=False)
 
         return True
-    
-    def update_car(self,current_plate,new_plate,brand,model,year,price):
-        cars=self.get_all_cars()
-        update_cars=[]
+
+    def update_car(self, current_plate, new_plate, brand, model, year, price):
+        cars = self.get_all_cars()
+        update_cars = []
+        updated = False
 
         for car in cars:
             if car['plate'] == current_plate:
-                car['plate'] =new_plate
-                car['brand']=brand
-                car['model']=model
-                car['year']=year
-                car['price']=price
-
+                car['plate'] = new_plate
+                car['brand'] = brand
+                car['model'] = model
+                car['year'] = year
+                car['price'] = price
+                updated = True
             update_cars.append(car)
 
-        with open(self.carfile,"w", encoding="utf-8") as f:
-            json.dump(update_cars, f, indent=4,ensure_ascii=False)
+        if updated:
+            with open(self.carfile, "w", encoding="utf-8") as f:
+                json.dump(update_cars, f, indent=4, ensure_ascii=False)
+            return True
+        return False
 
-        return True 
-    
-    def car_delete(self,plate):
-        cars=self.get_all_cars()
-        new_cars=[]
-        deleted=False
+    def car_delete(self, plate):
+        cars = self.get_all_cars()
+        new_cars = []
+        deleted = False
 
         for car in cars:
-            is_car_to_delete = car['plate'] == plate
-            is_available = car.get('status', 'Müsait') == 'Müsait'
+            # Status kontrolü yaparken büyük küçük harf hatasını önlemek için .lower()
+            stat = car.get('status', 'Müsait')
+            is_available = stat.lower() == 'müsait' or stat == "Müsait"
 
-            if is_car_to_delete and is_available:
-                deleted=True
+            if car['plate'] == plate and is_available:
+                deleted = True
                 continue
             else:
                 new_cars.append(car)
 
         if deleted:
-            with open(self.carfile,"w",encoding="utf-8") as f:
-                json.dump(new_cars,f,indent=4,ensure_ascii=False)
+            with open(self.carfile, "w", encoding="utf-8") as f:
+                json.dump(new_cars, f, indent=4, ensure_ascii=False)
             return True
         else:
             return False
 
-    #plakaya göre o aracı getirme
-    def get_car_by_id(self,plate):
-        cars=self.get_all_cars()
-
+    def get_car_by_id(self, plate):
+        cars = self.get_all_cars()
         for car in cars:
             if car["plate"] == plate:
                 return car
+        return None
 
+    # --- YENİ EKLENEN KİRALAMA FONKSİYONU ---
+    def rent_car(self, plate, user_id, start_date, finish_date):
+        cars = self.get_all_cars()
+        updated = False
 
+        # Debug için konsola yazdıralım (Hata varsa Pycharm terminalde görürsün)
+        print(f"DEBUG: Kiralama İsteği -> Plaka: {plate}, Kullanıcı: {user_id}")
 
+        for car in cars:
+            # Plakaları karşılaştırırken sağdaki soldaki boşlukları silelim (strip)
+            # ve garanti olsun diye string'e çevirelim.
+            db_plate = str(car.get('plate', '')).strip()
+            target_plate = str(plate).strip()
 
-        
+            if db_plate == target_plate:
+                print("DEBUG: Araç bulundu, durumu güncelleniyor...")
+                car['status'] = "Kirada"
+                car['rented_id'] = user_id
+                car['start_date'] = start_date
+                car['finsh_date'] = finish_date  # JSON dosyanla aynı isim (finsh_date)
+                updated = True
+                break
+
+        if updated:
+            try:
+                with open(self.carfile, "w", encoding="utf-8") as f:
+                    json.dump(cars, f, indent=4, ensure_ascii=False)
+                print("DEBUG: Dosya başarıyla kaydedildi.")
+                return True
+            except Exception as e:
+                print(f"DEBUG: Dosya yazma hatası: {e}")
+                return False
+        else:
+            print(f"DEBUG: HATA - {plate} plakalı araç listede bulunamadı!")
+            return False

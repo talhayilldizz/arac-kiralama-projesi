@@ -16,9 +16,9 @@
         "year": "2025",
         "plate": "34 ASD 432",
         "price": "4000",
-        "status": "Müsait",
-        "rented_id": null,
-        "start_date": null,
-        "finsh_date": null
+        "status": "Kirada",
+        "rented_id": "test@gmail.com",
+        "start_date": "15.12.2025",
+        "finsh_date": "17.12.2025"
     }
 ]
