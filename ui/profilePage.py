@@ -3,6 +3,7 @@ from PIL import Image
 import os
 import json
 from tkinter import messagebox
+from datetime import datetime
 
 class ProfilSayfasi(ctk.CTkFrame):
     def __init__(self, parent, controller,db_manager, current_user):
@@ -44,7 +45,8 @@ class ProfilSayfasi(ctk.CTkFrame):
         self.foto_cerceve.pack(side="left")
         
         try:
-            img_path = os.path.join(os.path.dirname(__file__), "assets", "profil.png")
+            base_path = os.path.dirname(os.path.abspath(__file__))
+            img_path = os.path.join(base_path, "..", "assets", "profil.png")
             img_data = Image.open(img_path)
             profil_img = ctk.CTkImage(img_data, size=(70, 70)) 
             lbl_img = ctk.CTkLabel(self.foto_cerceve, text="", image=profil_img)
@@ -132,33 +134,24 @@ class ProfilSayfasi(ctk.CTkFrame):
         self.main_scroll = ctk.CTkScrollableFrame(self.main_container, fg_color="transparent")
         self.main_scroll.pack(fill="both", expand=True)
 
+        self.aktif_kiralamalar = []
+        self.gecmis_kiralamalar = []
         
-        aktif_kiralamalar = [
-            {"ad": "Mercedes C200", "fiyat": "4000 ₺", "resim": "mercedes.png", "durum": "Teslim Tarihi: Yarın"},
-        ]
-        
-        gecmis_kiralamalar = [
-            {"ad": "Renault Clio", "fiyat": "900 ₺", "resim": "clio.png", "durum": "Kiralama Tamamlandı", "tarih": "23.02.2025 - 29.02.2025"},
-            {"ad": "Fiat Egea", "fiyat": "1000 ₺", "resim": "egea.png", "durum": "Kiralama Tamamlandı", "tarih": "14.04.202 - 20.04.2025"},
-            {"ad": "Renault Clio", "fiyat": "900 ₺", "resim": "clio.png", "durum": "Kiralama Tamamlandı", "tarih": "23.11.2025 - 24.11.2025"},
-            {"ad": "Ford Focus", "fiyat": "1250 ₺", "resim": "focus.png", "durum": "Kiralama Tamamlandı", "tarih": "06.12.2025 - 28.12.2025"},
-            
-        ]
-        encok_kiralananlar=[
+        self.verileri_yukle() 
+        self.listeleri_ciz()
+               
+      
+    def listeleri_ciz(self):
+         
+        for widget in self.main_scroll.winfo_children():
+            widget.destroy()
 
-            {"ad": "Renault Clio", "fiyat": "900 ₺", "resim": "clio.png", "durum":"2 kere kiralandı"},
-        ]
-
-        
-        self.bolum_olustur(baslik="GÜNCEL OLARAK KİRALADIĞINIZ ARAÇLAR", renk="#0CA246", arac_listesi=aktif_kiralamalar, buton_text="İADE ET")
+        self.bolum_olustur(baslik="GÜNCEL OLARAK KİRALADIĞINIZ ARAÇLAR", renk="#0CA246", arac_listesi=self.aktif_kiralamalar, buton_text="İADE ET")
         
         ctk.CTkFrame(self.main_scroll, height=2, fg_color="#BDC3C7").pack(fill="x", pady=20, padx=10)
 
-        self.bolum_olustur(baslik="GEÇMİŞ KİRALAMALARINIZ", renk="#C11F1F", arac_listesi=gecmis_kiralamalar, buton_text="TEKRAR KİRALA")
-
-        ctk.CTkFrame(self.main_scroll, height=2, fg_color="#BDC3C7").pack(fill="x", pady=20, padx=10)
-        
-        self.bolum_olustur(baslik="EN ÇOK KİRALADIĞINIZ ARAÇLAR", renk="#F6D75C",arac_listesi=encok_kiralananlar, buton_text="TEKRAR KİRALA")
+        self.bolum_olustur(baslik="GEÇMİŞ KİRALAMALARINIZ", renk="#C11F1F", arac_listesi=self.gecmis_kiralamalar, buton_text="TEKRAR KİRALA")   
+      
 
 
     def bolum_olustur(self, baslik, renk, arac_listesi, buton_text="DETAY"):
@@ -188,7 +181,8 @@ class ProfilSayfasi(ctk.CTkFrame):
         kutu.grid(row=r, column=c, padx=5, pady=5, sticky="nsew")
 
         resim_adi = arac_bilgisi.get("resim", "yok.png")
-        resim_yolu = os.path.join(os.path.dirname(__file__), "assets", resim_adi)
+        base_path = os.path.dirname(os.path.abspath(__file__))
+        resim_yolu = os.path.join(base_path, "..", "assets", resim_adi)
         
         try:
             img_data = Image.open(resim_yolu)
@@ -197,7 +191,7 @@ class ProfilSayfasi(ctk.CTkFrame):
         except:
             ctk.CTkFrame(kutu, height=75, width=130, fg_color="#BDC3C7", corner_radius=6).pack(pady=(5,0))
 
-        ctk.CTkLabel(kutu, text=arac_bilgisi["ad"], font=("Roboto", 12, "bold"), text_color="#2C3E50").pack(pady=(3,0))
+        ctk.CTkLabel(kutu, text=arac_bilgisi["marka"] + " " + arac_bilgisi["model"], font=("Roboto", 12, "bold"), text_color="#2C3E50").pack(pady=(3,0))
         
         durum_yazisi = arac_bilgisi.get("durum", arac_bilgisi["fiyat"])
         ctk.CTkLabel(kutu, text=durum_yazisi, font=("Roboto", 11), text_color="gray").pack(pady=0)
@@ -210,14 +204,126 @@ class ProfilSayfasi(ctk.CTkFrame):
                 text_color="#0D0D0E" 
             ).pack(pady=(0, 0))
        
+        iade_et = None
+        if buton_text == "İADE ET":
+            
+            iade_et = lambda a=arac_bilgisi: self.iade_et_islemi(a)
+       
         ctk.CTkButton(
             kutu, 
             text=buton_text, 
-            fg_color="#2C3E50", 
+            fg_color=renk_tema, 
             height=22, 
             width=90, 
-            font=("Roboto", 10, "bold")
+            font=("Roboto", 10, "bold"),
+            command=iade_et
         ).pack(pady=(5, 8))
+    
+    
+    def verileri_yukle(self):
+        self.aktif_kiralamalar = []
+        self.gecmis_kiralamalar = []
+        
+
+        base_path = os.path.dirname(os.path.abspath(__file__))
+        car_json_yolu = os.path.join(base_path, "..", "data", "car.json")
+
+        if os.path.exists(car_json_yolu):
+            with open(car_json_yolu, "r", encoding="utf-8") as f:
+                tum_araclar = json.load(f)
+                
+            this_user_id = str(self.current_user.get("id"))
+
+            for arac in tum_araclar:
+             
+                if str(arac.get("rented_id")) == this_user_id:
+                    kart_verisi = {
+                        "marka": arac.get("brand", ""),
+                        "model": arac.get("model", ""),
+                        "fiyat": f"{arac.get('price', 0)} ₺",
+                        "resim": f"{arac.get('brand', '').lower()}.png",
+                        "durum": f"Teslim: {arac.get('finsh_date', '?')}",
+                        "tarih": f"{arac.get('start_date', '')} - {arac.get('finsh_date', '')}"
+                    }
+                    self.aktif_kiralamalar.append(kart_verisi)
+
+        gecmis_listesi = self.current_user.get("history", [])
+        
+        for gecmis_arac in gecmis_listesi:
+            
+            self.gecmis_kiralamalar.append(gecmis_arac)
+
+
+
+
+    def iade_et_islemi(self, arac_bilgisi):
+        onay = messagebox.askyesno("İade Onayı", f"{arac_bilgisi['marka']} {arac_bilgisi['model']} iade edilsin mi?")
+        
+        if onay:
+            base_path = os.path.dirname(os.path.abspath(__file__))
+            car_json_yolu = os.path.join(base_path, "..", "data", "car.json")
+            user_json_yolu = os.path.join(base_path, "..", "data", "user.json")
+            
+            if os.path.exists(car_json_yolu):
+                with open(car_json_yolu, "r", encoding="utf-8") as f:
+                    araclar = json.load(f)
+                
+                arac_bulundu = False
+                for arac in araclar:
+                   
+                    if (arac["brand"] == arac_bilgisi["marka"] and 
+                        arac["model"] == arac_bilgisi["model"] and 
+                        str(arac.get("rented_id")) == str(self.current_user.get("id"))):
+                        
+                      
+                        arac["status"] = "Müsait"
+                        arac["rented_id"] = None
+                        arac["start_date"] = None
+                        arac["finsh_date"] = None
+                        arac_bulundu = True
+                        break
+                
+                if arac_bulundu:
+                    with open(car_json_yolu, "w", encoding="utf-8") as f:
+                        json.dump(araclar, f, ensure_ascii=False, indent=4)
+            
+          
+            if os.path.exists(user_json_yolu):
+                with open(user_json_yolu, "r", encoding="utf-8") as f:
+                    kullanicilar = json.load(f)
+                
+                for user in kullanicilar:
+                   
+                    if str(user["id"]) == str(self.current_user["id"]):
+                        
+                        # Eğer 'history' listesi yoksa oluştur
+                        if "history" not in user:
+                            user["history"] = []
+                        
+                       
+                        bugun = datetime.now().strftime("%d.%m.%Y")
+                        gecmis_veri = arac_bilgisi.copy()
+                        gecmis_veri["durum"] = "Kiralama Tamamlandı"
+                        gecmis_veri["tarih"] = f"İade Tarihi: {bugun}"
+                        
+                        user["history"].append(gecmis_veri)
+                        
+                      
+                        if "history" not in self.current_user:
+                            self.current_user["history"] = []
+                        self.current_user["history"].append(gecmis_veri)
+                        
+                        break
+                
+                with open(user_json_yolu, "w", encoding="utf-8") as f:
+                    json.dump(kullanicilar, f, ensure_ascii=False, indent=4)
+
+            
+            messagebox.showinfo("Başarılı", "Araç iade edildi.")
+            self.verileri_yukle() 
+            self.listeleri_ciz() 
+
+    
 
     def musteri_sayfasina_git(self):
         from ui.customerPage import MusteriSayfasi
@@ -226,7 +332,7 @@ class ProfilSayfasi(ctk.CTkFrame):
         app.grid(row=0, column=0, sticky="nsew")
 
     def bilgileri_guncelle(self):
-        # 1. Verileri Al
+       
         yeni_veriler = {
             "name": self.entry_widgets["Ad"].get(),
             "surname": self.entry_widgets["Soyad"].get(),
@@ -236,10 +342,9 @@ class ProfilSayfasi(ctk.CTkFrame):
             "password": self.entry_widgets["Şifre"].get()
         }
 
-        ana_klasor = os.getcwd()
-        # "data" klasörünün içine girip "user.json" dosyasını hedefle
+        ana_klasor = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         dosya_yolu = os.path.join(ana_klasor, "data", "user.json")
-        # -----------------------
+      
 
         print(f"Aranan dosya yolu: {dosya_yolu}")
 
@@ -272,11 +377,3 @@ class ProfilSayfasi(ctk.CTkFrame):
         except Exception as e:
             messagebox.showerror("Hata", f"Hata: {e}")
 
-if __name__ == "__main__":
-    ctk.set_appearance_mode("Light")
-    app = ctk.CTk()
-    app.geometry("1200x800")
-    app.title("Profil Sayfası ")
-    sayfa = ProfilSayfasi(parent=app, controller=None)
-    sayfa.pack(fill="both", expand=True)
-    app.mainloop()

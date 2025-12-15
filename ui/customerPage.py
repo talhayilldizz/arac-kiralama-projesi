@@ -172,7 +172,8 @@ class MusteriSayfasi(ctk.CTkFrame):
         kutu.grid(row=r, column=c, padx=5, pady=5, sticky="nsew")
 
         resim_adi = arac_bilgisi.get("resim", "yok.png")
-        resim_yolu = os.path.join(os.path.dirname(__file__), "assets", resim_adi)
+        base_path = os.path.dirname(os.path.abspath(__file__))
+        resim_yolu = os.path.join(base_path, "..", "assets", resim_adi)
 
         try:
             img_data = Image.open(resim_yolu)
