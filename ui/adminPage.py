@@ -108,6 +108,19 @@ class AdminSayfasi(ctk.CTkFrame):
         )
         self.btn_price.grid(row=8, column=0, padx=20, pady=(30, 8), sticky="ew")
 
+        #Raporlar Butonu
+        self.btn_graph=ctk.CTkButton(
+            self.form_frame,
+            text="Şirket Raporları",
+            fg_color="yellow",
+            text_color="black",
+            height=40,
+            font=ctk.CTkFont(size=13,weight="bold"),
+            corner_radius=8,
+            command=self.graph_page
+        )
+        self.btn_graph.grid(row=9,column=0,padx=20,pady=(30,8),sticky="ew")
+
         #çıkış yap
         self.btn_cikis = ctk.CTkButton(
             self.form_frame,
@@ -649,6 +662,11 @@ class AdminSayfasi(ctk.CTkFrame):
                 fg_color="transparent"
             )
             lbl.grid(row=0, column=i, sticky="ew", padx=3, pady=6)
+
+    def graph_page(self):
+        from ui.adminGraphPage import RaporlarSayfasi
+        self.destroy()
+        RaporlarSayfasi(self.master,self.controller,self.db).pack(expand=True,fill="both")
 
 
     

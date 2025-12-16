@@ -411,7 +411,7 @@ class ProfilSayfasi(ctk.CTkFrame):
             text_color="#2C3E50"
         ).pack(anchor="w", padx=10, pady=(0, 15))
 
-        # 👉 GRAFİK GRID ALANI
+        
         grafik_grid = ctk.CTkFrame(self.grafik_frame, fg_color="transparent")
         grafik_grid.pack(fill="x")
 

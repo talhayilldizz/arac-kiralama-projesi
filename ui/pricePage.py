@@ -16,35 +16,49 @@ class TahminSayfasi(ctk.CTkFrame):
        
         self.header_frame = ctk.CTkFrame(
             self,
-            height=120,
-            corner_radius=0,
-            fg_color="#2C3E50"
+            height=140,
+            fg_color="#2C3E50",
+            corner_radius=0
         )
         self.header_frame.grid(row=0, column=0, sticky="nsew")
         self.header_frame.grid_columnconfigure(1, weight=1)
 
-        #Geri Butonu
+        # Geri Butonu (ikon hissi)
         self.back_button = ctk.CTkButton(
             self.header_frame,
-            text="←",
-            width=40,
-            height=40,
-            font=("Roboto", 18, "bold"),
-            fg_color="#34495E",
-            hover_color="#3D566E",
-            corner_radius=10,
+            text="❮",
+            width=42,
+            height=42,
+            font=("Roboto", 20, "bold"),
+            fg_color="#2F3640",
+            hover_color="#353B48",
+            corner_radius=12,
             command=self.admin_page
         )
-        self.back_button.grid(row=0, column=0, padx=20, pady=35, sticky="w")
+        self.back_button.grid(row=0, column=0, padx=25, pady=30, sticky="w")
 
-        # Başlık
-        self.label = ctk.CTkLabel(
+        # Başlık Alanı
+        title_container = ctk.CTkFrame(
             self.header_frame,
-            text="Araç Fiyatı Tahmin Edin",
-            font=("Roboto", 22, "bold"),
-            text_color="#FFFFFF"
+            fg_color="transparent"
         )
-        self.label.grid(row=0, column=1)
+        title_container.grid(row=0, column=1, sticky="w")
+
+        self.title_label = ctk.CTkLabel(
+            title_container,
+            text="Araç Fiyatı Tahmini",
+            font=("Roboto", 26, "bold"),
+            text_color="#F5F6FA"
+        )
+        self.title_label.pack(anchor="w")
+
+        self.subtitle_label = ctk.CTkLabel(
+            title_container,
+            text="Kararsız kaldığınız aracın fiyatını tek tuş ile belirleyin",
+            font=("Roboto", 14),
+            text_color="#DCDDE1"
+        )
+        self.subtitle_label.pack(anchor="w")
 
         
         content_frame = ctk.CTkFrame(self, fg_color="transparent")
