@@ -630,8 +630,6 @@ class AdminSayfasi(ctk.CTkFrame):
             rental["finsh_date"],
             f"{toplam_tutar} TL"
         ]
-
-
         
         for i, width in enumerate(self.rented_col_widths):
             row_frame.grid_columnconfigure(i, weight=1, minsize=width)

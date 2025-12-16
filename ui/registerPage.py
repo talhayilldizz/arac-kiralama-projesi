@@ -184,6 +184,13 @@ class RegisterPage(ctk.CTkFrame):
 
         # @ işaretinden önceki kısmı alalım
         kullanici_adi = mail.split('@')[0]
+        mail_form =mail.split('@')[-1]
+
+        correct_mail_forms = ['gmail.com', 'hotmail.com', 'outlook.com']
+
+        if mail_form not in correct_mail_forms:
+            messagebox.showerror("Hata", "Mail adresi formu hatalı, lütfen geçerli bir form girin. ")
+            return
 
         # Kullanıcı adı en az 3 karakter olsun
         if len(kullanici_adi) < 3:

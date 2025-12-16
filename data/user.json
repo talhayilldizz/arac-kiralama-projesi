@@ -1,5 +1,15 @@
 [
     {
+        "id": 1,
+        "name": "Admin",
+        "surname": "Admin",
+        "password": "1234",
+        "age": "20",
+        "mail": "admin@gmail.com",
+        "phone": "05555555555",
+        "role": "admin"
+    },
+    {
         "id": 0,
         "name": "TestAd",
         "surname": "TestSoyad",
@@ -7,17 +17,27 @@
         "age": "21",
         "mail": "test@gmail.com",
         "phone": "05123456789",
-        "role": "musteri"
-    },
-    {
-        "id": 1,
-        "name": "Admin",
-        "surname": "Admin",
-        "password": "1234",
-        "age": "20",
-        "mail": "admin@admin.com",
-        "phone": "05555555555",
-        "role": "admin"
+        "role": "musteri",
+        "history": [
+            {
+                "plate": "34 JGF 34",
+                "brand": "Seat",
+                "model": "Leon",
+                "start_date": "15.12.2025",
+                "finsh_date": "17.12.2025",
+                "price": "4200",
+                "status": "Tamamlandı"
+            },
+            {
+                "plate": "34 ASD 432",
+                "brand": "Mercedes",
+                "model": "S300",
+                "start_date": "15.12.2025",
+                "finsh_date": "17.12.2025",
+                "price": "4000",
+                "status": "Tamamlandı"
+            }
+        ]
     },
     {
         "id": 2,
@@ -25,9 +45,38 @@
         "surname": "Yıldız",
         "password": "123456",
         "age": "21",
-        "mail": "talha@talha.com",
+        "mail": "talha@gmail.com",
         "phone": "05551231234",
-        "role": "musteri"
+        "role": "musteri",
+        "history": [
+            {
+                "plate": "34ABC12",
+                "brand": "Fiat",
+                "model": "Egea",
+                "start_date": "10.12.2025",
+                "finsh_date": "15.12.2025",
+                "price": "1000",
+                "status": "Aktif"
+            },
+            {
+                "plate": "06XYZ99",
+                "brand": "BMW",
+                "model": "320i",
+                "start_date": "01.11.2025",
+                "finsh_date": "05.11.2025",
+                "price": "3000",
+                "status": "Tamamlandı"
+            },
+            {
+                "plate": "34 FDR 342",
+                "brand": "Renault",
+                "model": "Megane",
+                "start_date": "16.12.2025",
+                "finsh_date": "18.12.2025",
+                "price": "3200",
+                "status": "Tamamlandı"
+            }
+        ]
     },
     {
         "id": 3,
@@ -37,7 +86,8 @@
         "age": "20",
         "mail": "nisa.com@gmail.com",
         "phone": "05555551236",
-        "role": "musteri"
+        "role": "musteri",
+        "history": []
     },
     {
         "id": 4,
@@ -47,6 +97,17 @@
         "age": "20",
         "mail": "fatma@gmail.com",
         "phone": "05363309452",
-        "role": "musteri"
+        "role": "musteri",
+        "history": [
+            {
+                "plate": "34 ASD 432",
+                "brand": "Mercedes",
+                "model": "S300",
+                "start_date": "16.12.2025",
+                "finsh_date": "16.12.2025",
+                "price": "4000",
+                "status": "Tamamlandı"
+            }
+        ]
     }
 ]

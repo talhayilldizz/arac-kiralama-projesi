@@ -350,12 +350,6 @@ class MusteriSayfasi(ctk.CTkFrame):
         kutu.grid(row=r, column=c, padx=8, pady=8, sticky="nsew")
         kutu.grid_rowconfigure(0, weight=1)  # İçerik dikeyde esnesin
 
-<<<<<<< HEAD
-        resim_adi = arac_bilgisi.get("resim", "yok.png")
-        base_path = os.path.dirname(os.path.abspath(__file__))
-        resim_yolu = os.path.join(base_path, "..", "assets", resim_adi)
-=======
->>>>>>> b4c01851b7b7e4a8a32094e6dbd261ee51d56cb9
 
         content_frame = ctk.CTkFrame(kutu, fg_color="transparent")
         content_frame.pack(fill="both", expand=True, padx=15, pady=15)

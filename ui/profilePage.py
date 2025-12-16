@@ -204,10 +204,10 @@ class ProfilSayfasi(ctk.CTkFrame):
                 text_color="#0D0D0E" 
             ).pack(pady=(0, 0))
        
-        iade_et = None
+        iade_komut = None
         if buton_text == "İADE ET":
             
-            iade_et = lambda a=arac_bilgisi: self.iade_et_islemi(a)
+           iade_komut= lambda a=arac_bilgisi: self.iade_et_islemi(a)
        
         ctk.CTkButton(
             kutu, 
@@ -216,7 +216,7 @@ class ProfilSayfasi(ctk.CTkFrame):
             height=22, 
             width=90, 
             font=("Roboto", 10, "bold"),
-            command=iade_et
+            command=iade_komut
         ).pack(pady=(5, 8))
     
     
@@ -224,105 +224,54 @@ class ProfilSayfasi(ctk.CTkFrame):
         self.aktif_kiralamalar = []
         self.gecmis_kiralamalar = []
         
-
-        base_path = os.path.dirname(os.path.abspath(__file__))
-        car_json_yolu = os.path.join(base_path, "..", "data", "car.json")
-
-        if os.path.exists(car_json_yolu):
-            with open(car_json_yolu, "r", encoding="utf-8") as f:
-                tum_araclar = json.load(f)
-                
-            this_user_id = str(self.current_user.get("id"))
-
-            for arac in tum_araclar:
-             
-                if str(arac.get("rented_id")) == this_user_id:
-                    kart_verisi = {
-                        "marka": arac.get("brand", ""),
-                        "model": arac.get("model", ""),
-                        "fiyat": f"{arac.get('price', 0)} ₺",
-                        "resim": f"{arac.get('brand', '').lower()}.png",
-                        "durum": f"Teslim: {arac.get('finsh_date', '?')}",
-                        "tarih": f"{arac.get('start_date', '')} - {arac.get('finsh_date', '')}"
-                    }
-                    self.aktif_kiralamalar.append(kart_verisi)
-
-        gecmis_listesi = self.current_user.get("history", [])
+        users = self.db_manager.get_all_users()
         
-        for gecmis_arac in gecmis_listesi:
+        guncel_kullanici_verisi = None
+        for user in users:
+            if user["mail"] == self.current_user["mail"]:
+                guncel_kullanici_verisi = user
+                break
+        
+        if guncel_kullanici_verisi:
+            history = guncel_kullanici_verisi.get("history", [])
             
-            self.gecmis_kiralamalar.append(gecmis_arac)
+            
+            for info in history:
+                
+                kart_verisi = {
+                    "plate": info.get("plate"), 
+                    "marka": info.get("brand", ""),
+                    "model": info.get("model", ""),
+                    "fiyat": f"{info.get('price', 0)} ₺",
+                    "resim": f"{info.get('brand', '').lower()}.png",
+                    "durum": f"Durum: {info.get('status')}",
+                    "tarih": f"{info.get('start_date')} - {info.get('finsh_date')}"
+                }
 
+                if info.get("status") == "Aktif":
+                    self.aktif_kiralamalar.append(kart_verisi)
+                else:
+                    # en son kiralanan en üstte dursun diye
+                    self.gecmis_kiralamalar.insert(0, kart_verisi)
 
 
 
     def iade_et_islemi(self, arac_bilgisi):
-        onay = messagebox.askyesno("İade Onayı", f"{arac_bilgisi['marka']} {arac_bilgisi['model']} iade edilsin mi?")
+        plaka = arac_bilgisi.get("plate")
+        arac_adi = f"{arac_bilgisi['marka']} {arac_bilgisi['model']}"
+        
+        onay = messagebox.askyesno("İade Onayı", f"{plaka} plakalı {arac_adi} aracını iade etmek istiyor musunuz?")
         
         if onay:
-            base_path = os.path.dirname(os.path.abspath(__file__))
-            car_json_yolu = os.path.join(base_path, "..", "data", "car.json")
-            user_json_yolu = os.path.join(base_path, "..", "data", "user.json")
+           
+            success = self.db_manager.return_car(plaka)
             
-            if os.path.exists(car_json_yolu):
-                with open(car_json_yolu, "r", encoding="utf-8") as f:
-                    araclar = json.load(f)
-                
-                arac_bulundu = False
-                for arac in araclar:
-                   
-                    if (arac["brand"] == arac_bilgisi["marka"] and 
-                        arac["model"] == arac_bilgisi["model"] and 
-                        str(arac.get("rented_id")) == str(self.current_user.get("id"))):
-                        
-                      
-                        arac["status"] = "Müsait"
-                        arac["rented_id"] = None
-                        arac["start_date"] = None
-                        arac["finsh_date"] = None
-                        arac_bulundu = True
-                        break
-                
-                if arac_bulundu:
-                    with open(car_json_yolu, "w", encoding="utf-8") as f:
-                        json.dump(araclar, f, ensure_ascii=False, indent=4)
-            
-          
-            if os.path.exists(user_json_yolu):
-                with open(user_json_yolu, "r", encoding="utf-8") as f:
-                    kullanicilar = json.load(f)
-                
-                for user in kullanicilar:
-                   
-                    if str(user["id"]) == str(self.current_user["id"]):
-                        
-                        # Eğer 'history' listesi yoksa oluştur
-                        if "history" not in user:
-                            user["history"] = []
-                        
-                       
-                        bugun = datetime.now().strftime("%d.%m.%Y")
-                        gecmis_veri = arac_bilgisi.copy()
-                        gecmis_veri["durum"] = "Kiralama Tamamlandı"
-                        gecmis_veri["tarih"] = f"İade Tarihi: {bugun}"
-                        
-                        user["history"].append(gecmis_veri)
-                        
-                      
-                        if "history" not in self.current_user:
-                            self.current_user["history"] = []
-                        self.current_user["history"].append(gecmis_veri)
-                        
-                        break
-                
-                with open(user_json_yolu, "w", encoding="utf-8") as f:
-                    json.dump(kullanicilar, f, ensure_ascii=False, indent=4)
-
-            
-            messagebox.showinfo("Başarılı", "Araç iade edildi.")
-            self.verileri_yukle() 
-            self.listeleri_ciz() 
-
+            if success:
+                messagebox.showinfo("Başarılı", "Araç başarıyla iade edildi.")
+                self.verileri_yukle() 
+                self.listeleri_ciz() 
+            else:
+                messagebox.showerror("Hata", "İade işlemi sırasında bir sorun oluştu.")
     
 
     def musteri_sayfasina_git(self):
