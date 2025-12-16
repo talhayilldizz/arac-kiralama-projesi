@@ -154,7 +154,6 @@ import customtkinter as ctk
 
 
 
-
 class MusteriSayfasi(ctk.CTkFrame):
     def __init__(self, parent, controller, db_manager, current_user=None):
         super().__init__(parent, fg_color="#ECF0F1")
@@ -412,16 +411,16 @@ class MusteriSayfasi(ctk.CTkFrame):
 
     def listele(self):
         try:
-            tum_araclar = self.db.get_all_cars()
+            araclar = self.db.get_all_cars()
         except:
-            tum_araclar = []
-
+            araclar = []
 
         self.musait_araclar = []
         self.kirada_olanlar = []
 
-        for arac in tum_araclar:
-            durum = arac.get("status", "").lower()
+        for arac in araclar:
+            durum = str(arac.get("status", "")).lower()
+            
             fiyat = str(arac.get("price", "0"))
             if "₺" not in fiyat and "TL" not in fiyat:
                 fiyat += " TL"
@@ -432,6 +431,7 @@ class MusteriSayfasi(ctk.CTkFrame):
             elif "kirada" in durum:
                 self.kirada_olanlar.append(arac)
 
+    
         girilen_marka = self.entry_marka.get().strip().lower()
         girilen_model = self.entry_model.get().strip().lower()
         secilen_fiyat = self.opt_fiyat.get()
@@ -439,17 +439,16 @@ class MusteriSayfasi(ctk.CTkFrame):
         filtrelenmis_musait = []
 
         for arac in self.musait_araclar:
-            marka = arac.get("brand", "").lower()
-            model = arac.get("model", "").lower()
+           
+            marka = str(arac.get("brand", "")).strip().lower()
+            model = str(arac.get("model", "")).strip().lower()
 
-            # Fiyatı sayıya çevir
-            ham_fiyat = str(arac.get("price", "0")).replace("₺", "").replace("TL", "").strip()
+            fiyat = str(arac.get("price", "0")).replace("₺", "").replace("TL", "").strip()
             try:
-                fiyat_int = int(ham_fiyat)
+                fiyat_int = int(fiyat)
             except:
                 fiyat_int = 0
 
-            # Kriter Kontrolü
             marka_uygun = (not girilen_marka) or (girilen_marka in marka)
             model_uygun = (not girilen_model) or (girilen_model in model)
 
@@ -466,7 +465,8 @@ class MusteriSayfasi(ctk.CTkFrame):
             if marka_uygun and model_uygun and fiyat_uygun:
                 filtrelenmis_musait.append(arac)
 
-
+        #Ekrana yazdırma
+        
         if self.musait_grid_frame is not None:
             for widget in self.musait_grid_frame.winfo_children():
                 widget.destroy()
@@ -490,6 +490,8 @@ class MusteriSayfasi(ctk.CTkFrame):
                              font=("Roboto", 12, "italic")).grid(row=0, column=0, columnspan=4, pady=10)
             else:
                 self.araclari_grid_doldur(self.kirada_grid_frame, self.kirada_olanlar, "#E67E22")
+
+
 
     def profile_git(self, secim):
         if secim == "Profilim":

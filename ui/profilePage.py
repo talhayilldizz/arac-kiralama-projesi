@@ -215,13 +215,18 @@ class ProfilSayfasi(ctk.CTkFrame):
             text_color=renk_tema
         ).pack(pady=(5, 5))
        
-       
         komut = None
-        btn_renk = "#0CA246" if buton_text == "İADE ET" else "#2C3E50"
+        btn_renk = "#2C3E50"
 
         if buton_text == "İADE ET":
+            btn_renk = "#C0392B" 
             komut = lambda a=arac_bilgisi: self.iade_et_islemi(a)
         
+        elif buton_text == "TEKRAR KİRALA":
+            btn_renk = "#2C3E50" 
+           
+            komut = lambda a=arac_bilgisi: self.tekrar_kirala_islemi(a)
+
         ctk.CTkButton(
             content_frame, 
             text=buton_text, 
@@ -287,6 +292,51 @@ class ProfilSayfasi(ctk.CTkFrame):
                 self.listeleri_ciz() 
             else:
                 messagebox.showerror("Hata", "İade işlemi sırasında bir sorun oluştu.")
+
+    def tekrar_kirala_islemi(self, history_arac):
+        plaka = history_arac.get("plate")
+       
+        try:
+            araclar = self.db_manager.get_all_cars()
+        except:
+            araclar = []
+
+        guncel_arac = None
+       
+        aranan_plaka = plaka.replace(" ", "").upper()
+
+        for arac in araclar:
+            db_plaka = arac.get("plate", "").replace(" ", "").upper()
+            if db_plaka == aranan_plaka:
+                guncel_arac = arac
+                break
+        
+       
+        if guncel_arac:  
+            durum = guncel_arac.get("status", "").lower()
+            
+            if "müsait" in durum:
+                try:
+                    from ui.customerPage import KiralaPopup
+                    user_mail = self.current_user.get("mail")
+                    popup = KiralaPopup(self, guncel_arac, self.db_manager, user_mail)
+                    
+                    self.wait_window(popup)
+                
+                    self.verileri_yukle()
+                    self.listeleri_ciz()
+                    
+                except ImportError:
+                    messagebox.showerror("Hata", "KiralaPopup sınıfı yüklenemedi.")
+                except Exception as e:
+                    messagebox.showerror("Hata", f"Bir hata oluştu: {e}")
+            
+            else:
+                messagebox.showwarning("Müsait Değil", f"Bu araç şu an kiralanamaz.\n Çünkü Güncel Durumu: {guncel_arac.get('status')}")
+        
+        else:
+            
+            messagebox.showerror("Araç Bulunamadı", f"{plaka} plakalı araç silindiği için artık sistemde yok.")          
     
 
     def musteri_sayfasina_git(self):

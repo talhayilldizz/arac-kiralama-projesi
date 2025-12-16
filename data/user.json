@@ -52,7 +52,7 @@
         "role": "musteri",
         "history": [
             {
-                "plate": "34ABC12",
+                "plate": "34 ABC 12",
                 "year": "2023",
                 "brand": "Fiat",
                 "model": "Egea",
@@ -62,7 +62,7 @@
                 "status": "Tamamlandı"
             },
             {
-                "plate": "06XYZ99",
+                "plate": "06 XY Z99",
                 "year": "2020",
                 "brand": "BMW",
                 "model": "320i",
@@ -90,6 +90,16 @@
                 "finsh_date": "17.12.2025",
                 "price": "4000",
                 "status": "Aktif"
+            },
+            {
+                "plate": "34ABC12",
+                "year": "2023",
+                "brand": "Fiat",
+                "model": "Egea",
+                "start_date": "30.12.2025",
+                "finsh_date": "09.01.2026",
+                "price": "1000",
+                "status": "Tamamlandı"
             }
         ]
     },
@@ -99,7 +109,7 @@
         "surname": "şahin",
         "password": "121432",
         "age": "20",
-        "mail": "nisa.com@gmail.com",
+        "mail": "nisa@gmail.com",
         "phone": "05555551236",
         "role": "musteri",
         "history": []
@@ -162,8 +172,39 @@
                 "start_date": "02.12.2025",
                 "finsh_date": "16.12.2025",
                 "price": "4200 ₺",
+                "status": "Tamamlandı"
+            },
+            {
+                "plate": "34 FDR 342",
+                "year": "2024",
+                "brand": "Renault",
+                "model": "Megane",
+                "start_date": "02.11.2025",
+                "finsh_date": "05.11.2025",
+                "price": "3200",
                 "status": "Aktif"
+            },
+            {
+                "plate": "34 DEF 456",
+                "year": "2020",
+                "brand": "Audi",
+                "model": " A6",
+                "start_date": "04.02.2026",
+                "finsh_date": "08.02.2026",
+                "price": "4200 ₺",
+                "status": "Tamamlandı"
             }
         ]
+    },
+    {
+        "id": 5,
+        "name": "Damla",
+        "surname": "Mengüş",
+        "password": "987654",
+        "age": "25",
+        "mail": "damla.mengus@hotmail.com",
+        "phone": "05363564521",
+        "role": "musteri",
+        "history": []
     }
 ]
