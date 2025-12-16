@@ -543,9 +543,11 @@ class AdminSayfasi(ctk.CTkFrame):
             widget.destroy()
 
         users = self.db.get_all_users()
+        
 
         for i, user in enumerate(users):
-            self.add_user_row(i, user)
+            if user["role"] != "admin":
+                self.add_user_row(i, user)
 
 
     #Tüm araçları getir
@@ -621,12 +623,11 @@ class AdminSayfasi(ctk.CTkFrame):
         gun_sayisi = (finish_date - start_date).days
         gun_sayisi = max(gun_sayisi, 1)
        
-        fiyat = str(rental["price"]) #fiyatı toplam tutar hesaplanırken sorun çıkmasın diye int yaptık    
+        fiyat = str(rental["price"]) 
         int_fiyat = fiyat.replace("₺", "").replace("TL", "").replace(".", "").strip()
             
         toplam_tutar = gun_sayisi * int(int_fiyat)
 
-        # Görüntülenecek veriler (PLAKA, MARKA, BAŞ. Tarihi, BİT. Tarihi, TOPLAM ÜCR.)
         values = [
             rental["plate"],
             rental["brand"],

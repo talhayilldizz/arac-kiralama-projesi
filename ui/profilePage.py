@@ -4,6 +4,9 @@ import os
 import json
 from tkinter import messagebox
 from datetime import datetime
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from collections import Counter, defaultdict
 
 class ProfilSayfasi(ctk.CTkFrame):
     def __init__(self, parent, controller,db_manager, current_user):
@@ -11,6 +14,7 @@ class ProfilSayfasi(ctk.CTkFrame):
         self.controller = controller
         self.db_manager = db_manager
         self.current_user = current_user
+        self.grafik_frame = None
 
         self.entry_widgets = {}
 
@@ -146,12 +150,15 @@ class ProfilSayfasi(ctk.CTkFrame):
         for widget in self.main_scroll.winfo_children():
             widget.destroy()
 
+        self.grafik_frame = None
+
         self.bolum_olustur(baslik="GÜNCEL OLARAK KİRALADIĞINIZ ARAÇLAR", renk="#0CA246", arac_listesi=self.aktif_kiralamalar, buton_text="İADE ET")
         
         ctk.CTkFrame(self.main_scroll, height=2, fg_color="#BDC3C7").pack(fill="x", pady=20, padx=10)
 
         self.bolum_olustur(baslik="GEÇMİŞ KİRALAMALARINIZ", renk="#C11F1F", arac_listesi=self.gecmis_kiralamalar, buton_text="TEKRAR KİRALA")   
       
+        self.grafik_alani_olustur()
 
 
     def bolum_olustur(self, baslik, renk, arac_listesi, buton_text="DETAY"):
@@ -388,4 +395,126 @@ class ProfilSayfasi(ctk.CTkFrame):
 
         except Exception as e:
             messagebox.showerror("Hata", f"Hata: {e}")
+
+    #Grafikler
+    def grafik_alani_olustur(self):
+        if self.grafik_frame:
+            self.grafik_frame.destroy()
+
+        self.grafik_frame = ctk.CTkFrame(self.main_scroll, fg_color="transparent")
+        self.grafik_frame.pack(fill="x", pady=(30, 20))
+
+        ctk.CTkLabel(
+            self.grafik_frame,
+            text="KİRALAMA İSTATİSTİKLERİ",
+            font=("Roboto", 18, "bold"),
+            text_color="#2C3E50"
+        ).pack(anchor="w", padx=10, pady=(0, 15))
+
+        # 👉 GRAFİK GRID ALANI
+        grafik_grid = ctk.CTkFrame(self.grafik_frame, fg_color="transparent")
+        grafik_grid.pack(fill="x")
+
+        for i in range(3):
+            grafik_grid.grid_columnconfigure(i, weight=1)
+
+        self.marka_grafigi(grafik_grid, 0)
+        self.zaman_grafigi(grafik_grid, 1)
+        self.fiyat_grafigi(grafik_grid, 2)
+
+    def marka_grafigi(self,parent,col):
+        history=self.gecmis_kiralamalar + self.aktif_kiralamalar
+        markalar=[a["marka"] for a in history if a.get("marka")]
+
+        if not markalar:
+            return
+        
+        sayim=Counter(markalar)
+
+        fig,ax=plt.subplots(figsize=(5,4))
+        ax.bar(sayim.keys(), sayim.values())
+        ax.set_title("En Çok Kiralanan Markalar")
+        ax.set_ylabel("Kiralama Sayısı")
+        ax.set_xlabel("Marka")
+
+        self._grafik_gom(parent, fig,col)
+    
+    def zaman_grafigi(self,parent,col):
+        durumlar=defaultdict(int)
+
+        for a in self.gecmis_kiralamalar:
+            durumlar["Tamamlandı"] += 1
+        for a in self.aktif_kiralamalar:
+            durumlar["Aktif"] +=1 
+        
+        fig, ax = plt.subplots(figsize=(5, 3))
+        ax.pie(
+            durumlar.values(),
+            labels=durumlar.keys(),
+            autopct="%1.0f%%",
+            startangle=90
+        )
+        ax.set_title("Kiralama Durumu")
+
+        self._grafik_gom(parent, fig,col)
+
+    def fiyat_grafigi(self, parent, col):
+        fiyatlar=[]
+
+        for a in self.gecmis_kiralamalar + self.aktif_kiralamalar:
+            try:
+                f=(
+                    a.get("fiyat", "")
+                    .replace("₺", "")
+                    .replace("TL", "")
+                    .strip()
+                )
+                fiyatlar.append(int(f))
+            except:
+                pass
+        
+        if not fiyatlar:
+            return
+        
+        araliklar = {
+        "0 - 2000 ₺": 0,
+        "2000 - 4000 ₺": 0,
+        "4000 - 6000 ₺": 0,
+        "6000+ ₺": 0
+        }
+
+        for f in fiyatlar:
+            if f < 2000:
+                araliklar["0 - 2000 ₺"] += 1
+            elif f < 4000:
+                araliklar["2000 - 4000 ₺"] += 1
+            elif f < 6000:
+                araliklar["4000 - 6000 ₺"] += 1
+            else:
+                araliklar["6000+ ₺"] += 1
+
+        fig, ax = plt.subplots(figsize=(4, 3))
+        ax.bar(araliklar.keys(), araliklar.values())
+        ax.set_title("Kiralama Fiyat Aralıkları")
+        ax.set_ylabel("Kiralama Sayısı")
+        ax.set_xlabel("Fiyat Aralığı")
+        fig.autofmt_xdate()
+
+        self._grafik_gom(parent, fig, col)
+
+    
+
+    def _grafik_gom(self, parent, fig, col):
+        canvas = FigureCanvasTkAgg(fig, master=parent)
+        canvas.draw()
+        canvas.get_tk_widget().grid(
+            row=0,
+            column=col,
+            padx=10,
+            pady=10,
+            sticky="nsew"
+        )
+        plt.close(fig)
+
+
 

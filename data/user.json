@@ -38,57 +38,35 @@
                 "finsh_date": "17.12.2025",
                 "price": "4000",
                 "status": "Tamamlandı"
-            }
-        ]
-    },
-    {
-        "id": 2,
-        "name": "Talha",
-        "surname": "Yıldız",
-        "password": "123456",
-        "age": "21",
-        "mail": "talha@gmail.com",
-        "phone": "05551231234",
-        "role": "musteri",
-        "history": [
+            },
             {
-                "plate": "34 ABC 12",
+                "plate": "34ABC12",
                 "year": "2023",
                 "brand": "Fiat",
                 "model": "Egea",
-                "start_date": "10.12.2025",
-                "finsh_date": "15.12.2025",
+                "start_date": "16.12.2025",
+                "finsh_date": "17.12.2025",
                 "price": "1000",
                 "status": "Tamamlandı"
             },
             {
-                "plate": "06 XY Z99",
+                "plate": "34 DEF 456",
                 "year": "2020",
-                "brand": "BMW",
-                "model": "320i",
-                "start_date": "01.11.2025",
-                "finsh_date": "05.11.2025",
-                "price": "3000",
-                "status": "Tamamlandı"
-            },
-            {
-                "plate": "34 FDR 342",
-                "year": "2024",
-                "brand": "Renault",
-                "model": "Megane",
-                "start_date": "16.12.2025",
-                "finsh_date": "18.12.2025",
-                "price": "3200",
-                "status": "Tamamlandı"
-            },
-            {
-                "plate": "34 ASD 432",
-                "year": "2024",
-                "brand": "Mercedes",
-                "model": "S300",
+                "brand": "Audi",
+                "model": " A6",
                 "start_date": "16.12.2025",
                 "finsh_date": "17.12.2025",
-                "price": "4000",
+                "price": "4200 ₺",
+                "status": "Tamamlandı"
+            },
+            {
+                "plate": "34 DEF 456",
+                "year": "2020",
+                "brand": "Audi",
+                "model": " A6",
+                "start_date": "16.12.2025",
+                "finsh_date": "17.12.2025",
+                "price": "4200 ₺",
                 "status": "Aktif"
             },
             {
@@ -96,8 +74,8 @@
                 "year": "2023",
                 "brand": "Fiat",
                 "model": "Egea",
-                "start_date": "30.12.2025",
-                "finsh_date": "09.01.2026",
+                "start_date": "16.12.2025",
+                "finsh_date": "24.12.2025",
                 "price": "1000",
                 "status": "Tamamlandı"
             }

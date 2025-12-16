@@ -60,7 +60,7 @@ class Data_Manager:
         if "status" not in car_dict: car_dict["status"] = "Müsait"
         if "rented_id" not in car_dict: car_dict["rented_id"] = None
         if "start_date" not in car_dict: car_dict["start_date"] = None
-        if "finsh_date" not in car_dict: car_dict["finsh_date"] = None  # Senin json yapına uyumlu (i eksik)
+        if "finsh_date" not in car_dict: car_dict["finsh_date"] = None  
 
         cars = self.get_all_cars()
         cars.append(car_dict)
@@ -122,15 +122,15 @@ class Data_Manager:
         return None
     
     def get_car_by_mail(self, mail):
-        users = self.get_all_users()
-        history_result_list=[]
+        cars=self.get_all_cars()
+        rented_cars=[]
+        for car in cars:
+            if car['rented_id'] == mail:
+                rented_cars.append(car)
+        
+        return rented_cars
 
-        for user in users:
-            if user['mail'] == mail:
-                history_result_list= user.get("history",[])
-                break
-             
-        return history_result_list
+        
 
 
     def rent_car(self, plate, user_mail, start_date, finish_date):
