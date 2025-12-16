@@ -184,5 +184,38 @@
         "phone": "05363564521",
         "role": "musteri",
         "history": []
+    },
+    {
+        "id": 2,
+        "name": "Talha",
+        "surname": "Yıldız",
+        "password": "1234567",
+        "age": "20",
+        "mail": "talha@gmail.com",
+        "phone": "05122311234",
+        "role": "musteri",
+        "history": [
+            {
+                "plate": "34 ASD 432",
+                "year": "2024",
+                "brand": "Mercedes",
+                "model": "S300",
+                "start_date": "16.12.2025",
+                "finsh_date": "17.12.2025",
+                "price": "4000",
+                "status": "Tamamlandı"
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "name": "test",
+        "surname": "test",
+        "password": "1234567",
+        "age": "29",
+        "mail": "testt@gmail.com",
+        "phone": "02131231231",
+        "role": "musteri",
+        "history": []
     }
 ]

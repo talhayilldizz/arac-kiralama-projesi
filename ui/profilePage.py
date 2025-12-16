@@ -411,6 +411,16 @@ class ProfilSayfasi(ctk.CTkFrame):
             text_color="#2C3E50"
         ).pack(anchor="w", padx=10, pady=(0, 15))
 
+        #veri yoksa
+        if not self.aktif_kiralamalar and not self.gecmis_kiralamalar:
+            ctk.CTkLabel(
+            self.grafik_frame,
+            text="Kayıt bulunamadı.",
+            font=("Roboto", 14),
+            text_color="gray"
+            ).pack(pady=30)
+            return
+
         
         grafik_grid = ctk.CTkFrame(self.grafik_frame, fg_color="transparent")
         grafik_grid.pack(fill="x")
