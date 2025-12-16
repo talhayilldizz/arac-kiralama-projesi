@@ -156,6 +156,7 @@ class Data_Manager:
         # Geçmişe eklenecek veriler
         history_record = {
             "plate": plate,
+            "year": car_found.get('year', '-'),
             "brand": car_found['brand'],
             "model": car_found['model'],
             "start_date": start_date,

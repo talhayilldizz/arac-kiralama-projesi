@@ -21,6 +21,7 @@
         "history": [
             {
                 "plate": "34 JGF 34",
+                "year": "2023",
                 "brand": "Seat",
                 "model": "Leon",
                 "start_date": "15.12.2025",
@@ -30,6 +31,7 @@
             },
             {
                 "plate": "34 ASD 432",
+                "year": "2024",
                 "brand": "Mercedes",
                 "model": "S300",
                 "start_date": "15.12.2025",
@@ -51,15 +53,17 @@
         "history": [
             {
                 "plate": "34ABC12",
+                "year": "2023",
                 "brand": "Fiat",
                 "model": "Egea",
                 "start_date": "10.12.2025",
                 "finsh_date": "15.12.2025",
                 "price": "1000",
-                "status": "Aktif"
+                "status": "Tamamlandı"
             },
             {
                 "plate": "06XYZ99",
+                "year": "2020",
                 "brand": "BMW",
                 "model": "320i",
                 "start_date": "01.11.2025",
@@ -69,12 +73,23 @@
             },
             {
                 "plate": "34 FDR 342",
+                "year": "2024",
                 "brand": "Renault",
                 "model": "Megane",
                 "start_date": "16.12.2025",
                 "finsh_date": "18.12.2025",
                 "price": "3200",
                 "status": "Tamamlandı"
+            },
+            {
+                "plate": "34 ASD 432",
+                "year": "2024",
+                "brand": "Mercedes",
+                "model": "S300",
+                "start_date": "16.12.2025",
+                "finsh_date": "17.12.2025",
+                "price": "4000",
+                "status": "Aktif"
             }
         ]
     },
@@ -96,17 +111,58 @@
         "password": "1234",
         "age": "20",
         "mail": "fatma@gmail.com",
-        "phone": "05363309452",
+        "phone": "05363309458",
         "role": "musteri",
         "history": [
             {
                 "plate": "34 ASD 432",
+                "year": "2024",
                 "brand": "Mercedes",
                 "model": "S300",
                 "start_date": "16.12.2025",
                 "finsh_date": "16.12.2025",
                 "price": "4000",
                 "status": "Tamamlandı"
+            },
+            {
+                "plate": "34 FDR 342",
+                "year": "2024",
+                "brand": "Renault",
+                "model": "Megane",
+                "start_date": "16.12.2025",
+                "finsh_date": "24.12.2025",
+                "price": "3200",
+                "status": "Tamamlandı"
+            },
+            {
+                "plate": "34ABC12",
+                "year": "2023",
+                "brand": "Fiat",
+                "model": "Egea",
+                "start_date": "02.12.2025",
+                "finsh_date": "26.12.2025",
+                "price": "1000",
+                "status": "Tamamlandı"
+            },
+            {
+                "plate": "34 DEF 456",
+                "year": "2020",
+                "brand": "Audi",
+                "model": " A6",
+                "start_date": "03.12.2025",
+                "finsh_date": "15.12.2025",
+                "price": "4200 ₺",
+                "status": "Tamamlandı"
+            },
+            {
+                "plate": "34 DEF 456",
+                "year": "2020",
+                "brand": "Audi",
+                "model": " A6",
+                "start_date": "02.12.2025",
+                "finsh_date": "16.12.2025",
+                "price": "4200 ₺",
+                "status": "Aktif"
             }
         ]
     }

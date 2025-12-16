@@ -609,6 +609,7 @@ class AdminSayfasi(ctk.CTkFrame):
              self.add_rented_car_row(i, rental)
 
     def add_rented_car_row(self, row, rental):
+
         row_color = "#ECF0F1" if row % 2 == 0 else "transparent"
         row_frame = ctk.CTkFrame(self.rented_list_frame, fg_color=row_color, corner_radius=4, height=35)
         row_frame.pack(fill="x", pady=1)
@@ -619,8 +620,11 @@ class AdminSayfasi(ctk.CTkFrame):
 
         gun_sayisi = (finish_date - start_date).days
         gun_sayisi = max(gun_sayisi, 1)
-        toplam_tutar = gun_sayisi * int(rental["price"])
-
+       
+        fiyat = str(rental["price"]) #fiyatı toplam tutar hesaplanırken sorun çıkmasın diye int yaptık    
+        int_fiyat = fiyat.replace("₺", "").replace("TL", "").replace(".", "").strip()
+            
+        toplam_tutar = gun_sayisi * int(int_fiyat)
 
         # Görüntülenecek veriler (PLAKA, MARKA, BAŞ. Tarihi, BİT. Tarihi, TOPLAM ÜCR.)
         values = [

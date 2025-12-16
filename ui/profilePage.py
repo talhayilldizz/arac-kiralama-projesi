@@ -177,47 +177,61 @@ class ProfilSayfasi(ctk.CTkFrame):
 
 
     def kart_ekle(self, parent, r, c, arac_bilgisi, renk_tema, buton_text):
-        kutu = ctk.CTkFrame(parent, fg_color="white", corner_radius=8)
-        kutu.grid(row=r, column=c, padx=5, pady=5, sticky="nsew")
-
-        resim_adi = arac_bilgisi.get("resim", "yok.png")
-        base_path = os.path.dirname(os.path.abspath(__file__))
-        resim_yolu = os.path.join(base_path, "..", "assets", resim_adi)
-        
-        try:
-            img_data = Image.open(resim_yolu)
-            resim_objesi = ctk.CTkImage(light_image=img_data, dark_image=img_data, size=(130, 75))
-            ctk.CTkLabel(kutu, text="", image=resim_objesi).pack(pady=(5,0))
-        except:
-            ctk.CTkFrame(kutu, height=75, width=130, fg_color="#BDC3C7", corner_radius=6).pack(pady=(5,0))
-
-        ctk.CTkLabel(kutu, text=arac_bilgisi["marka"] + " " + arac_bilgisi["model"], font=("Roboto", 12, "bold"), text_color="#2C3E50").pack(pady=(3,0))
-        
-        durum_yazisi = arac_bilgisi.get("durum", arac_bilgisi["fiyat"])
-        ctk.CTkLabel(kutu, text=durum_yazisi, font=("Roboto", 11), text_color="gray").pack(pady=0)
-        
-        if "tarih" in arac_bilgisi:
-            ctk.CTkLabel(
-                kutu, 
-                text=arac_bilgisi["tarih"], 
-                font=("Roboto", 10), 
-                text_color="#0D0D0E" 
-            ).pack(pady=(0, 0))
        
-        iade_komut = None
+        kutu = ctk.CTkFrame(parent, fg_color="white", corner_radius=12, border_color="#BDC3C7", border_width=1)
+        kutu.grid(row=r, column=c, padx=8, pady=8, sticky="nsew")
+        kutu.grid_rowconfigure(0, weight=1) 
+
+        content_frame = ctk.CTkFrame(kutu, fg_color="transparent")
+        content_frame.pack(fill="both", expand=True, padx=15, pady=15)
+
+        
+        full_name = f"{arac_bilgisi.get('marka', '')} {arac_bilgisi.get('model', '')}"
+        ctk.CTkLabel(
+            content_frame, 
+            text=full_name, 
+            font=("Roboto", 16, "bold"), 
+            text_color="#2C3E50",
+            wraplength=150
+        ).pack(anchor="w")
+
+        yil = arac_bilgisi.get("yil", "-")
+        plaka = arac_bilgisi.get("plate", "---")
+        ctk.CTkLabel(
+            content_frame, 
+            text=f"{yil} | {plaka}", 
+            font=("Roboto", 12), 
+            text_color="#7F8C8D"
+        ).pack(anchor="w", pady=(0, 5))
+
+      
+        ctk.CTkFrame(content_frame, height=2, fg_color="#F0F3F4").pack(fill="x", pady=5)
+
+        tarih_bilgisi = arac_bilgisi.get("tarih", "")
+        ctk.CTkLabel(
+            content_frame, 
+            text=tarih_bilgisi, 
+            font=("Roboto", 11, "bold"), 
+            text_color=renk_tema
+        ).pack(pady=(5, 5))
+       
+       
+        komut = None
+        btn_renk = "#0CA246" if buton_text == "İADE ET" else "#2C3E50"
+
         if buton_text == "İADE ET":
-            
-           iade_komut= lambda a=arac_bilgisi: self.iade_et_islemi(a)
-       
+            komut = lambda a=arac_bilgisi: self.iade_et_islemi(a)
+        
         ctk.CTkButton(
-            kutu, 
+            content_frame, 
             text=buton_text, 
-            fg_color=renk_tema, 
-            height=22, 
-            width=90, 
-            font=("Roboto", 10, "bold"),
-            command=iade_komut
-        ).pack(pady=(5, 8))
+            fg_color=btn_renk, 
+            height=35, 
+            width=120, 
+            font=("Roboto", 13, "bold"),
+            command=komut,
+            corner_radius=8
+        ).pack(pady=(10, 0), side="bottom")
     
     
     def verileri_yukle(self):
@@ -242,6 +256,7 @@ class ProfilSayfasi(ctk.CTkFrame):
                     "plate": info.get("plate"), 
                     "marka": info.get("brand", ""),
                     "model": info.get("model", ""),
+                    "yil":   info.get("year", "-"),
                     "fiyat": f"{info.get('price', 0)} ₺",
                     "resim": f"{info.get('brand', '').lower()}.png",
                     "durum": f"Durum: {info.get('status')}",

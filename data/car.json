@@ -2,7 +2,7 @@
     {
         "brand": "Seat",
         "model": "Leon",
-        "year": "2024",
+        "year": "2023",
         "plate": "34 JGF 34",
         "price": "4200",
         "status": "Kirada",
@@ -13,13 +13,13 @@
     {
         "brand": "Mercedes",
         "model": "S300",
-        "year": "2025",
+        "year": "2024",
         "plate": "34 ASD 432",
         "price": "4000",
-        "status": "Müsait",
-        "rented_id": null,
-        "start_date": null,
-        "finsh_date": null
+        "status": "Kirada",
+        "rented_id": "talha@gmail.com",
+        "start_date": "16.12.2025",
+        "finsh_date": "17.12.2025"
     },
     {
         "brand": "Ford",
@@ -38,10 +38,10 @@
         "model": "Egea",
         "year": "2023",
         "price": "1000",
-        "status": "Kirada",
-        "rented_id": "talha@gmail.com",
-        "start_date": "10.12.2025",
-        "finsh_date": "15.12.2025"
+        "status": "Müsait",
+        "rented_id": null,
+        "start_date": null,
+        "finsh_date": null
     },
     {
         "brand": "Renault",
@@ -57,12 +57,12 @@
     {
         "brand": "Audi",
         "model": " A6",
-        "year": "2024",
+        "year": "2020",
         "plate": "34 DEF 456",
         "price": "4200 ₺",
-        "status": "Müsait",
-        "rented_id": null,
-        "start_date": null,
-        "finsh_date": null
+        "status": "Kirada",
+        "rented_id": "fatma@gmail.com",
+        "start_date": "02.12.2025",
+        "finsh_date": "16.12.2025"
     }
 ]
