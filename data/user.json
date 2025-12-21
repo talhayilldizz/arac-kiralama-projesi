@@ -217,5 +217,70 @@
         "phone": "02131231231",
         "role": "musteri",
         "history": []
+    },
+    {
+        "id": 7,
+        "name": "nisa",
+        "surname": "sahun",
+        "password": "12345678",
+        "age": "19",
+        "mail": "nisasahun@gmail.com",
+        "phone": "05895478896",
+        "role": "musteri",
+        "history": [
+            {
+                "plate": "34 ASD 432",
+                "year": "2024",
+                "brand": "Mercedes",
+                "model": "S300",
+                "start_date": "17.12.2025",
+                "finsh_date": "17.12.2025",
+                "price": "4000",
+                "status": "Tamamlandı"
+            },
+            {
+                "plate": "34ABC12",
+                "year": "2023",
+                "brand": "Fiat",
+                "model": "Egea",
+                "start_date": "17.12.2025",
+                "finsh_date": "17.12.2025",
+                "price": "1000",
+                "status": "Tamamlandı"
+            },
+            {
+                "plate": "34ABC12",
+                "year": "2023",
+                "brand": "Fiat",
+                "model": "Egea",
+                "start_date": "21.12.2025",
+                "finsh_date": "21.12.2025",
+                "price": "1000",
+                "status": "Tamamlandı"
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "name": "Alper",
+        "surname": "Ceylan",
+        "password": "123456789",
+        "age": "20",
+        "mail": "alperceyla@gmail.com",
+        "phone": "05446630438",
+        "role": "musteri",
+        "history": []
+    },
+
+    {
+        "id": 10,
+        "name": "nisanir",
+        "surname": "sah",
+        "password": "12345678",
+        "age": "19",
+        "mail": "nisanirsah@gmail.com",
+        "phone": "05317950776",
+        "role": "musteri",
+        "history": []
     }
 ]

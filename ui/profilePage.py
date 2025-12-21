@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from PIL import Image
 import os
+import re
 import json
 from tkinter import messagebox
 from datetime import datetime
@@ -352,49 +353,98 @@ class ProfilSayfasi(ctk.CTkFrame):
         app = MusteriSayfasi(self.master, self.controller, self.db_manager, self.current_user)
         app.grid(row=0, column=0, sticky="nsew")
 
+
+
     def bilgileri_guncelle(self):
-       
-        yeni_veriler = {
-            "name": self.entry_widgets["Ad"].get(),
-            "surname": self.entry_widgets["Soyad"].get(),
-            "age": self.entry_widgets["Yaş"].get(),
-            "phone": self.entry_widgets["Tel No"].get(),
-            "mail": self.entry_widgets["Gmail"].get(),
-            "password": self.entry_widgets["Şifre"].get()
-        }
+            # 1. Verileri Entry'lerden Çekelim ve boşlukları temizleyelim
+            ad = self.entry_widgets["Ad"].get().strip()
+            soyad = self.entry_widgets["Soyad"].get().strip()
+            yas = self.entry_widgets["Yaş"].get().strip()
+            tel = self.entry_widgets["Tel No"].get().strip()
+            mail = self.entry_widgets["Gmail"].get().strip()
+            sifre = self.entry_widgets["Şifre"].get().strip()
 
-        ana_klasor = os.getcwd()
-
-        dosya_yolu = os.path.join(ana_klasor, "data", "user.json")
-
-        try:
-            if not os.path.exists(dosya_yolu):
-                messagebox.showerror("Hata", f"Dosya bulunamadı!\nAranan yol:\n{dosya_yolu}")
+            # 1. Boş Alan Kontrolü
+            if not ad or not soyad or not yas or not tel or not mail or not sifre:
+                messagebox.showwarning("Eksik Bilgi", "Lütfen tüm alanları doldurunuz.")
                 return
 
-            with open(dosya_yolu, "r", encoding="utf-8") as f:
-                kullanicilar = json.load(f)
+            # 2. Yaş Kontrolü
+            try:
+                yas_int = int(yas)
+                if yas_int < 18:
+                    messagebox.showwarning("Yaş Sınırı", "Araç kiralamak için 18 yaşından büyük olmalısınız.")
+                    return
+            except ValueError:
+                messagebox.showerror("Hata", "Yaş bilgisi sadece rakam içermelidir.")
+                return
 
-            kullanici_bulundu = False
-            mevcut_mail = self.current_user.get("mail")
+            # 3. Telefon Kontrolü (REGEX)
+            # ^05       -> Mutlaka 05 ile başlamalı
+            # [0-9]{9}$ -> Devamında tam 9 tane rakam gelmeli (Toplam 11 hane)
+            tel_pattern = r'^05[0-9]{9}$'
 
-            for user in kullanicilar:
-                if user.get("mail") == mevcut_mail:
-                    user.update(yeni_veriler)
-                    kullanici_bulundu = True
-                    break
+            if not re.match(tel_pattern, tel):
+                messagebox.showwarning("Geçersiz Telefon",
+                                       "Telefon numarası '05' ile başlamalı ve toplam 11 haneli olmalıdır.\nÖrn: 05551234567")
+                return
 
-            if kullanici_bulundu:
-                with open(dosya_yolu, "w", encoding="utf-8") as f:
-                    json.dump(kullanicilar, f, ensure_ascii=False, indent=4)
+            # 4. Email Kontrolü (REGEX)
+            # Standart email formatı (isim@domain.uzanti)
+            email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
 
-                self.current_user.update(yeni_veriler)
-                messagebox.showinfo("Başarılı", "Bilgileriniz güncellendi!")
-            else:
-                messagebox.showerror("Hata", "Kullanıcı dosyada bulunamadı.")
+            if not re.match(email_pattern, mail):
+                messagebox.showwarning("Geçersiz Mail",
+                                       "Lütfen geçerli bir e-posta adresi giriniz.\nÖrn: user@gmail.com")
+                return
 
-        except Exception as e:
-            messagebox.showerror("Hata", f"Hata: {e}")
+            # 5. Şifre Uzunluk Kontrolü (Opsiyonel ama önerilir)
+            if len(sifre) < 4:
+                messagebox.showwarning("Zayıf Şifre", "Şifreniz en az 4 karakter olmalıdır.")
+                return
+
+            yeni_veriler = {
+                "name": ad,
+                "surname": soyad,
+                "age": yas,
+                "phone": tel,
+                "mail": mail,
+                "password": sifre
+            }
+
+            ana_klasor = os.getcwd()
+            dosya_yolu = os.path.join(ana_klasor, "data", "user.json")
+
+            try:
+                if not os.path.exists(dosya_yolu):
+                    messagebox.showerror("Hata", f"Veri dosyası bulunamadı!\n{dosya_yolu}")
+                    return
+
+                with open(dosya_yolu, "r", encoding="utf-8") as f:
+                    kullanicilar = json.load(f)
+
+                kullanici_bulundu = False
+                mevcut_mail = self.current_user.get("mail")
+
+                # Kullanıcıyı bul ve güncelle
+                for user in kullanicilar:
+                    if user.get("mail") == mevcut_mail:
+                        user.update(yeni_veriler)
+                        kullanici_bulundu = True
+                        break
+
+                if kullanici_bulundu:
+                    with open(dosya_yolu, "w", encoding="utf-8") as f:
+                        json.dump(kullanicilar, f, ensure_ascii=False, indent=4)
+
+                    # Bellekteki (RAM) mevcut kullanıcıyı da güncelle ki çıkıp girmesine gerek kalmasın
+                    self.current_user.update(yeni_veriler)
+                    messagebox.showinfo("Başarılı", "Bilgileriniz güvenli bir şekilde güncellendi!")
+                else:
+                    messagebox.showerror("Hata", "Kullanıcı veritabanında bulunamadı.")
+
+            except Exception as e:
+                messagebox.showerror("Kritik Hata", f"İşlem sırasında bir hata oluştu: {e}")
 
     #Grafikler
     def grafik_alani_olustur(self):

@@ -218,11 +218,15 @@ class RegisterPage(ctk.CTkFrame):
         if not any(mail.endswith(domain) for domain in allowed_domains):
             messagebox.showerror("Hata", "Mail adresiniz yalnızca @gmail.com veya @hotmail.com olabilir!")
             return
-        
-        #Telefon numarası uzunluk kontrolü
-        if len(phone) != 11:
-            messagebox.showerror("Hata","Telefon numarası 11 karakterden oluşmalı!")
+
+        import re
+        tel_pattern = r'^05[0-9]{9}$'
+
+        if not re.match(tel_pattern, phone):
+            messagebox.showwarning("Geçersiz Telefon",
+                                   "Telefon numarası '05' ile başlamalı ve toplam 11 haneli olmalıdır.\nÖrn: 05551234567")
             return
+
 
         # regex yöntemi
         import re
