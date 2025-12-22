@@ -67,7 +67,7 @@
                 "start_date": "16.12.2025",
                 "finsh_date": "17.12.2025",
                 "price": "4200 ₺",
-                "status": "Aktif"
+                "status": "Tamamlandı"
             },
             {
                 "plate": "34ABC12",
@@ -271,16 +271,58 @@
         "role": "musteri",
         "history": []
     },
-
+    {
+        "id": 9,
+        "name": "nis",
+        "surname": "sah",
+        "password": "1234",
+        "age": "18",
+        "mail": "nisanirsah@gmail.com",
+        "phone": "05415855593",
+        "role": "musteri",
+        "history": [
+            {
+                "plate": "34ABC12",
+                "year": "2023",
+                "brand": "Fiat",
+                "model": "Egea",
+                "start_date": "21.12.2025",
+                "finsh_date": "21.12.2025",
+                "price": "1000",
+                "status": "Tamamlandı"
+            },
+            {
+                "plate": "34ABC12",
+                "year": "2023",
+                "brand": "Fiat",
+                "model": "Egea",
+                "start_date": "21.12.2025",
+                "finsh_date": "21.12.2025",
+                "price": "1000",
+                "status": "Tamamlandı"
+            }
+        ]
+    },
     {
         "id": 10,
-        "name": "nisanir",
-        "surname": "sah",
-        "password": "12345678",
-        "age": "19",
-        "mail": "nisanirsah@gmail.com",
-        "phone": "05317950776",
+        "name": "selam",
+        "surname": "ben",
+        "password": "123456",
+        "age": "20",
+        "mail": "selam@gmail.com",
+        "phone": "05895668963",
         "role": "musteri",
-        "history": []
+        "history": [
+            {
+                "plate": "34ABC12",
+                "year": "2023",
+                "brand": "Fiat",
+                "model": "Egea",
+                "start_date": "22.12.2025",
+                "finsh_date": "22.12.2025",
+                "price": "1000",
+                "status": "Tamamlandı"
+            }
+        ]
     }
 ]

@@ -1,23 +1,47 @@
 class User:
-    def __init__(self,id,name,surname,password,age,mail,phone,role="musteri"):
-        self.id=id
-        self.name=name
-        self.surname=surname
-        self.passwrod=password
-        self.age=age
-        self.mail=mail
-        self.phone=phone
-        self.role=role
+    def __init__(self, id, name, surname, password, age, mail, phone, role="musteri"):
+        self.__id = id
+        self.name = name
+        self.surname = surname
+
+        # Private Değişkenler
+        self.__password = password
+        self.__age = age
+        self.__mail = mail
+        self.__phone = phone
+
+        self.role = role
+
+    # --- GETTER METOTLARI ---
+    @property
+    def id(self):
+        return self.__id
+
+    @property
+    def password(self):
+        return self.__password
+
+    @property
+    def age(self):
+        return self.__age
+
+    @property
+    def mail(self):
+        return self.__mail
+
+    @property
+    def phone(self):
+        return self.__phone
+
 
     def to_dict(self):
-        return{
-            "id":self.id,
-            "name":self.name,
-            "surname":self.surname,
-            "password":self.passwrod,
-            "age":self.age,
-            "mail":self.mail,
-            "phone":self.phone,
-            "role":self.role
+        return {
+            "id": self.id,
+            "name": self.name,
+            "surname": self.surname,
+            "password": self.__password,
+            "age": self.__age,
+            "mail": self.__mail,
+            "phone": self.__phone,
+            "role": self.role
         }
-        

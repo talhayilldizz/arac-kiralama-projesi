@@ -158,8 +158,8 @@ class MusteriSayfasi(ctk.CTkFrame):
     def __init__(self, parent, controller, db_manager, current_user=None):
         super().__init__(parent, fg_color="#ECF0F1")
         self.controller = controller
-        self.db = db_manager
-        self.current_user = current_user
+        self.__db = db_manager
+        self.__current_user = current_user
 
         # Grid Ayarları
         self.grid_columnconfigure(1, weight=1)
@@ -282,7 +282,7 @@ class MusteriSayfasi(ctk.CTkFrame):
 
 
         try:
-            tum_araclar = self.db.get_all_cars()
+            tum_araclar = self.__db.get_all_cars()
         except Exception as e:
             print(f"Veri çekme hatası: {e}")
             tum_araclar = []
@@ -411,7 +411,7 @@ class MusteriSayfasi(ctk.CTkFrame):
 
     def listele(self):
         try:
-            araclar = self.db.get_all_cars()
+            araclar = self.__db.get_all_cars()
         except:
             araclar = []
 
@@ -497,18 +497,18 @@ class MusteriSayfasi(ctk.CTkFrame):
         if secim == "Profilim":
             from ui.profilePage import ProfilSayfasi
             self.destroy()
-            app = ProfilSayfasi(self.master, self.controller, self.db, self.current_user)
+            app = ProfilSayfasi(self.master, self.controller, self.__db, self.__current_user)
             app.grid(row=0, column=0, sticky="nsew")
 
         elif secim == "Çıkış Yap":
             from ui.loginPage import LoginPage
             self.destroy()
-            app = LoginPage(self.master, self.controller, self.db)
+            app = LoginPage(self.master, self.controller, self.__db)
             app.grid(row=0, column=0, sticky="nsew")
 
     def popup_ac(self, arac_bilgisi):
-        user_mail = self.current_user['mail'] if isinstance(self.current_user, dict) else "Misafir"
-        KiralaPopup(self, arac_bilgisi, self.db, user_mail)
+        user_mail = self.__current_user['mail'] if isinstance(self.__current_user, dict) else "Misafir"
+        KiralaPopup(self, arac_bilgisi, self.__db, user_mail)
 
     def detay_popup_ac(self, arac_bilgisi):
         DetayPopup(self, arac_bilgisi)

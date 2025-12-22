@@ -6,35 +6,35 @@ from models.user import User
 
 class Data_Manager:
     def __init__(self):
-        self.userfile = 'data/user.json'
-        self.carfile = 'data/car.json'
+        self.__userfile = 'data/user.json'
+        self.__carfile = 'data/car.json'
 
         # Klasör yoksa oluştur
         if not os.path.exists('data'):
             os.makedirs('data')
 
-        if not os.path.exists(self.userfile):
-            with open(self.userfile, "w", encoding="utf-8") as f:
+        if not os.path.exists(self.__userfile):
+            with open(self.__userfile, "w", encoding="utf-8") as f:
                 json.dump([], f)
 
-        if not os.path.exists(self.carfile):
-            with open(self.carfile, "w", encoding="utf-8") as f:
+        if not os.path.exists(self.__carfile):
+            with open(self.__carfile, "w", encoding="utf-8") as f:
                 json.dump([], f)
 
     def get_all_users(self):
-        with open(self.userfile, "r", encoding="utf-8") as f:
+        with open(self.__userfile, "r", encoding="utf-8") as f:
             return json.load(f)
 
     def user_register(self, id, name, surname, password, age, mail, phone):
         user = User(id, name, surname, password, age, mail, phone).to_dict()
         user["history"]=[]
 
-        with open(self.userfile, "r", encoding="utf-8") as f:
+        with open(self.__userfile, "r", encoding="utf-8") as f:
             users = json.load(f)
 
         users.append(user)
 
-        with open(self.userfile, "w", encoding="utf-8") as f:
+        with open(self.__userfile, "w", encoding="utf-8") as f:
             json.dump(users, f, indent=4, ensure_ascii=False)
 
         return True
@@ -49,7 +49,7 @@ class Data_Manager:
     # --- ARAÇ İŞLEMLERİ ---
 
     def get_all_cars(self):
-        with open(self.carfile, "r", encoding="utf-8") as f:
+        with open(self.__carfile, "r", encoding="utf-8") as f:
             return json.load(f)
 
     def add_car(self, brand, model, year, plate, price):
@@ -65,7 +65,7 @@ class Data_Manager:
         cars = self.get_all_cars()
         cars.append(car_dict)
 
-        with open(self.carfile, "w", encoding="utf-8") as f:
+        with open(self.__carfile, "w", encoding="utf-8") as f:
             json.dump(cars, f, indent=4, ensure_ascii=False)
 
         return True
@@ -86,7 +86,7 @@ class Data_Manager:
             update_cars.append(car)
 
         if updated:
-            with open(self.carfile, "w", encoding="utf-8") as f:
+            with open(self.__carfile, "w", encoding="utf-8") as f:
                 json.dump(update_cars, f, indent=4, ensure_ascii=False)
             return True
         return False
@@ -108,7 +108,7 @@ class Data_Manager:
                 new_cars.append(car)
 
         if deleted:
-            with open(self.carfile, "w", encoding="utf-8") as f:
+            with open(self.__carfile, "w", encoding="utf-8") as f:
                 json.dump(new_cars, f, indent=4, ensure_ascii=False)
             return True
         else:
@@ -176,9 +176,9 @@ class Data_Manager:
         
         if user_updated:
               
-            with open(self.carfile, "w", encoding="utf-8") as f:
+            with open(self.__carfile, "w", encoding="utf-8") as f:
                json.dump(cars, f, indent=4, ensure_ascii=False)
-            with open(self.userfile, "w", encoding="utf-8") as f:
+            with open(self.__userfile, "w", encoding="utf-8") as f:
                 json.dump(users, f, indent=4, ensure_ascii=False)
 
           
@@ -224,11 +224,11 @@ class Data_Manager:
 
         try:
             
-            with open(self.carfile, "w", encoding="utf-8") as f:
+            with open(self.__carfile, "w", encoding="utf-8") as f:
                 json.dump(cars, f, indent=4, ensure_ascii=False)
             
             if history_updated:
-                with open(self.userfile, "w", encoding="utf-8") as f:
+                with open(self.__userfile, "w", encoding="utf-8") as f:
                     json.dump(users, f, indent=4, ensure_ascii=False)
           
             return True

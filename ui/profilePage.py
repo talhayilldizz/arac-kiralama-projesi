@@ -12,9 +12,10 @@ from collections import Counter, defaultdict
 class ProfilSayfasi(ctk.CTkFrame):
     def __init__(self, parent, controller,db_manager, current_user):
         super().__init__(parent, fg_color="#ECF0F1")
-        self.controller = controller
-        self.db_manager = db_manager
-        self.current_user = current_user
+        self.entry_tel = None
+        self.__controller = controller
+        self.__db_manager = db_manager
+        self.__current_user = current_user
         self.grafik_frame = None
 
         self.entry_widgets = {}
@@ -64,12 +65,12 @@ class ProfilSayfasi(ctk.CTkFrame):
         YAZI_RENGI = "#BDC3C7"     
         
         kullanici_bilgileri = {
-            "Ad": self.current_user.get("name", ""),
-            "Soyad": self.current_user.get("surname", ""),
-            "Yaş": self.current_user.get("age", ""),
-            "Tel No": self.current_user.get("phone", ""),
-            "Gmail": self.current_user.get("mail", ""),
-            "Şifre": self.current_user.get("password", "")
+            "Ad": self.__current_user.get("name", ""),
+            "Soyad": self.__current_user.get("surname", ""),
+            "Yaş": self.__current_user.get("age", ""),
+            "Tel No": self.__current_user.get("phone", ""),
+            "Gmail": self.__current_user.get("mail", ""),
+            "Şifre": self.__current_user.get("password", "")
         }
 
         row_count = 2
@@ -251,11 +252,11 @@ class ProfilSayfasi(ctk.CTkFrame):
         self.aktif_kiralamalar = []
         self.gecmis_kiralamalar = []
         
-        users = self.db_manager.get_all_users()
+        users = self.__db_manager.get_all_users()
         
         guncel_kullanici_verisi = None
         for user in users:
-            if user["mail"] == self.current_user["mail"]:
+            if user["mail"] == self.__current_user["mail"]:
                 guncel_kullanici_verisi = user
                 break
         
@@ -292,7 +293,7 @@ class ProfilSayfasi(ctk.CTkFrame):
         
         if onay:
            
-            success = self.db_manager.return_car(plaka)
+            success = self.__db_manager.return_car(plaka)
             
             if success:
                 messagebox.showinfo("Başarılı", "Araç başarıyla iade edildi.")
@@ -305,7 +306,7 @@ class ProfilSayfasi(ctk.CTkFrame):
         plaka = history_arac.get("plate")
        
         try:
-            araclar = self.db_manager.get_all_cars()
+            araclar = self.__db_manager.get_all_cars()
         except:
             araclar = []
 
@@ -326,8 +327,8 @@ class ProfilSayfasi(ctk.CTkFrame):
             if "müsait" in durum:
                 try:
                     from ui.customerPage import KiralaPopup
-                    user_mail = self.current_user.get("mail")
-                    popup = KiralaPopup(self, guncel_arac, self.db_manager, user_mail)
+                    user_mail = self.__current_user.get("mail")
+                    popup = KiralaPopup(self, guncel_arac, self.__db_manager, user_mail)
                     
                     self.wait_window(popup)
                 
@@ -350,7 +351,7 @@ class ProfilSayfasi(ctk.CTkFrame):
     def musteri_sayfasina_git(self):
         from ui.customerPage import MusteriSayfasi
         self.destroy()
-        app = MusteriSayfasi(self.master, self.controller, self.db_manager, self.current_user)
+        app = MusteriSayfasi(self.master, self.__controller, self.__db_manager, self.__current_user)
         app.grid(row=0, column=0, sticky="nsew")
 
 
@@ -391,12 +392,84 @@ class ProfilSayfasi(ctk.CTkFrame):
 
             # 4. Email Kontrolü (REGEX)
             # Standart email formatı (isim@domain.uzanti)
+            if '@' not in mail:
+                messagebox.showerror("Hata", "Mail adresi doğru formatta değil")
+                return
+
+            if mail.startswith('@'):
+                messagebox.showerror("Hata", "Mail adresinin başına kullanıcı adı yazmalısınız!")
+                return
+
+            if ' ' in mail:
+                messagebox.showerror("Hata", "Mail adresinde boşluk olamaz!")
+                return
+
+            # Çift nokta kontrolü (örn: ali..veli@gmail.com yanlıştır)
+            if ".." in mail:
+                messagebox.showerror("Hata", "Mail adresinde yan yana iki nokta (..) bulunamaz.")
+                return
+
+            # Yasaklı karakter kontrolü
+            yasakli_karakterler = ["\\", "ş", "ü", "ö", "ç", "ğ", "ı", "Ş", "Ü", "Ö", "Ç", "Ğ", "İ", "(", ")", "*", "/"]
+            for harf in mail:
+                if harf in yasakli_karakterler:
+                    messagebox.showerror("Hata", "Mail adresinde Türkçe karakter veya özel sembol kullanmayınız.")
+                    return
+
+            # @ işaretinden önceki kısmı alalım
+            kullanici_adi = mail.split('@')[0]
+            mail_form = mail.split('@')[-1]
+
+            correct_mail_forms = ['gmail.com', 'hotmail.com', 'outlook.com']
+
+            if mail_form not in correct_mail_forms:
+                messagebox.showerror("Hata", "Mail adresi formu hatalı, lütfen geçerli bir form girin. ")
+                return
+
+            # Kullanıcı adı en az 3 karakter olsun
+            if len(kullanici_adi) < 3:
+                messagebox.showerror("Hata", "Mail adresi çok kısa, lütfen geçerli bir adres girin.")
+                return
+
+            # Maili @ işaretinden ikiye bölüyoruz
+            parts = mail.split('@')
+
+            # Eğer split sonucu hatalıysa
+            if len(parts) < 2:
+                return
+
+            username = parts[0]  # @'den önceki kısım
+
+            if not username[0].isalpha():
+                messagebox.showerror("Hata",
+                                     "Mail adresi mutlaka bir harf ile başlamalıdır! (Rakam veya sembolle başlayamaz)")
+                return
+
+            if not username[-1].isalnum():
+                messagebox.showerror("Hata",
+                                     "Mail kullanıcı adı nokta veya özel karakterle bitemez! (@ işaretinden önce harf veya rakam olmalı)")
+                return
+
             email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
 
             if not re.match(email_pattern, mail):
-                messagebox.showwarning("Geçersiz Mail",
-                                       "Lütfen geçerli bir e-posta adresi giriniz.\nÖrn: user@gmail.com")
+                messagebox.showwarning("Geçersiz Mail", "Lütfen geçerli bir e-posta adresi giriniz.\nÖrn: user@gmail.com")
                 return
+
+            users = self.__db_manager.get_all_users()
+            current_mail = self.__current_user.get("mail")
+
+            for user in users:
+                # Kural: "Ben olmayan" herhangi bir kullanıcıda bu telefon varsa hata ver.
+                if user['mail'] != current_mail and user['phone'] == tel:
+                    messagebox.showerror("Hata", "Bu telefon numarası başka bir kullanıcıda kayıtlı!")
+                    return
+
+                # Kural: "Ben olmayan" herhangi bir kullanıcıda bu mail varsa hata ver.
+                if user['mail'] != current_mail and user['mail'] == mail:
+                    messagebox.showerror("Hata", "Bu mail adresi başka bir kullanıcıda kayıtlı!")
+                    return
+
 
             # 5. Şifre Uzunluk Kontrolü (Opsiyonel ama önerilir)
             if len(sifre) < 4:
@@ -424,7 +497,7 @@ class ProfilSayfasi(ctk.CTkFrame):
                     kullanicilar = json.load(f)
 
                 kullanici_bulundu = False
-                mevcut_mail = self.current_user.get("mail")
+                mevcut_mail = self.__current_user.get("mail")
 
                 # Kullanıcıyı bul ve güncelle
                 for user in kullanicilar:
@@ -438,7 +511,7 @@ class ProfilSayfasi(ctk.CTkFrame):
                         json.dump(kullanicilar, f, ensure_ascii=False, indent=4)
 
                     # Bellekteki (RAM) mevcut kullanıcıyı da güncelle ki çıkıp girmesine gerek kalmasın
-                    self.current_user.update(yeni_veriler)
+                    self.__current_user.update(yeni_veriler)
                     messagebox.showinfo("Başarılı", "Bilgileriniz güvenli bir şekilde güncellendi!")
                 else:
                     messagebox.showerror("Hata", "Kullanıcı veritabanında bulunamadı.")

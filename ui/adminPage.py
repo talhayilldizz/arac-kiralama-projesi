@@ -8,11 +8,11 @@ class AdminSayfasi(ctk.CTkFrame):
     def __init__(self,parent,controller, db_manager):
         super().__init__(parent,fg_color="#ECF0F1")
         self.controller=controller
-        self.db = db_manager
+        self.__db = db_manager
 
         #Güncelleme işleminde kullanılacak
-        self.edit_mode=False
-        self.edit_car_plate=None
+        self.__edit_mode=False
+        self.__edit_car_plate=None
 
         #Aracı kiralayan kişinin idsi
         self.current_user_mail=None
@@ -250,7 +250,7 @@ class AdminSayfasi(ctk.CTkFrame):
 
         self.lbl_rented_list = ctk.CTkLabel(
             self.rented_car_area,
-            text="KİRALAMA GEÇMİŞİ",
+            text="AKTİF KİRALAMALAR",
             font=("Roboto", 16, "bold"),
             text_color="#2C3E50",
             anchor="w"
@@ -301,13 +301,13 @@ class AdminSayfasi(ctk.CTkFrame):
                 messagebox.showerror("Hata","Eksik Kutuları Doldurun!")
                 return
 
-        cars=self.db.get_all_cars()
+        cars=self.__db.get_all_cars()
         for car in cars:
             if car['plate'] == plate:
                 messagebox.showerror("Hata","Bu plaka sistemde kayıtlı!")
                 return
         
-        success=self.db.add_car(brand,model,year,plate,price)
+        success=self.__db.add_car(brand,model,year,plate,price)
 
         if success:
             messagebox.showinfo("Başarılı","Araç Eklendi")
@@ -334,7 +334,7 @@ class AdminSayfasi(ctk.CTkFrame):
 
    
     def btn_car_edit(self,car_plate):
-        car=self.db.get_car_by_id(car_plate)
+        car=self.__db.get_car_by_id(car_plate)
 
         #İnputları temizleyip güncellenecek aracın bilgilerini yazmamız lazım
         if not car:
@@ -361,8 +361,8 @@ class AdminSayfasi(ctk.CTkFrame):
         self.entry_ucret.delete(0,"end")
         self.entry_ucret.insert(0,car["price"])
 
-        self.edit_mode=True
-        self.edit_car_plate=car_plate
+        self.__edit_mode=True
+        self.__edit_car_plate=car_plate
 
         self.btn_add.configure(text="Güncelle",fg_color="blue",command=self.save_update_car)
 
@@ -380,13 +380,13 @@ class AdminSayfasi(ctk.CTkFrame):
                 messagebox.showerror("Hata","Eksik Kısımları Doldurun..")
                 return
         
-        cars=self.db.get_all_cars()
+        cars=self.__db.get_all_cars()
         for car in cars:
-            if car['plate'] == new_plate and car['plate'] != self.edit_car_plate:
+            if car['plate'] == new_plate and car['plate'] != self.__edit_car_plate:
                 messagebox.showerror("Hata","Bu plaka başka araca ait. Başka plaka deneyin.")
                 return
         
-        success=self.db.update_car(self.edit_car_plate,new_plate,brand,model,year,price)
+        success=self.__db.update_car(self.__edit_car_plate,new_plate,brand,model,year,price)
 
         if success:
             messagebox.showinfo("Başarılı","Araç Güncellendi")
@@ -398,8 +398,8 @@ class AdminSayfasi(ctk.CTkFrame):
             self.entry_ucret.delete(0, 'end')
 
             self.btn_add.configure(text="Araç Ekle", fg_color="#1ABC9C", command=self.btn_car_add)
-            self.edit_mode=False
-            self.edit_car_plate=None
+            self.__edit_mode=False
+            self.__edit_car_plate=None
 
             self.get_all_cars()
         else:
@@ -409,7 +409,7 @@ class AdminSayfasi(ctk.CTkFrame):
 
     def delete_car(self,car_plate):
         if messagebox.askyesno("Onay","Aracı Silmek İstediğinize Eminmisiniz?"):
-            success=self.db.car_delete(car_plate)
+            success=self.__db.car_delete(car_plate)
             if success:
                 messagebox.showinfo("Başarılı","Araç Silindi")
                 self.get_all_cars()
@@ -420,7 +420,7 @@ class AdminSayfasi(ctk.CTkFrame):
     def btn_pricepage(self):
         from ui.pricePage import TahminSayfasi
         self.destroy()
-        TahminSayfasi(self.master, self.controller,self.db).pack(expand=True, fill="both")
+        TahminSayfasi(self.master, self.controller,self.__db).pack(expand=True, fill="both")
 
     #Her araç için bir satır
     def add_car_row(self, row, car):
@@ -555,7 +555,7 @@ class AdminSayfasi(ctk.CTkFrame):
         for widget in self.user_list_frame.winfo_children():
             widget.destroy()
 
-        users = self.db.get_all_users()
+        users = self.__db.get_all_users()
         
 
         for i, user in enumerate(users):
@@ -568,7 +568,7 @@ class AdminSayfasi(ctk.CTkFrame):
             for widget in self.car_list_frame.winfo_children():
                 widget.destroy()
 
-            cars = self.db.get_all_cars()
+            cars = self.__db.get_all_cars()
 
             for i, car in enumerate(cars):
                 self.add_car_row(i, car)
@@ -596,7 +596,7 @@ class AdminSayfasi(ctk.CTkFrame):
         from ui.loginPage import LoginPage
         self.destroy()
 
-        app = LoginPage(self.master, self.controller, self.db)
+        app = LoginPage(self.master, self.controller, self.__db)
         app.grid(row=0, column=0, sticky="nsew")
 
     #Kullanıcının kiraladğı araçlar
@@ -606,7 +606,7 @@ class AdminSayfasi(ctk.CTkFrame):
         for widget in self.rented_list_frame.winfo_children():
             widget.destroy()
 
-        rentals = self.db.get_car_by_mail(user_mail) 
+        rentals = self.__db.get_car_by_mail(user_mail)
 
         if not rentals or not isinstance(rentals, list): 
             ctk.CTkLabel(
@@ -666,7 +666,7 @@ class AdminSayfasi(ctk.CTkFrame):
     def graph_page(self):
         from ui.adminGraphPage import RaporlarSayfasi
         self.destroy()
-        RaporlarSayfasi(self.master,self.controller,self.db).pack(expand=True,fill="both")
+        RaporlarSayfasi(self.master,self.controller,self.__db).pack(expand=True,fill="both")
 
 
     

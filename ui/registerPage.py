@@ -5,8 +5,8 @@ from tkinter import messagebox
 class RegisterPage(ctk.CTkFrame):
     def __init__(self, parent, controller, db_manager):
         super().__init__(parent, fg_color="#ECF0F1")
-        self.controller = controller
-        self.db=db_manager
+        self.__controller = controller
+        self.__db=db_manager
 
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
@@ -124,7 +124,7 @@ class RegisterPage(ctk.CTkFrame):
 
     def register_event(self):
         #Benzersiz değerleri ayırt etmemiz için data_manager'den tüm kullanıcıları çektik
-        users=self.db.get_all_users()
+        users=self.__db.get_all_users()
 
         #Kullanıcıların id'lerini array olarak aldık
         existing_id=[user['id'] for user in users]
@@ -248,13 +248,13 @@ class RegisterPage(ctk.CTkFrame):
                 return
 
         #Verilerimiz kontrollerden geçerse data_manager dosyasındaki user_register fonksiyonu ile dosyaya yazıyoruz
-        success=self.db.user_register(id,name,surname,password,age,mail,phone)
+        success=self.__db.user_register(id,name,surname,password,age,mail,phone)
 
         if success:
             messagebox.showinfo("Başarılı","Kayıt Başarılı")
             from ui.loginPage import LoginPage
             self.destroy()
-            LoginPage(self.master,self.controller,self.db).pack(expand=True,fill="both")
+            LoginPage(self.master,self.__controller,self.__db).pack(expand=True,fill="both")
         else:
             messagebox.showerror("Hata","Kayıt esnasında bir hata oluştu!")
 
@@ -262,7 +262,7 @@ class RegisterPage(ctk.CTkFrame):
     def go_to_login(self):
         from ui.loginPage import LoginPage
         self.destroy()
-        LoginPage(self.master,self.controller,self.db).pack(expand=True, fill="both")
+        LoginPage(self.master,self.__controller,self.__db).pack(expand=True, fill="both")
 
     #ID Ataması İçin Kullanacağımız fonksiyon
     def get_unique_id(self, existing_ids):

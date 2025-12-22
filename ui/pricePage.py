@@ -6,8 +6,8 @@ from ai.price_estimate import fiyat_tahmin_et
 class TahminSayfasi(ctk.CTkFrame):
     def __init__(self, parent, controller, db_manager):
         super().__init__(parent, fg_color="#ECF0F1")
-        self.controller = controller
-        self.db = db_manager
+        self.__controller = controller
+        self.__db = db_manager
 
         self.grid_rowconfigure(1, weight=1)
         self.grid_rowconfigure(0, minsize=120)
@@ -166,4 +166,4 @@ class TahminSayfasi(ctk.CTkFrame):
     def admin_page(self):
         from ui.adminPage import AdminSayfasi
         self.destroy()
-        AdminSayfasi(self.master, self.controller,self.db).pack(expand=True, fill="both")
+        AdminSayfasi(self.master, self.__controller,self.__db).pack(expand=True, fill="both")

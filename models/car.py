@@ -3,12 +3,16 @@ class Car:
         self.brand=brand
         self.model=model
         self.year=year
-        self.plate=plate
+        self.__plate = plate
         self.price=price
         self.status=status
         self.rented_id=rented_id
         self.start_date=start_date
         self.finsh_date=finsh_date
+
+    @property
+    def plate(self):
+        return self.__plate
 
     def to_dict(self):
         return {
