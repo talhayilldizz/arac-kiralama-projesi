@@ -17,7 +17,7 @@ class AdminSayfasi(ctk.CTkFrame):
         #Aracı kiralayan kişinin idsi
         self.current_user_mail=None
 
-        #Sayfayı 2 ye böldüm
+        
         self.grid_columnconfigure(1,weight=1)
         self.grid_columnconfigure(0, minsize=300)
         self.grid_rowconfigure(0,weight=1)
@@ -27,7 +27,7 @@ class AdminSayfasi(ctk.CTkFrame):
         self.form_frame.grid(row=0,column=0,sticky="nsew")
         self.form_frame.grid_rowconfigure(10, weight=1)
 
-        #Sayfa Adı
+        
         self.admin_label=ctk.CTkLabel(
             self.form_frame,
             text="Yönetici Sayfası",
@@ -125,21 +125,21 @@ class AdminSayfasi(ctk.CTkFrame):
         self.btn_cikis = ctk.CTkButton(
             self.form_frame,
             text="Çıkış Yap",
-            fg_color="#C0392B",  # Kırmızı tonu
-            hover_color="#E74C3C",  # Üzerine gelince açılan renk
+            fg_color="#C0392B", 
+            hover_color="#E74C3C",  
             height=40,
             corner_radius=8,
             font=("Roboto", 14, "bold"),
-            command=self.cikis_yap  # Tıklanınca çalışacak fonksiyon
+            command=self.cikis_yap 
         )
-        # Row sayısını yüksek veriyoruz ki en altta kalsın
+        
         self.btn_cikis.grid(row=11, column=0, padx=20, pady=(30,8), sticky="ew")
 
 
         #Tablolar
         self.table_container=ctk.CTkFrame(self,fg_color="transparent")
         self.table_container.grid(row=0, column=1, padx=25, pady=25, sticky="nsew")
-        self.table_container.grid_rowconfigure(1,weight=1) # bottom_frame'in esnemesini sağlar
+        self.table_container.grid_rowconfigure(1,weight=1) 
         self.table_container.grid_columnconfigure(0, weight=1)
 
         #Araçlar Tablosu
@@ -210,7 +210,7 @@ class AdminSayfasi(ctk.CTkFrame):
 
         #Kullanıcı Özelliklerinin Başlıklarının Olacağı Frame
         self.header_frame2 = ctk.CTkFrame(
-            self.user_list_area, # user_list_area içinde
+            self.user_list_area, 
             fg_color="#34495E",
             height=40,
             corner_radius=5,
@@ -234,13 +234,13 @@ class AdminSayfasi(ctk.CTkFrame):
             ).grid(row=0, column=i, padx=10, pady=10, sticky=align)
 
         self.user_list_frame = ctk.CTkScrollableFrame(
-            self.user_list_area, # user_list_area içinde
+            self.user_list_area,
             fg_color="transparent"
         )
-        self.user_list_frame.grid(row=2, column=0, sticky="nsew") # Kullanıcı listesi dikeyde esner
+        self.user_list_frame.grid(row=2, column=0, sticky="nsew") 
 
 
-        # Kiralanan araçlar listesi (bottom_frame Sütun 1)
+        # Kiralanan araçlar listesi 
         self.rented_car_area = ctk.CTkFrame(self.bottom_frame, fg_color="transparent")
         self.rented_car_area.grid(row=0, column=1, sticky="nsew")
         self.rented_car_area.configure(width=0)
@@ -336,7 +336,7 @@ class AdminSayfasi(ctk.CTkFrame):
     def btn_car_edit(self,car_plate):
         car=self.__db.get_car_by_id(car_plate)
 
-        #İnputları temizleyip güncellenecek aracın bilgilerini yazmamız lazım
+        
         if not car:
             messagebox.showerror("Hata","Araç Bulunamadı..")
             return
@@ -390,7 +390,6 @@ class AdminSayfasi(ctk.CTkFrame):
 
         if success:
             messagebox.showinfo("Başarılı","Araç Güncellendi")
-             #Inputlar Temizlenir
             self.entry_plaka.delete(0, 'end')
             self.entry_marka.delete(0, 'end')
             self.entry_model.delete(0, 'end')
@@ -444,11 +443,10 @@ class AdminSayfasi(ctk.CTkFrame):
             car["status"]
         ]
         
-        # Sütun yapılandırmasını başlıklarla (car_col_widths) aynı yapıyoruz
         for i, width in enumerate(self.car_col_widths):
             row_frame.grid_columnconfigure(i, weight=1, minsize=width)
 
-        # Verileri yerleştir (İlk 6 sütun)
+        # Verileri yerleştir
         for i, value in enumerate(values):
             lbl = ctk.CTkLabel(
                 row_frame,

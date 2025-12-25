@@ -280,7 +280,7 @@ class ProfilSayfasi(ctk.CTkFrame):
                 if info.get("status") == "Aktif":
                     self.aktif_kiralamalar.append(kart_verisi)
                 else:
-                    # en son kiralanan en üstte dursun diye
+                    # en son kiralanan en üstte dursun 
                     self.gecmis_kiralamalar.insert(0, kart_verisi)
 
 
@@ -357,7 +357,7 @@ class ProfilSayfasi(ctk.CTkFrame):
 
 
     def bilgileri_guncelle(self):
-            # 1. Verileri Entry'lerden Çekelim ve boşlukları temizleyelim
+            #inputlardan verileri aldık
             ad = self.entry_widgets["Ad"].get().strip()
             soyad = self.entry_widgets["Soyad"].get().strip()
             yas = self.entry_widgets["Yaş"].get().strip()
@@ -365,12 +365,12 @@ class ProfilSayfasi(ctk.CTkFrame):
             mail = self.entry_widgets["Gmail"].get().strip()
             sifre = self.entry_widgets["Şifre"].get().strip()
 
-            # 1. Boş Alan Kontrolü
+            
             if not ad or not soyad or not yas or not tel or not mail or not sifre:
                 messagebox.showwarning("Eksik Bilgi", "Lütfen tüm alanları doldurunuz.")
                 return
 
-            # 2. Yaş Kontrolü
+            
             try:
                 yas_int = int(yas)
                 if yas_int < 18:
@@ -380,9 +380,7 @@ class ProfilSayfasi(ctk.CTkFrame):
                 messagebox.showerror("Hata", "Yaş bilgisi sadece rakam içermelidir.")
                 return
 
-            # 3. Telefon Kontrolü (REGEX)
-            # ^05       -> Mutlaka 05 ile başlamalı
-            # [0-9]{9}$ -> Devamında tam 9 tane rakam gelmeli (Toplam 11 hane)
+            
             tel_pattern = r'^05[0-9]{9}$'
 
             if not re.match(tel_pattern, tel):
@@ -390,8 +388,6 @@ class ProfilSayfasi(ctk.CTkFrame):
                                        "Telefon numarası '05' ile başlamalı ve toplam 11 haneli olmalıdır.\nÖrn: 05551234567")
                 return
 
-            # 4. Email Kontrolü (REGEX)
-            # Standart email formatı (isim@domain.uzanti)
             if '@' not in mail:
                 messagebox.showerror("Hata", "Mail adresi doğru formatta değil")
                 return
@@ -404,19 +400,17 @@ class ProfilSayfasi(ctk.CTkFrame):
                 messagebox.showerror("Hata", "Mail adresinde boşluk olamaz!")
                 return
 
-            # Çift nokta kontrolü (örn: ali..veli@gmail.com yanlıştır)
+            
             if ".." in mail:
                 messagebox.showerror("Hata", "Mail adresinde yan yana iki nokta (..) bulunamaz.")
                 return
 
-            # Yasaklı karakter kontrolü
             yasakli_karakterler = ["\\", "ş", "ü", "ö", "ç", "ğ", "ı", "Ş", "Ü", "Ö", "Ç", "Ğ", "İ", "(", ")", "*", "/"]
             for harf in mail:
                 if harf in yasakli_karakterler:
                     messagebox.showerror("Hata", "Mail adresinde Türkçe karakter veya özel sembol kullanmayınız.")
                     return
 
-            # @ işaretinden önceki kısmı alalım
             kullanici_adi = mail.split('@')[0]
             mail_form = mail.split('@')[-1]
 
@@ -426,19 +420,16 @@ class ProfilSayfasi(ctk.CTkFrame):
                 messagebox.showerror("Hata", "Mail adresi formu hatalı, lütfen geçerli bir form girin. ")
                 return
 
-            # Kullanıcı adı en az 3 karakter olsun
             if len(kullanici_adi) < 3:
                 messagebox.showerror("Hata", "Mail adresi çok kısa, lütfen geçerli bir adres girin.")
                 return
 
-            # Maili @ işaretinden ikiye bölüyoruz
             parts = mail.split('@')
 
-            # Eğer split sonucu hatalıysa
             if len(parts) < 2:
                 return
 
-            username = parts[0]  # @'den önceki kısım
+            username = parts[0] 
 
             if not username[0].isalpha():
                 messagebox.showerror("Hata",
@@ -460,18 +451,16 @@ class ProfilSayfasi(ctk.CTkFrame):
             current_mail = self.__current_user.get("mail")
 
             for user in users:
-                # Kural: "Ben olmayan" herhangi bir kullanıcıda bu telefon varsa hata ver.
                 if user['mail'] != current_mail and user['phone'] == tel:
                     messagebox.showerror("Hata", "Bu telefon numarası başka bir kullanıcıda kayıtlı!")
                     return
 
-                # Kural: "Ben olmayan" herhangi bir kullanıcıda bu mail varsa hata ver.
                 if user['mail'] != current_mail and user['mail'] == mail:
                     messagebox.showerror("Hata", "Bu mail adresi başka bir kullanıcıda kayıtlı!")
                     return
 
 
-            # 5. Şifre Uzunluk Kontrolü (Opsiyonel ama önerilir)
+           
             if len(sifre) < 4:
                 messagebox.showwarning("Zayıf Şifre", "Şifreniz en az 4 karakter olmalıdır.")
                 return
@@ -510,7 +499,6 @@ class ProfilSayfasi(ctk.CTkFrame):
                     with open(dosya_yolu, "w", encoding="utf-8") as f:
                         json.dump(kullanicilar, f, ensure_ascii=False, indent=4)
 
-                    # Bellekteki (RAM) mevcut kullanıcıyı da güncelle ki çıkıp girmesine gerek kalmasın
                     self.__current_user.update(yeni_veriler)
                     messagebox.showinfo("Başarılı", "Bilgileriniz güvenli bir şekilde güncellendi!")
                 else:

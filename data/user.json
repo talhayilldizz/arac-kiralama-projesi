@@ -11,317 +11,65 @@
     },
     {
         "id": 0,
-        "name": "TestAd",
+        "name": "Test",
         "surname": "TestSoyad",
         "password": "1234567",
-        "age": "21",
+        "age": "20",
         "mail": "test@gmail.com",
-        "phone": "05123456789",
+        "phone": "05555555554",
         "role": "musteri",
         "history": [
             {
-                "plate": "34 JGF 34",
-                "year": "2023",
-                "brand": "Seat",
-                "model": "Leon",
-                "start_date": "15.12.2025",
-                "finsh_date": "17.12.2025",
-                "price": "4200",
-                "status": "Tamamlandı"
-            },
-            {
-                "plate": "34 ASD 432",
+                "plate": "34 ABC 123",
                 "year": "2024",
-                "brand": "Mercedes",
-                "model": "S300",
-                "start_date": "15.12.2025",
-                "finsh_date": "17.12.2025",
-                "price": "4000",
-                "status": "Tamamlandı"
-            },
-            {
-                "plate": "34ABC12",
-                "year": "2023",
-                "brand": "Fiat",
-                "model": "Egea",
-                "start_date": "16.12.2025",
-                "finsh_date": "17.12.2025",
-                "price": "1000",
-                "status": "Tamamlandı"
-            },
-            {
-                "plate": "34 DEF 456",
-                "year": "2020",
                 "brand": "Audi",
-                "model": " A6",
-                "start_date": "16.12.2025",
-                "finsh_date": "17.12.2025",
-                "price": "4200 ₺",
-                "status": "Tamamlandı"
-            },
-            {
-                "plate": "34 DEF 456",
-                "year": "2020",
-                "brand": "Audi",
-                "model": " A6",
-                "start_date": "16.12.2025",
-                "finsh_date": "17.12.2025",
-                "price": "4200 ₺",
-                "status": "Tamamlandı"
-            },
-            {
-                "plate": "34ABC12",
-                "year": "2023",
-                "brand": "Fiat",
-                "model": "Egea",
-                "start_date": "16.12.2025",
-                "finsh_date": "24.12.2025",
-                "price": "1000",
-                "status": "Tamamlandı"
-            }
-        ]
-    },
-    {
-        "id": 3,
-        "name": "nisanur",
-        "surname": "şahin",
-        "password": "121432",
-        "age": "20",
-        "mail": "nisa@gmail.com",
-        "phone": "05555551236",
-        "role": "musteri",
-        "history": []
-    },
-    {
-        "id": 4,
-        "name": "Fatma",
-        "surname": "tanrıverdi",
-        "password": "1234",
-        "age": "20",
-        "mail": "fatma@gmail.com",
-        "phone": "05363309458",
-        "role": "musteri",
-        "history": [
-            {
-                "plate": "34 ASD 432",
-                "year": "2024",
-                "brand": "Mercedes",
-                "model": "S300",
-                "start_date": "16.12.2025",
-                "finsh_date": "16.12.2025",
-                "price": "4000",
-                "status": "Tamamlandı"
-            },
-            {
-                "plate": "34 FDR 342",
-                "year": "2024",
-                "brand": "Renault",
-                "model": "Megane",
-                "start_date": "16.12.2025",
-                "finsh_date": "24.12.2025",
-                "price": "3200",
-                "status": "Tamamlandı"
-            },
-            {
-                "plate": "34ABC12",
-                "year": "2023",
-                "brand": "Fiat",
-                "model": "Egea",
-                "start_date": "02.12.2025",
+                "model": "A5",
+                "start_date": "25.12.2025",
                 "finsh_date": "26.12.2025",
-                "price": "1000",
+                "price": "4000",
                 "status": "Tamamlandı"
             },
             {
-                "plate": "34 DEF 456",
-                "year": "2020",
-                "brand": "Audi",
-                "model": " A6",
-                "start_date": "03.12.2025",
-                "finsh_date": "15.12.2025",
-                "price": "4200 ₺",
-                "status": "Tamamlandı"
-            },
-            {
-                "plate": "34 DEF 456",
-                "year": "2020",
-                "brand": "Audi",
-                "model": " A6",
-                "start_date": "02.12.2025",
-                "finsh_date": "16.12.2025",
-                "price": "4200 ₺",
-                "status": "Tamamlandı"
-            },
-            {
-                "plate": "34 FDR 342",
+                "plate": "34 GFD 909",
                 "year": "2024",
                 "brand": "Renault",
                 "model": "Megane",
-                "start_date": "02.11.2025",
-                "finsh_date": "05.11.2025",
-                "price": "3200",
+                "start_date": "25.12.2025",
+                "finsh_date": "31.12.2025",
+                "price": "2000",
                 "status": "Aktif"
-            },
-            {
-                "plate": "34 DEF 456",
-                "year": "2020",
-                "brand": "Audi",
-                "model": " A6",
-                "start_date": "04.02.2026",
-                "finsh_date": "08.02.2026",
-                "price": "4200 ₺",
-                "status": "Tamamlandı"
             }
         ]
-    },
-    {
-        "id": 5,
-        "name": "Damla",
-        "surname": "Mengüş",
-        "password": "987654",
-        "age": "25",
-        "mail": "damla.mengus@hotmail.com",
-        "phone": "05363564521",
-        "role": "musteri",
-        "history": []
     },
     {
         "id": 2,
-        "name": "Talha",
-        "surname": "Yıldız",
+        "name": "Deneme",
+        "surname": "DenemeSoyad",
         "password": "1234567",
         "age": "20",
-        "mail": "talha@gmail.com",
-        "phone": "05122311234",
+        "mail": "deneme@gmail.com",
+        "phone": "05555555552",
         "role": "musteri",
         "history": [
             {
-                "plate": "34 ASD 432",
+                "plate": "34 HFS 234",
+                "year": "2023",
+                "brand": "Bmw",
+                "model": "F30",
+                "start_date": "25.12.2025",
+                "finsh_date": "30.12.2025",
+                "price": "3400",
+                "status": "Aktif"
+            },
+            {
+                "plate": "34 KLS 124",
                 "year": "2024",
                 "brand": "Mercedes",
-                "model": "S300",
-                "start_date": "16.12.2025",
-                "finsh_date": "17.12.2025",
-                "price": "4000",
-                "status": "Tamamlandı"
-            }
-        ]
-    },
-    {
-        "id": 6,
-        "name": "test",
-        "surname": "test",
-        "password": "1234567",
-        "age": "29",
-        "mail": "testt@gmail.com",
-        "phone": "02131231231",
-        "role": "musteri",
-        "history": []
-    },
-    {
-        "id": 7,
-        "name": "nisa",
-        "surname": "sahun",
-        "password": "12345678",
-        "age": "19",
-        "mail": "nisasahun@gmail.com",
-        "phone": "05895478896",
-        "role": "musteri",
-        "history": [
-            {
-                "plate": "34 ASD 432",
-                "year": "2024",
-                "brand": "Mercedes",
-                "model": "S300",
-                "start_date": "17.12.2025",
-                "finsh_date": "17.12.2025",
-                "price": "4000",
-                "status": "Tamamlandı"
-            },
-            {
-                "plate": "34ABC12",
-                "year": "2023",
-                "brand": "Fiat",
-                "model": "Egea",
-                "start_date": "17.12.2025",
-                "finsh_date": "17.12.2025",
-                "price": "1000",
-                "status": "Tamamlandı"
-            },
-            {
-                "plate": "34ABC12",
-                "year": "2023",
-                "brand": "Fiat",
-                "model": "Egea",
-                "start_date": "21.12.2025",
-                "finsh_date": "21.12.2025",
-                "price": "1000",
-                "status": "Tamamlandı"
-            }
-        ]
-    },
-    {
-        "id": 8,
-        "name": "Alper",
-        "surname": "Ceylan",
-        "password": "123456789",
-        "age": "20",
-        "mail": "alperceyla@gmail.com",
-        "phone": "05446630438",
-        "role": "musteri",
-        "history": []
-    },
-    {
-        "id": 9,
-        "name": "nis",
-        "surname": "sah",
-        "password": "1234",
-        "age": "18",
-        "mail": "nisanirsah@gmail.com",
-        "phone": "05415855593",
-        "role": "musteri",
-        "history": [
-            {
-                "plate": "34ABC12",
-                "year": "2023",
-                "brand": "Fiat",
-                "model": "Egea",
-                "start_date": "21.12.2025",
-                "finsh_date": "21.12.2025",
-                "price": "1000",
-                "status": "Tamamlandı"
-            },
-            {
-                "plate": "34ABC12",
-                "year": "2023",
-                "brand": "Fiat",
-                "model": "Egea",
-                "start_date": "21.12.2025",
-                "finsh_date": "21.12.2025",
-                "price": "1000",
-                "status": "Tamamlandı"
-            }
-        ]
-    },
-    {
-        "id": 10,
-        "name": "selam",
-        "surname": "ben",
-        "password": "123456",
-        "age": "20",
-        "mail": "selam@gmail.com",
-        "phone": "05895668963",
-        "role": "musteri",
-        "history": [
-            {
-                "plate": "34ABC12",
-                "year": "2023",
-                "brand": "Fiat",
-                "model": "Egea",
-                "start_date": "22.12.2025",
-                "finsh_date": "22.12.2025",
-                "price": "1000",
-                "status": "Tamamlandı"
+                "model": "S400",
+                "start_date": "25.12.2025",
+                "finsh_date": "29.12.2025",
+                "price": "5000",
+                "status": "Aktif"
             }
         ]
     }

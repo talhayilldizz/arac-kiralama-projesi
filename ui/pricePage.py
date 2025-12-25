@@ -23,7 +23,7 @@ class TahminSayfasi(ctk.CTkFrame):
         self.header_frame.grid(row=0, column=0, sticky="nsew")
         self.header_frame.grid_columnconfigure(1, weight=1)
 
-        # Geri Butonu (ikon hissi)
+        # Geri Butonu 
         self.back_button = ctk.CTkButton(
             self.header_frame,
             text="❮",

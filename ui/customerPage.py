@@ -87,7 +87,6 @@ class KiralaPopup(ctk.CTkToplevel):
             start_date = self.cal_baslangic.get_date().strftime("%d.%m.%Y")
             finish_date = self.cal_bitis.get_date().strftime("%d.%m.%Y")
 
-            # Data_Manager içindeki rent_car fonksiyonu çalışacak
             basari = self.db.rent_car(plaka, self.user_mail, start_date, finish_date)
 
             if basari:
@@ -120,7 +119,7 @@ class DetayPopup(ctk.CTkToplevel):
 
 
         baslangic = arac_bilgisi.get("start_date", "-")
-        bitis = arac_bilgisi.get("finsh_date", "-")  # Senin JSON yapındaki 'finsh' typo'su korundu
+        bitis = arac_bilgisi.get("finsh_date", "-")  
 
         header_frame = ctk.CTkFrame(self, fg_color="#E67E22", corner_radius=0, height=60)
         header_frame.pack(fill="x")
@@ -151,8 +150,6 @@ class DetayPopup(ctk.CTkToplevel):
                                                                                                     pady=30)
 
 import customtkinter as ctk
-
-
 
 class MusteriSayfasi(ctk.CTkFrame):
     def __init__(self, parent, controller, db_manager, current_user=None):
@@ -301,16 +298,13 @@ class MusteriSayfasi(ctk.CTkFrame):
             elif "kirada" in durum:
                 self.kirada_olanlar.append(arac)
 
-        # Arayüzü Temizle
         for widget in self.main_scroll.winfo_children():
             widget.destroy()
 
-        # Müsait araç olmasa bile başlığı gösteriyoruz
         self.musait_grid_frame = self.bolum_olustur(baslik="MÜSAİT ARAÇLAR", renk="#27AE60",
                                                     arac_listesi=self.musait_araclar)
         ctk.CTkFrame(self.main_scroll, height=2, fg_color="#BDC3C7").pack(fill="x", pady=20, padx=10)
 
-        # Kirada araç olmasa bile başlığı gösteriyoruz
         self.kirada_grid_frame = self.bolum_olustur(baslik="KİRADA OLANLAR", renk="#E67E22",
                                                     arac_listesi=self.kirada_olanlar)
 
@@ -347,7 +341,7 @@ class MusteriSayfasi(ctk.CTkFrame):
     def kart_ekle(self, parent, r, c, arac_bilgisi, renk_tema):
         kutu = ctk.CTkFrame(parent, fg_color="white", corner_radius=12, border_color="#BDC3C7", border_width=1)
         kutu.grid(row=r, column=c, padx=8, pady=8, sticky="nsew")
-        kutu.grid_rowconfigure(0, weight=1)  # İçerik dikeyde esnesin
+        kutu.grid_rowconfigure(0, weight=1) 
 
 
         content_frame = ctk.CTkFrame(kutu, fg_color="transparent")
@@ -409,6 +403,8 @@ class MusteriSayfasi(ctk.CTkFrame):
             corner_radius=8
         ).pack(pady=(10, 0), side="bottom")
 
+
+    #Araç filtreleme fonskiyonu
     def listele(self):
         try:
             araclar = self.__db.get_all_cars()

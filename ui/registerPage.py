@@ -20,10 +20,10 @@ class RegisterPage(ctk.CTkFrame):
         )
         self.register_frame.grid(row=0, column=0, padx=20, pady=20)
 
-        # Kart içi grid ayarları (2 Sütunlu yapı için)
+       
         self.register_frame.grid_columnconfigure((0, 1), weight=1)
 
-        #hesap oluştur yazısı
+        
         self.lbl_title=ctk.CTkLabel(
             self.register_frame,
             text="HESAP OLUŞTUR",
@@ -32,7 +32,7 @@ class RegisterPage(ctk.CTkFrame):
         )
         self.lbl_title.grid(row=0, column=0, columnspan=2, padx=20, pady=(30, 5))
 
-        # 1. Satır: Ad ve Soyad (Yan Yana)
+        
         self.entry_ad = ctk.CTkEntry(
             self.register_frame,
             placeholder_text="Ad",
@@ -55,7 +55,7 @@ class RegisterPage(ctk.CTkFrame):
         self.entry_soyad.bind("<KeyPress>",self.only_character_key)
 
 
-        # 2. Satır: Yaş ve Telefon (Yan Yana)
+        
         self.entry_yas = ctk.CTkEntry(
             self.register_frame,
             placeholder_text="Yaş",
@@ -77,7 +77,7 @@ class RegisterPage(ctk.CTkFrame):
         self.entry_tel.grid(row=3, column=1, padx=(10, 20), pady=10)
         self.entry_tel.bind("<KeyPress>", self.only_number_key)
 
-        # 3. Satır: Email (Tam Genişlik)
+
         self.entry_email = ctk.CTkEntry(
             self.register_frame,
             placeholder_text="E-Posta Adresi",
@@ -86,7 +86,6 @@ class RegisterPage(ctk.CTkFrame):
         )
         self.entry_email.grid(row=4, column=0, columnspan=2, padx=20, pady=10, sticky="ew")
    
-        # 4. Satır: Şifre (Tam Genişlik)
         self.entry_password = ctk.CTkEntry(
             self.register_frame,
             placeholder_text="Şifre Belirle",
@@ -96,7 +95,6 @@ class RegisterPage(ctk.CTkFrame):
         )
         self.entry_password.grid(row=5, column=0, columnspan=2, padx=20, pady=10, sticky="ew")
 
-        # Kayıt Ol Butonu
         self.btn_register = ctk.CTkButton(
             self.register_frame,
             text="KAYIT OL",
@@ -109,7 +107,6 @@ class RegisterPage(ctk.CTkFrame):
         )
         self.btn_register.grid(row=6, column=0, columnspan=2, padx=20, pady=(20, 10), sticky="ew")
 
-        # Giriş Yap Linki
         self.btn_login_link = ctk.CTkButton(
             self.register_frame,
             text="Zaten hesabın var mı? Giriş Yap",
@@ -123,10 +120,10 @@ class RegisterPage(ctk.CTkFrame):
         self.btn_login_link.grid(row=7, column=0, columnspan=2, padx=20, pady=(0, 30))
 
     def register_event(self):
-        #Benzersiz değerleri ayırt etmemiz için data_manager'den tüm kullanıcıları çektik
         users=self.__db.get_all_users()
 
-        #Kullanıcıların id'lerini array olarak aldık
+
+        #sistemde kayıtlı kullanıcıların id dizisi
         existing_id=[user['id'] for user in users]
         id=self.get_unique_id(existing_id)
         if id is None:
@@ -170,12 +167,12 @@ class RegisterPage(ctk.CTkFrame):
             messagebox.showerror("Hata", "Mail adresinde boşluk olamaz!")
             return
 
-        # Çift nokta kontrolü (örn: ali..veli@gmail.com yanlıştır)
+       
         if ".." in mail:
             messagebox.showerror("Hata", "Mail adresinde yan yana iki nokta (..) bulunamaz.")
             return
 
-        # Yasaklı karakter kontrolü
+       
         yasakli_karakterler = ["\\","ş", "ü", "ö", "ç", "ğ", "ı", "Ş", "Ü", "Ö", "Ç", "Ğ", "İ", "(", ")", "*", "/"]
         for harf in mail:
             if harf in yasakli_karakterler:
@@ -247,7 +244,6 @@ class RegisterPage(ctk.CTkFrame):
                 messagebox.showerror("Hata","Bu mail adresi sistemde kayıtlı")
                 return
 
-        #Verilerimiz kontrollerden geçerse data_manager dosyasındaki user_register fonksiyonu ile dosyaya yazıyoruz
         success=self.__db.user_register(id,name,surname,password,age,mail,phone)
 
         if success:
@@ -272,7 +268,7 @@ class RegisterPage(ctk.CTkFrame):
         return None
     
     def only_number_key(self,event):
-            # Kontrol tuşlarına izin ver
+        # Kontrol tuşlarına izin ver
         if event.keysym in ("BackSpace", "Tab", "Left", "Right", "Delete"):
             return
 

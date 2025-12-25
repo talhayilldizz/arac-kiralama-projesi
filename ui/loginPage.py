@@ -67,7 +67,7 @@ class LoginPage(ctk.CTkFrame):
             text="Giriş Yap",
             font=("Roboto", 14,"bold"),
             fg_color="#1ABC9C",
-            hover_color="#16A085", #üstüne gelince koyulaştırıyor
+            hover_color="#16A085", 
             width=250,
             height=40,
             corner_radius=8,
@@ -91,7 +91,7 @@ class LoginPage(ctk.CTkFrame):
         self.btn_register_text.grid(row=5, column=0, padx=20, pady=(0, 30))
 
     def login_event(self):
-        #Inputlardan (Entry) gelen değerleri alıyoruz
+        #Inputlardan gelen değerleri alıyoruz
         mail = self.entry_email.get()
         password = self.entry_password.get()
 
@@ -103,28 +103,22 @@ class LoginPage(ctk.CTkFrame):
                 return
 
         #Veritabanı Kontrolü
-        # user_login fonksiyonu eşleşme varsa kullanıcıyı(dict), yoksa False döndürür.
         user = self.__db_manager.user_login(mail, password)
 
         if user:
-            #giriş yapıldığında çıkacak popup
             messagebox.showinfo("Başarılı", f"Hoşgeldin {user['name']}")
-
-            # Mevcut sayfayı yok et
             self.destroy()
 
-            # Admin mi müşteri mi kontrolü yapıyoruz
+            # giriş yapan kullanıcının rolüne göre yönlendirme yapıyoruz
             if user.get('role') == 'admin':
-                # Admin Sayfasına Git
                 from ui.adminPage import AdminSayfasi
                 AdminSayfasi(self.master, self.__controller, self.__db_manager).pack(expand=True, fill="both")
             else:
-                # Müşteri Sayfasına Git
                 from ui.customerPage import MusteriSayfasi
                 MusteriSayfasi(self.parent, self.__controller, self.__db_manager, current_user=user).pack(expand=True,
                                                                                                       fill="both")
         else:
-            # giriş yapılamadağında
+            
             messagebox.showerror("Hata", "Hatalı E-posta veya Şifre!")
 
     def go_to_register(self):

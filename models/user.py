@@ -12,7 +12,7 @@ class User:
 
         self.role = role
 
-    # --- GETTER METOTLARI ---
+    # getter
     @property
     def id(self):
         return self.__id

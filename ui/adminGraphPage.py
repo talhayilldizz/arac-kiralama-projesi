@@ -23,7 +23,7 @@ class RaporlarSayfasi(ctk.CTkFrame):
         self.header_frame.grid(row=0, column=0, sticky="nsew")
         self.header_frame.grid_columnconfigure(1, weight=1)
 
-        # Geri Butonu (ikon hissi)
+        # Geri Butonu 
         self.back_button = ctk.CTkButton(
             self.header_frame,
             text="❮",
@@ -93,7 +93,6 @@ class RaporlarSayfasi(ctk.CTkFrame):
         return all_history
     
     #Grafikler
-
     #Kiralanan marka grafiği
     def brand_rental_chart(self):
         brand_count = {}
@@ -127,13 +126,13 @@ class RaporlarSayfasi(ctk.CTkFrame):
 
         self._grafik_gom(card, fig)
 
+
     #Toplam ciro grafiği
     def total_revenue_chart(self):
         total = sum(
             int(h["price"].replace("₺", "").strip())
             for h in self.get_all_histories()
         )
-
         card = self.create_card(self.content_frame, "Toplam Ciro")
         card.grid(row=1, column=0, padx=15, pady=15, sticky="nsew")
 
@@ -161,6 +160,7 @@ class RaporlarSayfasi(ctk.CTkFrame):
         ax.set_ylabel("Fiyat")
 
         self._grafik_gom(card, fig)
+
 
     #Kiralamalar hangi fiyat aralığında
     def price_distribution_chart(self):
@@ -199,6 +199,7 @@ class RaporlarSayfasi(ctk.CTkFrame):
         self._grafik_gom(card, fig)
 
 
+    
     def create_card(self, parent, title):
         card = ctk.CTkFrame(
             parent,
