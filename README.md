@@ -20,12 +20,19 @@ Proje, katmanlı bir yapıda tasarlanmıştır:
 ________________________________________
 
 **Kullanılan Teknolojiler ve Kütüphaneler Proje geliştirme sürecinde aşağıdaki Python kütüphanelerinden yararlanılmıştır:**
+
 •	*CustomTkinter: Modern GUI tasarımı, Dark/Light mode desteği ve ölçeklenebilir widget'lar için kullanılmıştır.*
+
 •	*Scikit-Learn: RandomForestRegressor ile fiyat tahmini yapmak, LabelEncoder ile veriyi işlemek için kullanılmıştır.*
+
 •	*Pandas & NumPy: Veri setinin analizi ve matris işlemleri için kullanılmıştır.*
+
 •	*Matplotlib: Yönetici panelindeki finansal verilerin (Pasta ve Sütun grafikleri) görselleştirilmesi için kullanılmıştır.*
+
 •	*Joblib: Eğitilen yapay zeka modelinin .pkl formatında kaydedilmesi ve yüklenmesi için kullanılmıştır.*
+
 •	*Tkcalendar: Tarih seçimi işlemleri için takvim bileşeni olarak kullanılmıştır.*
+
 •	*OS, JSON, Re, Datetime: Dosya yönetimi, veri saklama, regex ile validasyon ve tarih hesaplamaları için kullanılmıştır.*
 
 ________________________________________
